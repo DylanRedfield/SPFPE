@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/dylan/AndroidStudioProjects/SPFPE/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="/home/dylan/AndroidStudioProjects/SPFPE/app/build/intermediates/pre-dexed/debug/classes-63b7ba8ad0cf7bd90bd5a8354ac182bd23c6d076.jar" />
+    </item>
+    <item
+        jar="/home/dylan/AndroidStudioProjects/SPFPE/app/libs/ParseCrashReporting-1.10.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="ab2c11532ed8402ac1d72c4dff430e3488d79d8a">
+        <dex dex="/home/dylan/AndroidStudioProjects/SPFPE/app/build/intermediates/pre-dexed/debug/ParseCrashReporting-1.10.2-be29595f9ca7675db42911ef747a52e9b6387233.jar" />
+    </item>
+    <item
+        jar="/home/dylan/AndroidStudioProjects/SPFPE/app/libs/Parse-1.10.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="a859414011ce2c18187acc83319688e6bd340635">
+        <dex dex="/home/dylan/AndroidStudioProjects/SPFPE/app/build/intermediates/pre-dexed/debug/Parse-1.10.2-7bca682edb0fda2b5899aaa5c48cc20f3619741b.jar" />
+    </item>
+    <item
+        jar="/home/dylan/AndroidStudioProjects/SPFPE/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/libs/internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="/home/dylan/AndroidStudioProjects/SPFPE/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-165ba267a2b4c141603e5a09b8292d5c8d9649f9.jar" />
+    </item>
+    <item
+        jar="/home/dylan/AndroidStudioProjects/SPFPE/app/libs/bolts-android-1.2.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="44780c2cf98f6a3cf4e77f1234d644758b329201">
+        <dex dex="/home/dylan/AndroidStudioProjects/SPFPE/app/build/intermediates/pre-dexed/debug/bolts-android-1.2.1-8aa6a1333f7199f1fd474173a61fc7f81c934891.jar" />
+    </item>
+    <item
+        jar="/home/dylan/AndroidStudioProjects/SPFPE/app/libs/PPNS-1.10.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="7052bca087448e367c6a5745e07eb3994b0ff084">
+        <dex dex="/home/dylan/AndroidStudioProjects/SPFPE/app/build/intermediates/pre-dexed/debug/PPNS-1.10.2-4fadf314868bcb5e8715e524f161e331c023e3a0.jar" />
+    </item>
+    <item
+        jar="/home/dylan/android-sdk-linux/extras/android/m2repository/com/android/support/support-annotations/22.2.0/support-annotations-22.2.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="/home/dylan/AndroidStudioProjects/SPFPE/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.0-c75833974dff507d21178f64ef5c3f72ff96c7b5.jar" />
+    </item>
+    <item
+        jar="/home/dylan/AndroidStudioProjects/SPFPE/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="/home/dylan/AndroidStudioProjects/SPFPE/app/build/intermediates/pre-dexed/debug/classes-20625457d3c295378294b659a0228a816423c033.jar" />
+    </item>
+
+</items>

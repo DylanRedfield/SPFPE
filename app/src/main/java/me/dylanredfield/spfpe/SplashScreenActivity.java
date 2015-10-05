@@ -1,6 +1,7 @@
 package me.dylanredfield.spfpe;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -28,8 +29,9 @@ public class SplashScreenActivity extends Activity {
         // Checks to see if user is logged in
         if (mCurrentUser == null) {
             // TODO intent to SignInActivity
-
             Log.d("Cached User: ", "false");
+
+            Intent i = new Intent(getApplicationContext(), LogInActivity.class);
         } else {
             // TODO intent to MainActivity
             Log.d("Cached User: ", "true");
