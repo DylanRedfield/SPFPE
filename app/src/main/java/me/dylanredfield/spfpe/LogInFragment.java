@@ -1,5 +1,6 @@
 package me.dylanredfield.spfpe;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -55,7 +56,8 @@ public class LogInFragment extends Fragment {
         mNoAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO intent to SignUpActivity
+                Intent i = new Intent(getActivity(), SignUpActivity.class);
+                startActivity(i);
             }
         });
     }

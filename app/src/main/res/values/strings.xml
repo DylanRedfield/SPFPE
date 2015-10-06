@@ -9,6 +9,7 @@
     <string name="last_name_hint">Last Name</string>
     <string name="title_activity_log_in">LogInActivity</string>
     <string name="enter">enter</string>
+    <string name="username_hint">Enter Username</string>
     <string name="password_hint">Enter Student ID</string>
     <string name="password_confirm_hint">Confirm Student ID</string>
     <string name="no_account">Do not have an account?</string>

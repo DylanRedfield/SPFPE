@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -22,6 +24,7 @@ public class SignUpFragment extends Fragment {
     private EditText mLastName;
     private EditText mPassword;
     private EditText mConfirmPassword;
+    private EditText mGrade;
     private Button mEnter;
     private TextView mAlreadyHave;
     private ParseUser mCurrentUser;
@@ -39,10 +42,13 @@ public class SignUpFragment extends Fragment {
         mLastName = (EditText) mView.findViewById(R.id.last_name);
         mPassword = (EditText) mView.findViewById(R.id.password);
         mConfirmPassword = (EditText) mView.findViewById(R.id.confirm_password);
+        mGrade = (EditText) mView.findViewById(R.id.grade);
 
         mEnter = (Button) mView.findViewById(R.id.enter);
 
         mAlreadyHave = (TextView) mView.findViewById(R.id.already_have_account);
+
+        setListeners();
     }
 
     private void setListeners() {
@@ -81,8 +87,16 @@ public class SignUpFragment extends Fragment {
     }
 
     private void signUp() {
+        String username = "";
+        username += mFirstName.getText().toString().trim() + "."
+                + mLastName.getText().toString().trim();
         mCurrentUser = new ParseUser();
-        //mCurrentUser.setUsername();
+        mCurrentUser.put(Keys.USERNAME_STR, username);
+
+        ParseObject student = new ParseObject(Keys.STUDENT_KEY);
+        ParseRelation<ParseObject> classes = student.getRelation(Keys.CLASSES_REL);
+        student.put(Keys.USER_POINT, mCurrentUser);
+        student.put(Keys.GRADE_NUM, Integer.parseInt(mGrade.getText().toString().trim()));
         mCurrentUser.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {

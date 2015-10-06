@@ -13,7 +13,7 @@ public class SplashScreenActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
         setDefaultValues();
@@ -29,9 +29,9 @@ public class SplashScreenActivity extends Activity {
         // Checks to see if user is logged in
         if (mCurrentUser == null) {
             // TODO intent to SignInActivity
-            Log.d("Cached User: ", "false");
 
             Intent i = new Intent(getApplicationContext(), LogInActivity.class);
+            startActivity(i);
         } else {
             // TODO intent to MainActivity
             Log.d("Cached User: ", "true");
