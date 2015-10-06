@@ -2,12 +2,13 @@ package me.dylanredfield.spfpe;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-public class SignUpActivity extends Activity {
+public class SignUpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView();
+        setContentView(R.layout.activity_sign_up);
     }
 }

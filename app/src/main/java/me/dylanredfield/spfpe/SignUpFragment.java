@@ -29,6 +29,9 @@ public class SignUpFragment extends Fragment {
     private TextView mAlreadyHave;
     private ParseUser mCurrentUser;
 
+    public SignUpFragment() {
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedState) {
         mView = inflater.inflate(R.layout.fragment_sign_up, null, false);
