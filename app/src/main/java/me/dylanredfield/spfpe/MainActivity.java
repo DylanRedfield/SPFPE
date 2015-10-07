@@ -9,18 +9,32 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
 
 public class MainActivity extends AppCompatActivity {
+    private ParseUser mCurrentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
+
+/*        mCurrentUser = ParseUser.getCurrentUser();
+        ParseObject userType = (ParseObject) mCurrentUser.get(Keys.USER_TYPE_POINT);
+        userType.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (parseObject.getString(Keys.TYPE_STR).equals(Keys.ADMIN_KEY)) {
+                    //setContentView(R.layout.admin_panel
+                }
+            }
+        });
+
+        setContentView(R.layout.activity_main); */
     }
 
 

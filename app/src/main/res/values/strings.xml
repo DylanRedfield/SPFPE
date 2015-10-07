@@ -15,4 +15,8 @@
     <string name="no_account">Do not have an account?</string>
     <string name="grade_text_view">Grade: </string>
     <string name="grade_hint">11</string>
+    <string name="fitness">Fitness</string>
+    <string name="makeups">Makeups</string>
+    <string name="assignments">Assignments</string>
+    <string name="logout">Logout</string>
 </resources>

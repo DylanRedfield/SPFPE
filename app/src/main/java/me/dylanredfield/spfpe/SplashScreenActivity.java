@@ -33,6 +33,9 @@ public class SplashScreenActivity extends Activity {
             finish();
         } else {
             // TODO intent to MainActivity
+            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
+            finish();
             Log.d("Cached User: ", "true");
         }
     }
