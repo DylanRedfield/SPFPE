@@ -58,6 +58,8 @@ public class LogInFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), SignUpActivity.class);
                 startActivity(i);
+                // TODO use arrays to not finish this activity until account is created
+                getActivity().finish();
             }
         });
     }
@@ -71,7 +73,9 @@ public class LogInFragment extends Fragment {
                     public void done(ParseUser parseUser, ParseException e) {
                         if (e == null) {
                             mCurrentUser = parseUser;
-                            // TODO intent to mainactivity
+                            Intent i = new Intent(getActivity(), MainActivity.class);
+                            startActivity(i);
+                            getActivity().finish();
                         } else {
                             Helpers.createDialog(getActivity(), "Whoops", e.getMessage());
                         }

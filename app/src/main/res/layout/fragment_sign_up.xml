@@ -15,8 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:padding="4dp"
-        android:text="@string/first_name_hint"
+        android:padding="8dp"
+        android:hint="@string/first_name_hint"
         android:textSize="16sp" />
 
     <EditText
@@ -24,8 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:padding="4dp"
-        android:text="@string/last_name_hint"
+        android:padding="8dp"
+        android:hint="@string/last_name_hint"
         android:textSize="16sp" />
 
     <EditText
@@ -34,8 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="@string/password_hint"
-        android:inputType="textPassword"
-        android:padding="4dp"
+        android:inputType="numberPassword"
+        android:padding="8dp"
         android:textSize="16sp" />
 
     <EditText
@@ -44,12 +44,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="@string/password_confirm_hint"
-        android:inputType="textPassword"
-        android:padding="4dp"
+        android:inputType="numberPassword"
+        android:padding="8dp"
         android:textSize="16sp" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
@@ -57,10 +57,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
+            android:padding="8dp"
             android:textColor="@android:color/black"
             android:text="@string/grade_text_view"/>
         <EditText
+            android:inputType="number"
             android:id="@+id/grade"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>

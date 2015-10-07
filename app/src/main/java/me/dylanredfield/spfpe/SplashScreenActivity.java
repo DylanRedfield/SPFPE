@@ -28,10 +28,9 @@ public class SplashScreenActivity extends Activity {
 
         // Checks to see if user is logged in
         if (mCurrentUser == null) {
-            // TODO intent to SignInActivity
-
             Intent i = new Intent(getApplicationContext(), LogInActivity.class);
             startActivity(i);
+            finish();
         } else {
             // TODO intent to MainActivity
             Log.d("Cached User: ", "true");

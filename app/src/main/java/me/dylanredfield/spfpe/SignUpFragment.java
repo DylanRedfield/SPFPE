@@ -1,7 +1,9 @@
 package me.dylanredfield.spfpe;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.util.regex.Matcher;
@@ -86,23 +89,37 @@ public class SignUpFragment extends Fragment {
     private boolean isOneWord(String s) {
         Pattern pattern = Pattern.compile("\\s");
         Matcher matcher = pattern.matcher(s);
-        return matcher.find();
+        return !matcher.find();
     }
 
     private void signUp() {
         String username = "";
         username += mFirstName.getText().toString().trim() + "."
-                + mLastName.getText().toString().trim();
+                + mLastName.getText().toString().trim() + ".spfhs";
         mCurrentUser = new ParseUser();
+        mCurrentUser.put(Keys.FIRST_NAME_STR, mFirstName.getText().toString().trim());
+        mCurrentUser.put(Keys.LAST_NAME_STR, mLastName.getText().toString().trim());
         mCurrentUser.put(Keys.USERNAME_STR, username);
+        mCurrentUser.put(Keys.PASSWORD_STR, mPassword.getText().toString());
+        mCurrentUser.put(Keys.USER_TYPE_POINT, ParseObject.createWithoutData(Keys.USER_TYPE_KEY,
+                Keys.STUDENT_OBJECT_ID));
 
-        ParseObject student = new ParseObject(Keys.STUDENT_KEY);
-        ParseRelation<ParseObject> classes = student.getRelation(Keys.CLASSES_REL);
+
+        final ParseObject student = new ParseObject(Keys.STUDENT_KEY);
+        //ParseRelation<ParseObject> classes = student.getRelation(Keys.CLASSES_REL);
         student.put(Keys.USER_POINT, mCurrentUser);
         student.put(Keys.GRADE_NUM, Integer.parseInt(mGrade.getText().toString().trim()));
         mCurrentUser.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
+                if (e == null) {
+                    Log.d("signup", "Student success");
+                    Intent i = new Intent(getActivity(), MainActivity.class);
+                    startActivity(i);
+                    getActivity().finish();
+                } else {
+                    Helpers.createDialog(getActivity(), "Whoops", e.getMessage());
+                }
 
             }
         });

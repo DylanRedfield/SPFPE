@@ -15,6 +15,9 @@ public class Helpers {
                         dialogInterface.dismiss();
                     }
                 });
-        return builder.create();
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        return dialog;
+
     }
 }
