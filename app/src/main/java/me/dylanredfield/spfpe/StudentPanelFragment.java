@@ -17,9 +17,37 @@ public class StudentPanelFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedState) {
         mView = inflater.inflate(R.layout.fragment_student_panel, null, false);
 
+        setDefaultValues();
+
+        return mView;
+    }
+
+    private void setDefaultValues() {
         mFitnessLayout = (RelativeLayout) mView.findViewById(R.id.fitness);
         mMakeupLayout = (RelativeLayout) mView.findViewById(R.id.makeups);
         mAssignmentsLayout = (RelativeLayout) mView.findViewById(R.id.assignments);
-        return mView;
+
+        setListeners();
+    }
+
+    private void setListeners() {
+        mFitnessLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        mMakeupLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        mAssignmentsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 }
