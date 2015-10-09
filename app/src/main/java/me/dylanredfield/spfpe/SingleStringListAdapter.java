@@ -1,6 +1,7 @@
 package me.dylanredfield.spfpe;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,13 @@ import android.widget.TextView;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SingleStringListAdapter extends BaseAdapter {
-    private ArrayList<ParseObject> mList;
+    private List<ParseObject> mList;
     private Context mContext;
 
-    public SingleStringListAdapter(Context context, ArrayList<ParseObject> list) {
+    public SingleStringListAdapter(Context context, List<ParseObject> list) {
         mList = list;
         mContext = context;
     }
@@ -42,8 +44,9 @@ public class SingleStringListAdapter extends BaseAdapter {
             view = LayoutInflater.from(mContext).inflate(R.layout.row_fitness, null, false);
         }
 
-        TextView name = (TextView) view.findViewById(R.id.text);
+        TextView name = (TextView) view.findViewById(R.id.name);
         name.setText(mList.get(i).getString(Keys.NAME_STR));
+        Log.d("queryLog:", i + " : " + mList.get(i).getString(Keys.NAME_STR));
         return view;
     }
 }

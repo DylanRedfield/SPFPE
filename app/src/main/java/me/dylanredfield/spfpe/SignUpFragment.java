@@ -1,5 +1,6 @@
 package me.dylanredfield.spfpe;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,10 +32,8 @@ public class SignUpFragment extends Fragment {
     private Button mEnter;
     private TextView mAlreadyHave;
     private ParseUser mCurrentUser;
+    private ProgressDialog mProgressDialog;
 
-    public SignUpFragment() {
-
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedState) {
         mView = inflater.inflate(R.layout.fragment_sign_up, null, false);
@@ -54,6 +53,8 @@ public class SignUpFragment extends Fragment {
 
         mAlreadyHave = (TextView) mView.findViewById(R.id.already_have_account);
 
+        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setMessage("Loading...");
         setListeners();
     }
 
@@ -106,12 +107,13 @@ public class SignUpFragment extends Fragment {
 
 
         final ParseObject student = new ParseObject(Keys.STUDENT_KEY);
-        //ParseRelation<ParseObject> classes = student.getRelation(Keys.CLASSES_REL);
         student.put(Keys.USER_POINT, mCurrentUser);
         student.put(Keys.GRADE_NUM, Integer.parseInt(mGrade.getText().toString().trim()));
+        mProgressDialog.show();
         mCurrentUser.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
+                mProgressDialog.dismiss();
                 if (e == null) {
                     Log.d("signup", "Student success");
                     Intent i = new Intent(getActivity(), MainActivity.class);

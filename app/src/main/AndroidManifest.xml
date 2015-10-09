@@ -26,6 +26,7 @@
         </activity>
         <activity android:name=".MainActivity"/>
         <activity android:name=".SignUpActivity"/>
+        <activity android:name=".FitnessActivity"/>
     </application>
 
 </manifest>

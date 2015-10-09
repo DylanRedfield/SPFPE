@@ -1,5 +1,6 @@
 package me.dylanredfield.spfpe;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,28 +22,29 @@ public class LogInFragment extends Fragment {
     private Button mEnter;
     private TextView mNoAccount;
     private ParseUser mCurrentUser;
-
-    public LogInFragment() {
-    }
+    private ProgressDialog mProgressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_log_in, container, false);
 
-        setDefault();
+        setDefaultValues();
         setListeners();
 
         return mView;
     }
 
-    private void setDefault() {
+    private void setDefaultValues() {
         mUsername = (EditText) mView.findViewById(R.id.username);
         mPassword = (EditText) mView.findViewById(R.id.password);
         mEnter = (Button) mView.findViewById(R.id.enter);
         mNoAccount = (TextView) mView.findViewById(R.id.no_account);
 
         mCurrentUser = ParseUser.getCurrentUser();
+
+        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setMessage("Loading..");
     }
 
     private void setListeners() {
@@ -65,14 +67,15 @@ public class LogInFragment extends Fragment {
     }
 
     private void logIn() {
+        mProgressDialog.show();
         ParseUser.logInInBackground(
                 mUsername.getText().toString().trim()
                 , mPassword.getText().toString().trim()
                 , new LogInCallback() {
                     @Override
                     public void done(ParseUser parseUser, ParseException e) {
+                        mProgressDialog.dismiss();
                         if (e == null) {
-                            mCurrentUser = parseUser;
                             Intent i = new Intent(getActivity(), MainActivity.class);
                             startActivity(i);
                             getActivity().finish();

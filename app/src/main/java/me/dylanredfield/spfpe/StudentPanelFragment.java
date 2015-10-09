@@ -1,5 +1,6 @@
 package me.dylanredfield.spfpe;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -34,7 +35,8 @@ public class StudentPanelFragment extends Fragment {
         mFitnessLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent fitnessIntent = new Intent(getActivity(), FitnessActivity.class);
+                startActivity(fitnessIntent);
             }
         });
         mMakeupLayout.setOnClickListener(new View.OnClickListener() {
