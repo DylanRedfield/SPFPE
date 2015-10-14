@@ -26,7 +26,8 @@
         </activity>
         <activity android:name=".MainActivity"/>
         <activity android:name=".SignUpActivity"/>
-        <activity android:name=".FitnessActivity"/>
+        <activity android:name=".FitnessMainActivity"/>
+        <activity android:name=".FitnessAddActivity"/>
     </application>
 
 </manifest>

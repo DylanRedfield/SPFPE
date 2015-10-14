@@ -35,7 +35,7 @@ public class StudentPanelFragment extends Fragment {
         mFitnessLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent fitnessIntent = new Intent(getActivity(), FitnessActivity.class);
+                Intent fitnessIntent = new Intent(getActivity(), FitnessMainActivity.class);
                 startActivity(fitnessIntent);
             }
         });
