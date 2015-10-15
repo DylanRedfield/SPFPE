@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe;
+package me.dylanredfield.spfpe.Fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -22,6 +23,11 @@ import com.software.shell.fab.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.dylanredfield.spfpe.Activity.FitnessAddActivity;
+import me.dylanredfield.spfpe.Util.Helpers;
+import me.dylanredfield.spfpe.Util.Keys;
+import me.dylanredfield.spfpe.R;
+
 public class FitnessMainFragment extends Fragment {
     private View mView;
     private ListView mListView;
@@ -29,6 +35,8 @@ public class FitnessMainFragment extends Fragment {
     private FitnessTestAdapter mAdapter;
     private ProgressDialog mProgressDialog;
     private FloatingActionButton mActionButton;
+    private ParseUser mCurrentUser;
+    private ParseObject mCurrentStudent;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -43,11 +51,14 @@ public class FitnessMainFragment extends Fragment {
 
     private void setDefaultValues() {
         mListView = (ListView) mView.findViewById(R.id.list);
-        mListView.setEmptyView((TextView)mView.findViewById(R.id.empty_list));
+        mListView.setEmptyView(mView.findViewById(R.id.empty_list));
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setCancelable(false);
 
         mActionButton = (FloatingActionButton) mView.findViewById(R.id.button);
+
+        mCurrentUser = ParseUser.getCurrentUser();
 
         setListeners();
     }
@@ -63,12 +74,36 @@ public class FitnessMainFragment extends Fragment {
     }
 
     private void queryParse() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(Keys.FITNESS_TEST_KEY);
+        studentQuery();
 
-        query.whereEqualTo(Keys.STUDENT_KEY, ParseUser.getCurrentUser());
+    }
+
+    private void studentQuery() {
+        ParseQuery<ParseObject> studentQuery = ParseQuery.getQuery(Keys.STUDENT_KEY);
+        studentQuery.whereEqualTo(Keys.USER_POINT, mCurrentUser);
+        mProgressDialog.show();
+        studentQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (e == null) {
+                    mCurrentStudent = parseObject;
+                    eventQuery();
+                } else {
+                    Helpers.createDialog(getActivity(), "Whoops", e.getMessage());
+                    mProgressDialog.dismiss();
+                }
+
+            }
+        });
+    }
+
+    private void eventQuery() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(Keys.FITNESS_TEST_KEY);
+        query.whereEqualTo(Keys.STUDENT_KEY, mCurrentStudent);
+        query.whereEqualTo(Keys.SELECTED_CLASS_POINT,
+                mCurrentStudent.get(Keys.SELECTED_CLASS_POINT));
         query.include(Keys.EVENT_KEY);
         query.include(Keys.CLASS_KEY);
-        mProgressDialog.show();
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
@@ -83,6 +118,7 @@ public class FitnessMainFragment extends Fragment {
             }
         });
     }
+
 
     public static class FitnessTestAdapter extends BaseAdapter {
 

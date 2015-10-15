@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe;
+package me.dylanredfield.spfpe.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,6 +14,11 @@ import android.widget.TextView;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+
+import me.dylanredfield.spfpe.Activity.SignUpActivity;
+import me.dylanredfield.spfpe.Util.Helpers;
+import me.dylanredfield.spfpe.Activity.MainActivity;
+import me.dylanredfield.spfpe.R;
 
 public class LogInFragment extends Fragment {
     private View mView;
@@ -45,6 +50,7 @@ public class LogInFragment extends Fragment {
 
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage("Loading..");
+        mProgressDialog.setCancelable(false);
     }
 
     private void setListeners() {

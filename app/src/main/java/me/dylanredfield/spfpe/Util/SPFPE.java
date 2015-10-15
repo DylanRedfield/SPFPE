@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe;
+package me.dylanredfield.spfpe.Util;
 
 import android.app.Application;
 

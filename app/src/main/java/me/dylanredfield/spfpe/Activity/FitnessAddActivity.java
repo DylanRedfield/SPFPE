@@ -1,7 +1,9 @@
-package me.dylanredfield.spfpe;
+package me.dylanredfield.spfpe.Activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import me.dylanredfield.spfpe.R;
 
 public class FitnessAddActivity extends AppCompatActivity {
 

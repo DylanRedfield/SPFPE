@@ -1,5 +1,6 @@
-package me.dylanredfield.spfpe;
+package me.dylanredfield.spfpe.Activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.parse.GetCallback;
+import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+
+import me.dylanredfield.spfpe.R;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -53,7 +57,15 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.logout) {
+            ParseUser.getCurrentUser().logOutInBackground(new LogOutCallback() {
+                @Override
+                public void done(ParseException e) {
+                    Intent i = new Intent(getApplicationContext(), LogInActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            });
             return true;
         }
 

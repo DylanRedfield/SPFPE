@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe;
+package me.dylanredfield.spfpe.UI;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import com.parse.ParseObject;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import me.dylanredfield.spfpe.R;
+import me.dylanredfield.spfpe.Util.Keys;
 
 public class SingleStringListAdapter extends BaseAdapter {
     private List<ParseObject> mList;

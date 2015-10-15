@@ -1,9 +1,16 @@
-package me.dylanredfield.spfpe;
+package me.dylanredfield.spfpe.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+
+import me.dylanredfield.spfpe.R;
 
 public class FitnessMainActivity extends AppCompatActivity {
 
@@ -28,8 +35,15 @@ public class FitnessMainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.logout) {
+            ParseUser.logOutInBackground(new LogOutCallback() {
+                @Override
+                public void done(ParseException e) {
+                    Intent i = new Intent(getApplicationContext(), LogInActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            });
         }
 
         return super.onOptionsItemSelected(item);
