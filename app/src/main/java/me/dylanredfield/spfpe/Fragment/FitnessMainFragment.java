@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,18 +80,20 @@ public class FitnessMainFragment extends Fragment {
     }
 
     private void studentQuery() {
-        ParseQuery<ParseObject> studentQuery = ParseQuery.getQuery(Keys.STUDENT_KEY);
+        ParseQuery<ParseUser> studentQuery = ParseQuery.getQuery(Keys.STUDENT_KEY);
+        studentQuery.include(Keys.USER_POINT);
         studentQuery.whereEqualTo(Keys.USER_POINT, mCurrentUser);
         mProgressDialog.show();
-        studentQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+        studentQuery.getFirstInBackground(new GetCallback<ParseUser>() {
             @Override
-            public void done(ParseObject parseObject, ParseException e) {
+            public void done(ParseUser parseObject, ParseException e) {
                 if (e == null) {
                     mCurrentStudent = parseObject;
                     eventQuery();
                 } else {
                     Helpers.createDialog(getActivity(), "Whoops", e.getMessage());
                     mProgressDialog.dismiss();
+                    Log.d("noResults", mCurrentUser.getUsername());
                 }
 
             }
@@ -109,6 +112,10 @@ public class FitnessMainFragment extends Fragment {
             public void done(List<ParseObject> list, ParseException e) {
                 mProgressDialog.dismiss();
                 if (e == null) {
+                    mEventList = list;
+                    mAdapter = new FitnessTestAdapter(getActivity(), mEventList);
+                    mListView.setAdapter(mAdapter);
+                } else if (e.getMessage().equals("no results found for query")) {
                     mEventList = list;
                     mAdapter = new FitnessTestAdapter(getActivity(), mEventList);
                     mListView.setAdapter(mAdapter);

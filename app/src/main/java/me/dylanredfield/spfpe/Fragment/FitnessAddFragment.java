@@ -88,6 +88,7 @@ public class FitnessAddFragment extends Fragment {
 
     @SuppressWarnings("unchecked")
     public static class NewFitnessDialog extends DialogFragment {
+
         private View mView;
         private ParseObject mEvent;
         private ProgressDialog mProgressDialog;

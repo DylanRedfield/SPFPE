@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.util.regex.Matcher;
@@ -67,6 +68,7 @@ public class SignUpFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (checkInputs()) {
+
                     signUp();
                 }
             }
@@ -108,26 +110,37 @@ public class SignUpFragment extends Fragment {
         mCurrentUser.put(Keys.PASSWORD_STR, mPassword.getText().toString());
         mCurrentUser.put(Keys.USER_TYPE_POINT, ParseObject.createWithoutData(Keys.USER_TYPE_KEY,
                 Keys.STUDENT_OBJECT_ID));
-
-
-        final ParseObject student = new ParseObject(Keys.STUDENT_KEY);
-        student.put(Keys.USER_POINT, mCurrentUser);
-        student.put(Keys.GRADE_NUM, Integer.parseInt(mGrade.getText().toString().trim()));
-        mProgressDialog.show();
         mCurrentUser.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
                 mProgressDialog.dismiss();
                 if (e == null) {
                     Log.d("signup", "Student success");
-                    Intent i = new Intent(getActivity(), MainActivity.class);
-                    startActivity(i);
-                    getActivity().finish();
+                    ParseObject student = ParseObject.create(Keys.STUDENT_KEY);
+                    student.put(Keys.USER_POINT, mCurrentUser);
+                    student.put(Keys.GRADE_NUM, Integer.parseInt(mGrade.getText().toString().trim()));
+                    student.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Log.d("SAVE", "TRUE");
+                                Intent i = new Intent(getActivity(), MainActivity.class);
+                                startActivity(i);
+                                getActivity().finish();
+                            } else {
+                                Log.d("SAVE", e.getMessage());
+                            }
+                        }
+                    });
                 } else {
                     Helpers.createDialog(getActivity(), "Whoops", e.getMessage());
                 }
 
             }
         });
+
+
+        mProgressDialog.show();
+
     }
 }
