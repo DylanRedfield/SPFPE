@@ -26,10 +26,5 @@ public class Helpers {
         return dialog;
 
     }
-    public static Task<ParseObject> getStudentFromUser(ParseUser user) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(Keys.STUDENT_KEY);
-        query.whereEqualTo(Keys.USER_POINT, user);
-        return query.getFirstInBackground();
-    }
 
 }

@@ -27,18 +27,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-/*        mCurrentUser = ParseUser.getCurrentUser();
-        ParseObject userType = (ParseObject) mCurrentUser.get(Keys.USER_TYPE_POINT);
-        userType.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject parseObject, ParseException e) {
-                if (parseObject.getString(Keys.TYPE_STR).equals(Keys.ADMIN_KEY)) {
-                    //setContentView(R.layout.admin_panel
-                }
-            }
-        });
-
-        setContentView(R.layout.activity_main); */
     }
 
 
@@ -61,9 +49,13 @@ public class MainActivity extends AppCompatActivity {
             ParseUser.logOutInBackground(new LogOutCallback() {
                 @Override
                 public void done(ParseException e) {
-                    Intent i = new Intent(getApplicationContext(), LogInActivity.class);
-                    startActivity(i);
-                    finish();
+                     if (e == null) {
+                         Intent i = new Intent(getApplicationContext(), LogInActivity.class);
+                         startActivity(i);
+                         finish();
+                     } else {
+
+                     }
                 }
             });
             return true;

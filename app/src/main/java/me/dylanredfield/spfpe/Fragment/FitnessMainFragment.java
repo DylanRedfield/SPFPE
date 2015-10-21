@@ -69,6 +69,7 @@ public class FitnessMainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), FitnessAddActivity.class);
+                i.putExtra(Keys.STUDENT_OBJECT_ID_EXTRA, mCurrentStudent.getObjectId());
                 startActivity(i);
             }
         });

@@ -66,6 +66,7 @@ public class SelectTextDialog extends DialogFragment {
                     mClass = mList.get(i);
                     //TODO fix this string
                     mEditText.setText(mList.get(i).getString(Keys.USERNAME_STR));
+                    getTargetFragment().onActivityResult(getTargetRequestCode(), Keys.);
                 } else if (mList.get(i).getClassName().equals(Keys.PERIOD_KEY)) {
                     mClass = mList.get(i);
                     mEditText.setText(mList.get(i).getString(Keys.PERIOD_NAME_STR));

@@ -36,6 +36,7 @@ public class FitnessAddFragment extends Fragment {
     private List<ParseObject> mEventList;
     private SingleStringListAdapter mAdapter;
     private ProgressDialog mProgressDialog;
+    private ParseObject mCurrentStudent;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -46,6 +47,13 @@ public class FitnessAddFragment extends Fragment {
         queryParse();
 
         return mView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedState) {
+        super.onActivityCreated(savedState);
+        mCurrentStudent = ParseObject.createWithoutData(Keys.STUDENT_KEY,
+                getActivity().getIntent().getStringExtra(Keys.STUDENT_OBJECT_ID_EXTRA));
     }
 
     private void setDefaultValues() {
@@ -62,7 +70,7 @@ public class FitnessAddFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 NewFitnessDialog dialog = new NewFitnessDialog();
-                dialog.setArguments(mEventList.get(i));
+                dialog.setArguments(mEventList.get(i), mCurrentStudent);
                 dialog.show(getFragmentManager(), null);
 
             }
@@ -93,13 +101,12 @@ public class FitnessAddFragment extends Fragment {
         private View mView;
         private ParseObject mEvent;
         private ProgressDialog mProgressDialog;
+        private ParseObject mCurrentStudent;
 
-        public NewFitnessDialog() {
 
-        }
-
-        public void setArguments(ParseObject event) {
+        public void setArguments(ParseObject event, ParseObject student) {
             mEvent = event;
+            mCurrentStudent = student;
         }
 
         @Override
@@ -135,10 +142,10 @@ public class FitnessAddFragment extends Fragment {
                 public void onClick(View view) {
                     ArrayList<String> dataList = new ArrayList<>();
                     final ParseObject fitnessTest = new ParseObject(Keys.FITNESS_TEST_KEY);
-                    fitnessTest.put(Keys.CLASS_KEY, ParseUser.getCurrentUser()
+                    fitnessTest.put(Keys.CLASS_POINT, mCurrentStudent
                             .get(Keys.SELECTED_CLASS_POINT));
-                    fitnessTest.put(Keys.EVENT_KEY, mEvent);
-                    fitnessTest.put(Keys.STUDENT_KEY, ParseUser.getCurrentUser());
+                    fitnessTest.put(Keys.EVENT_POINT, mEvent);
+                    fitnessTest.put(Keys.STUDENT_POINT, ParseUser.getCurrentUser());
                     dataList.add(editText1.getText().toString().trim() + " " + fieldNames.get(0));
 
                     if (mEvent.getNumber(Keys.NUM_FIELDS_NUM) == 2) {

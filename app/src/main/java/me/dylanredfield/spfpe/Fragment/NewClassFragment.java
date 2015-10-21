@@ -115,6 +115,7 @@ public class NewClassFragment extends Fragment {
             public void onClick(View view) {
                 SelectTextDialog teacherDialog = new SelectTextDialog();
                 teacherDialog.setArguments(mTeacherList, mTeacherObject, mTeacher);
+                teacherDialog.setTargetFragment(getParentFragment(), 1);
                 Log.d("ListTest", mTeacherList.toString());
                 teacherDialog.show(getFragmentManager(), "Test");
             }
