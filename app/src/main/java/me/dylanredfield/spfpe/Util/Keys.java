@@ -91,5 +91,9 @@ public class Keys {
     // UserType
     public static String USER_TYPE_KEY = "UserType";
     public static String STUDENT_OBJECT_ID = "Szk7bzgrLt";
+    public static String TEACHER_OBJECT_ID = "PorgJRYx7M";
     public static String TYPE_STR = "type";
+
+    // Intents
+    public static String STUDENT_OBJECT_ID_EXTRA = "me.dylanredfield.STUDENT_OBJ_ID";
 }

@@ -11,7 +11,7 @@ import com.parse.ParseUser;
 import bolts.Task;
 
 public class Helpers {
-    public static AlertDialog createDialog(Context context, String title, String message) {
+    public static AlertDialog showDialog(Context context, String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title)
                 .setMessage(message)

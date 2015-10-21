@@ -8,7 +8,7 @@
     <string name="first_name_hint">First Name</string>
     <string name="last_name_hint">Last Name</string>
     <string name="title_activity_log_in">LogInActivity</string>
-    <string name="enter">enter</string>
+    <string name="enter">Enter</string>
     <string name="username_hint">Enter Username</string>
     <string name="password_hint">Enter Student ID</string>
     <string name="password_confirm_hint">Confirm Student ID</string>
@@ -20,4 +20,8 @@
     <string name="assignments">Assignments</string>
     <string name="logout">Logout</string>
     <string name="fitness_main_empty_list">No Fitness Tests</string>
+    <string name="new_class">New Class</string>
+    <string name="teacher_hint">Teacher</string>
+    <string name="period_hint">Period</string>
+    <string name="marking_period_hint">Marking Period</string>
 </resources>

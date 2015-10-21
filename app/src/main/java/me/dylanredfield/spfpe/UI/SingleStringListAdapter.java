@@ -47,7 +47,15 @@ public class SingleStringListAdapter extends BaseAdapter {
         }
 
         TextView name = (TextView) view.findViewById(R.id.name);
-        name.setText(mList.get(i).getString(Keys.NAME_STR));
+        if (mList.get(i).getClassName().equals(Keys.USER_KEY)) {
+            name.setText(mList.get(i).getString(Keys.USERNAME_STR));
+        } else if (mList.get(i).getClassName().equals(Keys.PERIOD_KEY)) {
+            name.setText(mList.get(i).getString(Keys.PERIOD_NAME_STR));
+        } else if (mList.get(i).getClassName().equals(Keys.SCHOOL_YEAR_KEY)) {
+            name.setText(mList.get(i).getString(Keys.YEAR_STR));
+        } else {
+            name.setText(mList.get(i).getString(Keys.NAME_STR));
+        }
         Log.d("queryLog:", i + " : " + mList.get(i).getString(Keys.NAME_STR));
         return view;
     }

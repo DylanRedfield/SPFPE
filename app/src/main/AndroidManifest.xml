@@ -28,6 +28,7 @@
         <activity android:name=".Activity.SignUpActivity"/>
         <activity android:name=".Activity.FitnessMainActivity"/>
         <activity android:name=".Activity.FitnessAddActivity"/>
+        <activity android:name=".Activity.NewClassActivity"/>
     </application>
 
 </manifest>
