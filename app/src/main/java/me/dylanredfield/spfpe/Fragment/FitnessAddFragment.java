@@ -1,9 +1,9 @@
 package me.dylanredfield.spfpe.Fragment;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -63,6 +63,7 @@ public class FitnessAddFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 NewFitnessDialog dialog = new NewFitnessDialog();
                 dialog.setArguments(mEventList.get(i));
+                dialog.show(getFragmentManager(), null);
 
             }
         });
@@ -80,7 +81,7 @@ public class FitnessAddFragment extends Fragment {
                     mAdapter = new SingleStringListAdapter(getActivity(), mEventList);
                     mListView.setAdapter(mAdapter);
                 } else {
-                    Helpers.createDialog(getActivity(), "Whoops", e.getMessage());
+                    Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
                 }
             }
         });
@@ -106,6 +107,7 @@ public class FitnessAddFragment extends Fragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             LayoutInflater inflater = getActivity().getLayoutInflater();
             mView = inflater.inflate(R.layout.dialog_new_fitness_event, null);
+            builder.setView(mView);
             mProgressDialog = new ProgressDialog(getActivity());
             mProgressDialog.setMessage("Loading");
             mProgressDialog.setCancelable(false);
@@ -163,7 +165,7 @@ public class FitnessAddFragment extends Fragment {
                                         if (e == null) {
                                             getActivity().finish();
                                         } else {
-                                            Helpers.createDialog(getActivity(), "Whoops",
+                                            Helpers.showDialog(getActivity(), "Whoops",
                                                     e.getMessage());
                                         }
                                     }
@@ -178,13 +180,13 @@ public class FitnessAddFragment extends Fragment {
                                         if (e == null) {
                                             getActivity().finish();
                                         } else {
-                                            Helpers.createDialog(getActivity(), "Whoops",
+                                            Helpers.showDialog(getActivity(), "Whoops",
                                                     e.getMessage());
                                         }
                                     }
                                 });
                             } else {
-                                Helpers.createDialog(getActivity(), "Whoops", e.getMessage());
+                                Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
                             }
                         }
                     });

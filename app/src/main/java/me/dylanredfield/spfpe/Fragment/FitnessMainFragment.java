@@ -80,18 +80,18 @@ public class FitnessMainFragment extends Fragment {
     }
 
     private void studentQuery() {
-        ParseQuery<ParseUser> studentQuery = ParseQuery.getQuery(Keys.STUDENT_KEY);
+        ParseQuery<ParseObject> studentQuery = ParseQuery.getQuery(Keys.STUDENT_KEY);
         studentQuery.include(Keys.USER_POINT);
         studentQuery.whereEqualTo(Keys.USER_POINT, mCurrentUser);
         mProgressDialog.show();
-        studentQuery.getFirstInBackground(new GetCallback<ParseUser>() {
+        studentQuery.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
-            public void done(ParseUser parseObject, ParseException e) {
+            public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
                     mCurrentStudent = parseObject;
                     eventQuery();
                 } else {
-                    Helpers.createDialog(getActivity(), "Whoops", e.getMessage());
+                    Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
                     mProgressDialog.dismiss();
                     Log.d("noResults", mCurrentUser.getUsername());
                 }
@@ -120,7 +120,7 @@ public class FitnessMainFragment extends Fragment {
                     mAdapter = new FitnessTestAdapter(getActivity(), mEventList);
                     mListView.setAdapter(mAdapter);
                 } else {
-                    Helpers.createDialog(getActivity(), "Whoops", e.getMessage());
+                    Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
                 }
             }
         });

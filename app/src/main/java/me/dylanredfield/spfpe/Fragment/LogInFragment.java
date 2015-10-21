@@ -86,7 +86,7 @@ public class LogInFragment extends Fragment {
                             startActivity(i);
                             getActivity().finish();
                         } else {
-                            Helpers.createDialog(getActivity(), "Whoops", e.getMessage());
+                            Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
                         }
 
                     }

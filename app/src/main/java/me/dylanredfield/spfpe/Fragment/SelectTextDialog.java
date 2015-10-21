@@ -1,10 +1,11 @@
 package me.dylanredfield.spfpe.Fragment;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,9 +30,6 @@ public class SelectTextDialog extends DialogFragment {
     private ParseObject mClass;
     private EditText mEditText;
 
-    public SelectTextDialog() {
-
-    }
 
     public void setArguments(List<ParseObject> list, ParseObject object, EditText editText) {
         mList = list;
@@ -43,13 +41,16 @@ public class SelectTextDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        mView = inflater.inflate(R.layout.dialog_new_fitness_event, null);
+        mView = inflater.inflate(R.layout.dialog_new_class, null);
+        builder.setView(mView);
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage("Loading");
         mProgressDialog.setCancelable(false);
 
         mListView = (ListView) mView.findViewById(R.id.list);
         mAdapter = new SingleStringListAdapter(getActivity(), mList);
+        Log.d("ListTest", mList.toString());
+        mListView.setAdapter(mAdapter);
         setListeners();
 
         Dialog dialog = builder.create();
@@ -62,16 +63,17 @@ public class SelectTextDialog extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (mList.get(i).getClassName().equals(Keys.USER_KEY)) {
-                    mClass.put(Keys.TEACHER_POINT, mList.get(i));
+                    mClass = mList.get(i);
                     //TODO fix this string
                     mEditText.setText(mList.get(i).getString(Keys.USERNAME_STR));
                 } else if (mList.get(i).getClassName().equals(Keys.PERIOD_KEY)) {
-                    mClass.put(Keys.PERIOD_POINT, mList.get(i));
+                    mClass = mList.get(i);
                     mEditText.setText(mList.get(i).getString(Keys.PERIOD_NAME_STR));
                 } else if (mList.get(i).getClassName().equals(Keys.SCHOOL_YEAR_KEY)) {
-                    mClass.put(Keys.SCHOOL_YEAR_POINT, mList.get(i));
+                    mClass = mList.get(i);
                     mEditText.setText(mList.get(i).getString(Keys.YEAR_STR));
                 }
+                dismiss();
             }
         });
     }

@@ -82,13 +82,13 @@ public class SignUpFragment extends Fragment {
                         .equals(mConfirmPassword.getText().toString().trim())) {
                     return true;
                 } else {
-                    Helpers.createDialog(getActivity(), "Whoops", "Passwords Do Not Match");
+                    Helpers.showDialog(getActivity(), "Whoops", "Passwords Do Not Match");
                 }
             } else {
-                Helpers.createDialog(getActivity(), "Whoops", "Last name can only be one word");
+                Helpers.showDialog(getActivity(), "Whoops", "Last name can only be one word");
             }
         } else {
-            Helpers.createDialog(getActivity(), "Whoops", "First name can only be one word");
+            Helpers.showDialog(getActivity(), "Whoops", "First name can only be one word");
         }
         return false;
     }
@@ -133,7 +133,7 @@ public class SignUpFragment extends Fragment {
                         }
                     });
                 } else {
-                    Helpers.createDialog(getActivity(), "Whoops", e.getMessage());
+                    Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
                 }
 
             }

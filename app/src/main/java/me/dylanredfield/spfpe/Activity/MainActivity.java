@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.logout) {
-            ParseUser.getCurrentUser().logOutInBackground(new LogOutCallback() {
+            ParseUser.logOutInBackground(new LogOutCallback() {
                 @Override
                 public void done(ParseException e) {
                     Intent i = new Intent(getApplicationContext(), LogInActivity.class);
@@ -67,24 +67,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             return true;
+        } else if (id == R.id.new_class) {
+            Intent i = new Intent(getApplicationContext(), NewClassActivity.class);
+            startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-    }
 }
