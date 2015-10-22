@@ -96,7 +96,8 @@ public class Keys {
 
     // Intents
     public static String STUDENT_OBJECT_ID_EXTRA = "me.dylanredfield.STUDENT_OBJ_ID";
-    public static String PERIOD_RESULT_CODE = "0";
-    public static String TEACHER_RESULT_CODE = "1";
+    public static int PERIOD_RESULT_CODE = 0;
+    public static int TEACHER_RESULT_CODE = 1;
+    public static String OBJECT_ID_EXTRA = "me.dylanredfield.OBJECT_ID";
 
 }

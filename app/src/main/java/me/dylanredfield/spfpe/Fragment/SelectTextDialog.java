@@ -2,6 +2,7 @@ package me.dylanredfield.spfpe.Fragment;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -49,7 +50,6 @@ public class SelectTextDialog extends DialogFragment {
 
         mListView = (ListView) mView.findViewById(R.id.list);
         mAdapter = new SingleStringListAdapter(getActivity(), mList);
-        Log.d("ListTest", mList.toString());
         mListView.setAdapter(mAdapter);
         setListeners();
 
@@ -63,16 +63,23 @@ public class SelectTextDialog extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (mList.get(i).getClassName().equals(Keys.USER_KEY)) {
-                    mClass = mList.get(i);
                     //TODO fix this string
                     mEditText.setText(mList.get(i).getString(Keys.USERNAME_STR));
-                    getTargetFragment().onActivityResult(getTargetRequestCode(), Keys.);
+                    getTargetFragment().onActivityResult(getTargetRequestCode()
+                            , Keys.TEACHER_RESULT_CODE, new Intent()
+                            .putExtra(Keys.OBJECT_ID_EXTRA, mList.get(i).getObjectId()));
                 } else if (mList.get(i).getClassName().equals(Keys.PERIOD_KEY)) {
-                    mClass = mList.get(i);
                     mEditText.setText(mList.get(i).getString(Keys.PERIOD_NAME_STR));
+                    getTargetFragment().onActivityResult(getTargetRequestCode()
+                            , Keys.PERIOD_RESULT_CODE
+                            , new Intent()
+                            .putExtra(Keys.OBJECT_ID_EXTRA, mList.get(i).getObjectId()));
                 } else if (mList.get(i).getClassName().equals(Keys.SCHOOL_YEAR_KEY)) {
-                    mClass = mList.get(i);
                     mEditText.setText(mList.get(i).getString(Keys.YEAR_STR));
+                    getTargetFragment().onActivityResult(getTargetRequestCode()
+                            , Keys.TEACHER_RESULT_CODE
+                            , new Intent()
+                            .putExtra(Keys.OBJECT_ID_EXTRA, mList.get(i).getObjectId()));
                 }
                 dismiss();
             }

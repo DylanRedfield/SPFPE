@@ -1,5 +1,6 @@
 package me.dylanredfield.spfpe.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -38,11 +39,16 @@ public class NewClassFragment extends Fragment {
     private ParseObject mNewClass;
 
     private ParseObject mCurrentStudent;
+    private Fragment mFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_new_class, null, false);
         setDefaultValues();
+
+        if (mFragment == null) {
+            mFragment = this;
+        }
 
         return mView;
     }
@@ -115,9 +121,8 @@ public class NewClassFragment extends Fragment {
             public void onClick(View view) {
                 SelectTextDialog teacherDialog = new SelectTextDialog();
                 teacherDialog.setArguments(mTeacherList, mTeacherObject, mTeacher);
-                teacherDialog.setTargetFragment(getParentFragment(), 1);
-                Log.d("ListTest", mTeacherList.toString());
-                teacherDialog.show(getFragmentManager(), "Test");
+                teacherDialog.setTargetFragment(mFragment, Keys.TEACHER_RESULT_CODE);
+                teacherDialog.show(getFragmentManager(), null);
             }
         });
         mPeriod.setOnClickListener(new View.OnClickListener() {
@@ -125,6 +130,7 @@ public class NewClassFragment extends Fragment {
             public void onClick(View view) {
                 SelectTextDialog periodDialog = new SelectTextDialog();
                 periodDialog.setArguments(mPeriodList, mPeriodObject, mPeriod);
+                periodDialog.setTargetFragment(mFragment, Keys.PERIOD_RESULT_CODE);
                 periodDialog.show(getFragmentManager(), null);
             }
         });
@@ -188,5 +194,17 @@ public class NewClassFragment extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Keys.TEACHER_RESULT_CODE && resultCode == Keys.TEACHER_RESULT_CODE) {
+            mTeacherObject = ParseObject.createWithoutData(Keys.USER_KEY,
+                    data.getStringExtra(Keys.OBJECT_ID_EXTRA));
+        } else if (requestCode == Keys.TEACHER_RESULT_CODE && resultCode ==
+                Keys.TEACHER_RESULT_CODE) {
+            mPeriodObject = ParseObject.createWithoutData(Keys.USER_KEY,
+                    data.getStringExtra(Keys.OBJECT_ID_EXTRA));
+        }
     }
 }
