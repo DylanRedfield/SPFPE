@@ -28,14 +28,12 @@ public class SelectTextDialog extends DialogFragment {
     private ListView mListView;
     private SingleStringListAdapter mAdapter;
     private List<ParseObject> mList;
-    private ParseObject mClass;
-    private EditText mEditText;
 
 
-    public void setArguments(List<ParseObject> list, ParseObject object, EditText editText) {
+    public void setArguments(List<ParseObject> list) {
         mList = list;
-        mClass = object;
-        mEditText = editText;
+        mAdapter = new SingleStringListAdapter(getActivity(), mList);
+        mListView.setAdapter(mAdapter);
     }
 
     @Override
@@ -47,10 +45,10 @@ public class SelectTextDialog extends DialogFragment {
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage("Loading");
         mProgressDialog.setCancelable(false);
+        //mProgressDialog.show();
 
         mListView = (ListView) mView.findViewById(R.id.list);
-        mAdapter = new SingleStringListAdapter(getActivity(), mList);
-        mListView.setAdapter(mAdapter);
+
         setListeners();
 
         Dialog dialog = builder.create();
@@ -64,18 +62,15 @@ public class SelectTextDialog extends DialogFragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (mList.get(i).getClassName().equals(Keys.USER_KEY)) {
                     //TODO fix this string
-                    mEditText.setText(mList.get(i).getString(Keys.USERNAME_STR));
                     getTargetFragment().onActivityResult(getTargetRequestCode()
                             , Keys.TEACHER_RESULT_CODE, new Intent()
                             .putExtra(Keys.OBJECT_ID_EXTRA, mList.get(i).getObjectId()));
                 } else if (mList.get(i).getClassName().equals(Keys.PERIOD_KEY)) {
-                    mEditText.setText(mList.get(i).getString(Keys.PERIOD_NAME_STR));
                     getTargetFragment().onActivityResult(getTargetRequestCode()
                             , Keys.PERIOD_RESULT_CODE
                             , new Intent()
                             .putExtra(Keys.OBJECT_ID_EXTRA, mList.get(i).getObjectId()));
                 } else if (mList.get(i).getClassName().equals(Keys.SCHOOL_YEAR_KEY)) {
-                    mEditText.setText(mList.get(i).getString(Keys.YEAR_STR));
                     getTargetFragment().onActivityResult(getTargetRequestCode()
                             , Keys.TEACHER_RESULT_CODE
                             , new Intent()
@@ -84,6 +79,10 @@ public class SelectTextDialog extends DialogFragment {
                 dismiss();
             }
         });
+    }
+
+    public void hideProgressDialog() {
+        mProgressDialog.dismiss();
     }
 
 }

@@ -6,13 +6,17 @@ import com.parse.ParseObject;
 
 import java.util.List;
 
-/**
- * Created by dylan on 10/22/15.
- */
+import me.dylanredfield.spfpe.Fragment.SelectTextDialog;
+
 public class NewClassQueryCallback implements FindCallback<ParseObject> {
-    private
+    private SelectTextDialog mDialog;
+
+    public NewClassQueryCallback(SelectTextDialog dialog) {
+        mDialog = dialog;
+    }
+
     @Override
     public void done(List<ParseObject> list, ParseException e) {
-
+        mDialog.setArguments(list);
     }
 }

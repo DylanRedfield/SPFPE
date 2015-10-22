@@ -22,6 +22,7 @@ import java.util.List;
 import me.dylanredfield.spfpe.R;
 import me.dylanredfield.spfpe.Util.Helpers;
 import me.dylanredfield.spfpe.Util.Keys;
+import me.dylanredfield.spfpe.Util.NewClassQueryCallback;
 
 public class NewClassFragment extends Fragment {
     private View mView;
@@ -40,6 +41,8 @@ public class NewClassFragment extends Fragment {
 
     private ParseObject mCurrentStudent;
     private Fragment mFragment;
+    private SelectTextDialog mTeacherDialog;
+    private SelectTextDialog mPeriodDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceState) {
@@ -68,6 +71,13 @@ public class NewClassFragment extends Fragment {
         mPeriod = (EditText) mView.findViewById(R.id.period);
 
         mEnter = (Button) mView.findViewById(R.id.enter);
+
+        mTeacherDialog = new SelectTextDialog();
+        mPeriodDialog = new SelectTextDialog();
+
+
+        mTeacherDialog.setTargetFragment(mFragment, Keys.TEACHER_RESULT_CODE);
+        mPeriodDialog.setTargetFragment(mFragment, Keys.PERIOD_RESULT_CODE);
     }
 
     private void queryParse() {
@@ -86,52 +96,26 @@ public class NewClassFragment extends Fragment {
         //TODO mess with clickable of edittext
 
         ParseQuery<ParseObject> periodQuery = ParseQuery.getQuery(Keys.PERIOD_KEY);
-        periodQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                if (e == null) {
-                    mPeriodList = list;
-                } else {
-                    Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
-                }
-
-            }
-        });
+        periodQuery.findInBackground(new NewClassQueryCallback(mPeriodDialog));
 
         ParseObject teacherUserType = ParseObject.createWithoutData(Keys.USER_TYPE_KEY,
                 Keys.TEACHER_OBJECT_ID);
         ParseQuery<ParseObject> teacher = ParseQuery.getQuery(Keys.USER_KEY);
         teacher.whereEqualTo(Keys.USER_TYPE_KEY, teacherUserType);
-        teacher.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                if (e == null) {
-                    mTeacherList = list;
-                } else {
-                    Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
-                }
-
-            }
-        });
+        teacher.findInBackground(new NewClassQueryCallback(mTeacherDialog));
     }
 
     private void setListeners() {
         mTeacher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SelectTextDialog teacherDialog = new SelectTextDialog();
-                teacherDialog.setArguments(mTeacherList, mTeacherObject, mTeacher);
-                teacherDialog.setTargetFragment(mFragment, Keys.TEACHER_RESULT_CODE);
-                teacherDialog.show(getFragmentManager(), null);
+                mTeacherDialog.show(getFragmentManager(), null);
             }
         });
         mPeriod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SelectTextDialog periodDialog = new SelectTextDialog();
-                periodDialog.setArguments(mPeriodList, mPeriodObject, mPeriod);
-                periodDialog.setTargetFragment(mFragment, Keys.PERIOD_RESULT_CODE);
-                periodDialog.show(getFragmentManager(), null);
+                mPeriodDialog.show(getFragmentManager(), null);
             }
         });
         mEnter.setOnClickListener(new View.OnClickListener() {
@@ -201,10 +185,14 @@ public class NewClassFragment extends Fragment {
         if (requestCode == Keys.TEACHER_RESULT_CODE && resultCode == Keys.TEACHER_RESULT_CODE) {
             mTeacherObject = ParseObject.createWithoutData(Keys.USER_KEY,
                     data.getStringExtra(Keys.OBJECT_ID_EXTRA));
+
+            //Fuck to be teacher first and last name
+            mTeacher.setText(mTeacherObject.getString(Keys.USERNAME_STR));
         } else if (requestCode == Keys.TEACHER_RESULT_CODE && resultCode ==
                 Keys.TEACHER_RESULT_CODE) {
             mPeriodObject = ParseObject.createWithoutData(Keys.USER_KEY,
                     data.getStringExtra(Keys.OBJECT_ID_EXTRA));
+            mPeriod.setText(mPeriodObject.getString(Keys.PERIOD_NAME_STR));
         }
     }
 }
