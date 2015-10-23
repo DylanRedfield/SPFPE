@@ -32,8 +32,12 @@ public class SelectTextDialog extends DialogFragment {
 
     public void setArguments(List<ParseObject> list) {
         mList = list;
-        mAdapter = new SingleStringListAdapter(getActivity(), mList);
-        mListView.setAdapter(mAdapter);
+        if (mView != null) {
+            mListView = (ListView) mView.findViewById(R.id.list);
+            mAdapter = new SingleStringListAdapter(getActivity(), mList);
+            mListView.setAdapter(mAdapter);
+        }
+
     }
 
     @Override
@@ -48,6 +52,11 @@ public class SelectTextDialog extends DialogFragment {
         //mProgressDialog.show();
 
         mListView = (ListView) mView.findViewById(R.id.list);
+
+        if (mAdapter == null && mList != null) {
+            mAdapter = new SingleStringListAdapter(getActivity(), mList);
+            mListView.setAdapter(mAdapter);
+        }
 
         setListeners();
 
@@ -64,7 +73,8 @@ public class SelectTextDialog extends DialogFragment {
                     //TODO fix this string
                     getTargetFragment().onActivityResult(getTargetRequestCode()
                             , Keys.TEACHER_RESULT_CODE, new Intent()
-                            .putExtra(Keys.OBJECT_ID_EXTRA, mList.get(i).getObjectId()));
+                            .putExtra(Keys.OBJECT_ID_EXTRA, mList.get(i).getObjectId())
+                            .putExtra(Keys.OBJECT_ID_EXTRA, mList));
                 } else if (mList.get(i).getClassName().equals(Keys.PERIOD_KEY)) {
                     getTargetFragment().onActivityResult(getTargetRequestCode()
                             , Keys.PERIOD_RESULT_CODE
