@@ -47,12 +47,12 @@ public class NewClassFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_new_class, null, false);
-        setDefaultValues();
 
         if (mFragment == null) {
             mFragment = this;
         }
 
+        setDefaultValues();
         return mView;
     }
 
@@ -74,8 +74,6 @@ public class NewClassFragment extends Fragment {
 
         mTeacherDialog = new SelectTextDialog();
         mPeriodDialog = new SelectTextDialog();
-
-
         mTeacherDialog.setTargetFragment(mFragment, Keys.TEACHER_RESULT_CODE);
         mPeriodDialog.setTargetFragment(mFragment, Keys.PERIOD_RESULT_CODE);
     }
