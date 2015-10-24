@@ -26,6 +26,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        fab:button_color="@android:color/holo_blue_light"
+        fab:button_colorPressed="@android:color/holo_blue_dark"
+        fab:image="@drawable/fab_plus_icon"
         android:visibility="visible" />
 
 </RelativeLayout>

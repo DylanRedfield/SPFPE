@@ -145,7 +145,7 @@ public class FitnessAddFragment extends Fragment {
                     fitnessTest.put(Keys.CLASS_POINT, mCurrentStudent
                             .get(Keys.SELECTED_CLASS_POINT));
                     fitnessTest.put(Keys.EVENT_POINT, mEvent);
-                    fitnessTest.put(Keys.STUDENT_POINT, ParseUser.getCurrentUser());
+                    fitnessTest.put(Keys.STUDENT_POINT, mCurrentStudent);
                     dataList.add(editText1.getText().toString().trim() + " " + fieldNames.get(0));
 
                     if (mEvent.getNumber(Keys.NUM_FIELDS_NUM) == 2) {
@@ -156,7 +156,7 @@ public class FitnessAddFragment extends Fragment {
                     fitnessTest.put(Keys.RESULTS_ARR, dataList);
                     final ParseQuery<ParseObject> attemptQuery =
                             ParseQuery.getQuery(Keys.FITNESS_TEST_KEY);
-                    attemptQuery.whereEqualTo(Keys.USER_POINT, ParseUser.getCurrentUser());
+                    attemptQuery.whereEqualTo(Keys.STUDENT_POINT, mCurrentStudent);
                     attemptQuery.whereEqualTo(Keys.EVENT_POINT, mEvent);
 
                     mProgressDialog.show();

@@ -14,19 +14,39 @@ import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import me.dylanredfield.spfpe.R;
+import me.dylanredfield.spfpe.Util.Helpers;
+import me.dylanredfield.spfpe.Util.Keys;
 
 
 public class MainActivity extends AppCompatActivity {
     private ParseUser mCurrentUser;
+    private ParseObject mCurrentStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mCurrentUser = ParseUser.getCurrentUser();
 
+        ParseQuery<ParseObject> studentQuery = ParseQuery.getQuery(Keys.STUDENT_KEY);
+        studentQuery.include(Keys.USER_POINT);
+        studentQuery.whereEqualTo(Keys.USER_POINT, mCurrentUser);
+        studentQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (e == null) {
+                    // TODO only show shit now
+                    mCurrentStudent = parseObject;
+                } else {
+                    Helpers.showDialog(getApplicationContext(), "Whoops", e.getMessage());
+                }
+
+            }
+        });
     }
 
 
@@ -49,18 +69,20 @@ public class MainActivity extends AppCompatActivity {
             ParseUser.logOutInBackground(new LogOutCallback() {
                 @Override
                 public void done(ParseException e) {
-                     if (e == null) {
-                         Intent i = new Intent(getApplicationContext(), LogInActivity.class);
-                         startActivity(i);
-                         finish();
-                     } else {
+                    if (e == null) {
+                        Intent i = new Intent(getApplicationContext(), LogInActivity.class);
+                        startActivity(i);
+                        finish();
+                    } else {
 
-                     }
+                    }
                 }
             });
             return true;
         } else if (id == R.id.new_class) {
+
             Intent i = new Intent(getApplicationContext(), NewClassActivity.class);
+            i.putExtra(Keys.STUDENT_OBJECT_ID_EXTRA, mCurrentStudent.getObjectId());
             startActivity(i);
         }
 

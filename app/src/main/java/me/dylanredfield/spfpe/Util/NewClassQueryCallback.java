@@ -1,5 +1,7 @@
 package me.dylanredfield.spfpe.Util;
 
+import android.util.Log;
+
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -18,5 +20,6 @@ public class NewClassQueryCallback implements FindCallback<ParseObject> {
     @Override
     public void done(List<ParseObject> list, ParseException e) {
         mDialog.setArguments(list);
+        Log.d("ListDialogDebug", list.toString());
     }
 }

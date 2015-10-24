@@ -103,8 +103,8 @@ public class FitnessMainFragment extends Fragment {
 
     private void eventQuery() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Keys.FITNESS_TEST_KEY);
-        query.whereEqualTo(Keys.STUDENT_KEY, mCurrentStudent);
-        query.whereEqualTo(Keys.SELECTED_CLASS_POINT,
+        query.whereEqualTo(Keys.STUDENT_POINT, mCurrentStudent);
+        query.whereEqualTo(Keys.CLASS_POINT,
                 mCurrentStudent.get(Keys.SELECTED_CLASS_POINT));
         query.include(Keys.EVENT_KEY);
         query.include(Keys.CLASS_KEY);
@@ -116,6 +116,7 @@ public class FitnessMainFragment extends Fragment {
                     mEventList = list;
                     mAdapter = new FitnessTestAdapter(getActivity(), mEventList);
                     mListView.setAdapter(mAdapter);
+                    Log.d("EventQuery", mEventList.toString());
                 } else if (e.getMessage().equals("no results found for query")) {
                     mEventList = list;
                     mAdapter = new FitnessTestAdapter(getActivity(), mEventList);
@@ -174,7 +175,10 @@ public class FitnessMainFragment extends Fragment {
                     + mList.get(i).getNumber(Keys.TEST_NUMBER_NUM);
             topLine.setText(topLineString);
 
-            bottomLine.setText(mList.get(i).get(Keys.RESULTS_ARR).toString());
+            int length = mList.get(i).get(Keys.RESULTS_ARR).toString().length();
+            bottomLine.setText(mList.get(i).get(Keys.RESULTS_ARR)
+                    .toString().substring(1, length - 1));
+
             return view;
         }
     }

@@ -99,5 +99,6 @@ public class Keys {
     public static int PERIOD_RESULT_CODE = 0;
     public static int TEACHER_RESULT_CODE = 1;
     public static String OBJECT_ID_EXTRA = "me.dylanredfield.OBJECT_ID";
+    public static String LIST_EXTRA = "me.dylanredfield.LIST";
 
 }

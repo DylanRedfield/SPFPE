@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
 import com.parse.ParseObject;
 
 import java.util.List;
@@ -32,11 +33,15 @@ public class SelectTextDialog extends DialogFragment {
 
     public void setArguments(List<ParseObject> list) {
         mList = list;
-        if (mView != null) {
-            mListView = (ListView) mView.findViewById(R.id.list);
+
+
+        if (getActivity() != null) {
             mAdapter = new SingleStringListAdapter(getActivity(), mList);
+        }
+        if (mListView != null) {
             mListView.setAdapter(mAdapter);
         }
+
 
     }
 
@@ -46,6 +51,7 @@ public class SelectTextDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         mView = inflater.inflate(R.layout.dialog_new_class, null);
         builder.setView(mView);
+        setRetainInstance(true);
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage("Loading");
         mProgressDialog.setCancelable(false);
@@ -53,10 +59,15 @@ public class SelectTextDialog extends DialogFragment {
 
         mListView = (ListView) mView.findViewById(R.id.list);
 
-        if (mAdapter == null && mList != null) {
-            mAdapter = new SingleStringListAdapter(getActivity(), mList);
+        if (mAdapter != null) {
             mListView.setAdapter(mAdapter);
+        } else {
+            if (mList != null) {
+                mAdapter = new SingleStringListAdapter(getActivity(), mList);
+                mListView.setAdapter(mAdapter);
+            }
         }
+
 
         setListeners();
 
@@ -73,8 +84,7 @@ public class SelectTextDialog extends DialogFragment {
                     //TODO fix this string
                     getTargetFragment().onActivityResult(getTargetRequestCode()
                             , Keys.TEACHER_RESULT_CODE, new Intent()
-                            .putExtra(Keys.OBJECT_ID_EXTRA, mList.get(i).getObjectId())
-                            .putExtra(Keys.OBJECT_ID_EXTRA, mList));
+                            .putExtra(Keys.OBJECT_ID_EXTRA, mList.get(i).getObjectId()));
                 } else if (mList.get(i).getClassName().equals(Keys.PERIOD_KEY)) {
                     getTargetFragment().onActivityResult(getTargetRequestCode()
                             , Keys.PERIOD_RESULT_CODE

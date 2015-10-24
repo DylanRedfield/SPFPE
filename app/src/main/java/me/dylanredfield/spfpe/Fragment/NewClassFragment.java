@@ -10,13 +10,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import me.dylanredfield.spfpe.R;
@@ -126,6 +130,7 @@ public class NewClassFragment extends Fragment {
                         public void done(ParseObject parseObject, ParseException e) {
                             if (e == null) {
                                 mNewClass = parseObject;
+                                Log.d("NewClass", "exists");
                                 saveClassInStudent();
                             } else if (e.getCode() == ParseException.OBJECT_NOT_FOUND) {
                                 mNewClass = ParseObject.create(Keys.CLASS_KEY);
@@ -138,7 +143,13 @@ public class NewClassFragment extends Fragment {
                                 mNewClass.saveInBackground(new SaveCallback() {
                                     @Override
                                     public void done(ParseException e) {
-                                        saveClassInStudent();
+                                        if (e == null) {
+                                            Log.d("NewClass", "does not exist");
+                                            saveClassInStudent();
+                                        } else {
+                                            Helpers.showDialog(getActivity(), "Whoops",
+                                                    e.getMessage());
+                                        }
 
                                     }
                                 });
@@ -172,12 +183,19 @@ public class NewClassFragment extends Fragment {
         mCurrentStudent.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                // TODO stuff
+                if (e == null) {
+
+                    Log.d("NewClass", "success" + mCurrentStudent.getObjectId());
+                    getActivity().finish();
+                } else {
+                    Log.d("NewClass", e.getMessage());
+                }
             }
         });
 
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Keys.TEACHER_RESULT_CODE && resultCode == Keys.TEACHER_RESULT_CODE) {
@@ -186,9 +204,9 @@ public class NewClassFragment extends Fragment {
 
             //Fuck to be teacher first and last name
             mTeacher.setText(mTeacherObject.getString(Keys.USERNAME_STR));
-        } else if (requestCode == Keys.TEACHER_RESULT_CODE && resultCode ==
-                Keys.TEACHER_RESULT_CODE) {
-            mPeriodObject = ParseObject.createWithoutData(Keys.USER_KEY,
+        } else if (requestCode == Keys.PERIOD_RESULT_CODE && resultCode ==
+                Keys.PERIOD_RESULT_CODE) {
+            mPeriodObject = ParseObject.createWithoutData(Keys.PERIOD_KEY,
                     data.getStringExtra(Keys.OBJECT_ID_EXTRA));
             mPeriod.setText(mPeriodObject.getString(Keys.PERIOD_NAME_STR));
         }
