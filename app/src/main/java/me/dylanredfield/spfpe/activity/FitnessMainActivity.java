@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.Activity;
+package me.dylanredfield.spfpe.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

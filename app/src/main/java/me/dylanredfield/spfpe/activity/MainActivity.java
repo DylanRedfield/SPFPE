@@ -1,27 +1,23 @@
-package me.dylanredfield.spfpe.Activity;
+package me.dylanredfield.spfpe.activity;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import me.dylanredfield.spfpe.R;
-import me.dylanredfield.spfpe.Util.Helpers;
-import me.dylanredfield.spfpe.Util.Keys;
+import me.dylanredfield.spfpe.util.Helpers;
+import me.dylanredfield.spfpe.util.Keys;
 
 
+// TODO make parseexceptions readable
 public class MainActivity extends AppCompatActivity {
     private ParseUser mCurrentUser;
     private ParseObject mCurrentStudent;
@@ -36,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
-                    // TODO only show shit now
+                    // TODO only show ActionBarButton now
                     mCurrentStudent = parseObject;
                 } else {
                     Helpers.showDialog(getApplicationContext(), "Whoops", e.getMessage());

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/frag"
-        android:name="me.dylanredfield.spfpe.Fragment.NewClassFragment"
+        android:name="me.dylanredfield.spfpe.fragment.NewClassFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

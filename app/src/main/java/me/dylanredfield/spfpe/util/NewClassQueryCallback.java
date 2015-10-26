@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.Util;
+package me.dylanredfield.spfpe.util;
 
 import android.util.Log;
 
@@ -8,7 +8,7 @@ import com.parse.ParseObject;
 
 import java.util.List;
 
-import me.dylanredfield.spfpe.Fragment.SelectTextDialog;
+import me.dylanredfield.spfpe.fragment.SelectTextDialog;
 
 public class NewClassQueryCallback implements FindCallback<ParseObject> {
     private SelectTextDialog mDialog;

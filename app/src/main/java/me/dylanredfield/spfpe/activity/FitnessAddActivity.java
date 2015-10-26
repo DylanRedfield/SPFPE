@@ -1,14 +1,14 @@
-package me.dylanredfield.spfpe.Activity;
+package me.dylanredfield.spfpe.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import me.dylanredfield.spfpe.R;
 
-public class NewClassActivity extends AppCompatActivity {
-    @Override
+public class FitnessAddActivity extends AppCompatActivity {
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_class);
+        setContentView(R.layout.activity_fitness_add);
     }
 }

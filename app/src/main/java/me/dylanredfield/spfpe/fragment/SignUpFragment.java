@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.Fragment;
+package me.dylanredfield.spfpe.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -21,9 +21,9 @@ import com.parse.SignUpCallback;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import me.dylanredfield.spfpe.Util.Helpers;
-import me.dylanredfield.spfpe.Util.Keys;
-import me.dylanredfield.spfpe.Activity.MainActivity;
+import me.dylanredfield.spfpe.util.Helpers;
+import me.dylanredfield.spfpe.util.Keys;
+import me.dylanredfield.spfpe.activity.MainActivity;
 import me.dylanredfield.spfpe.R;
 
 public class SignUpFragment extends Fragment {

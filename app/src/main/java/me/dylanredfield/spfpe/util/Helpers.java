@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.Util;
+package me.dylanredfield.spfpe.util;
 
 import android.content.Context;
 import android.content.DialogInterface;

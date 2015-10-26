@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.Util;
+package me.dylanredfield.spfpe.util;
 
 public class Keys {
 

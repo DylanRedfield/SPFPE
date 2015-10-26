@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.Fragment;
+package me.dylanredfield.spfpe.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -24,9 +24,9 @@ import com.software.shell.fab.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.dylanredfield.spfpe.Activity.FitnessAddActivity;
-import me.dylanredfield.spfpe.Util.Helpers;
-import me.dylanredfield.spfpe.Util.Keys;
+import me.dylanredfield.spfpe.activity.FitnessAddActivity;
+import me.dylanredfield.spfpe.util.Helpers;
+import me.dylanredfield.spfpe.util.Keys;
 import me.dylanredfield.spfpe.R;
 
 public class FitnessMainFragment extends Fragment {
@@ -69,6 +69,7 @@ public class FitnessMainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), FitnessAddActivity.class);
+                // Don't want to have to query for current student every time
                 i.putExtra(Keys.STUDENT_OBJECT_ID_EXTRA, mCurrentStudent.getObjectId());
                 startActivity(i);
             }
@@ -80,6 +81,7 @@ public class FitnessMainFragment extends Fragment {
 
     }
 
+    // Sets the current student
     private void studentQuery() {
         ParseQuery<ParseObject> studentQuery = ParseQuery.getQuery(Keys.STUDENT_KEY);
         studentQuery.include(Keys.USER_POINT);
@@ -94,13 +96,13 @@ public class FitnessMainFragment extends Fragment {
                 } else {
                     Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
                     mProgressDialog.dismiss();
-                    Log.d("noResults", mCurrentUser.getUsername());
                 }
 
             }
         });
     }
 
+    // Sets the FitnessTests relevant to the current student
     private void eventQuery() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Keys.FITNESS_TEST_KEY);
         query.whereEqualTo(Keys.STUDENT_POINT, mCurrentStudent);

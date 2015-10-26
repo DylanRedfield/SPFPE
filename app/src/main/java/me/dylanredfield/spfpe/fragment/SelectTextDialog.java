@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.Fragment;
+package me.dylanredfield.spfpe.fragment;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -6,21 +6,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 
-import com.google.gson.Gson;
 import com.parse.ParseObject;
 
 import java.util.List;
 
 import me.dylanredfield.spfpe.R;
-import me.dylanredfield.spfpe.UI.SingleStringListAdapter;
-import me.dylanredfield.spfpe.Util.Keys;
+import me.dylanredfield.spfpe.ui.SingleStringListAdapter;
+import me.dylanredfield.spfpe.util.Keys;
 
 public class SelectTextDialog extends DialogFragment {
 
@@ -81,7 +78,7 @@ public class SelectTextDialog extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (mList.get(i).getClassName().equals(Keys.USER_KEY)) {
-                    //TODO fix this string
+                    //TODO fix this string so instead of username it is the teachers actual name
                     getTargetFragment().onActivityResult(getTargetRequestCode()
                             , Keys.TEACHER_RESULT_CODE, new Intent()
                             .putExtra(Keys.OBJECT_ID_EXTRA, mList.get(i).getObjectId()));

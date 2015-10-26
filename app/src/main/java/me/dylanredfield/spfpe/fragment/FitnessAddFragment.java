@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.Fragment;
+package me.dylanredfield.spfpe.fragment;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -24,10 +24,10 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.dylanredfield.spfpe.Util.Helpers;
-import me.dylanredfield.spfpe.Util.Keys;
+import me.dylanredfield.spfpe.util.Helpers;
+import me.dylanredfield.spfpe.util.Keys;
 import me.dylanredfield.spfpe.R;
-import me.dylanredfield.spfpe.UI.SingleStringListAdapter;
+import me.dylanredfield.spfpe.ui.SingleStringListAdapter;
 
 public class FitnessAddFragment extends Fragment {
     private View mView;
@@ -78,6 +78,8 @@ public class FitnessAddFragment extends Fragment {
     }
 
     private void queryParse() {
+
+        // An event is 20 yard dash, mile, ect
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Keys.EVENT_KEY);
         mProgressDialog.show();
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -116,6 +118,7 @@ public class FitnessAddFragment extends Fragment {
             LayoutInflater inflater = getActivity().getLayoutInflater();
             mView = inflater.inflate(R.layout.dialog_new_fitness_event, null);
             builder.setView(mView);
+
             mProgressDialog = new ProgressDialog(getActivity());
             mProgressDialog.setMessage("Loading");
             mProgressDialog.setCancelable(false);
@@ -128,7 +131,10 @@ public class FitnessAddFragment extends Fragment {
             final EditText editText2 = (EditText) mView.findViewById(R.id.edit_text_2);
 
             // fieldNames contains units
+            // Will always be at least 1 field, so set the first
             editText1.setHint(fieldNames.get(0));
+
+            // If there is ever more than 2 fields this will break...
             if (mEvent.getNumber(Keys.NUM_FIELDS_NUM) == 1) {
                 editText2.setVisibility(View.GONE);
             } else {
@@ -142,14 +148,18 @@ public class FitnessAddFragment extends Fragment {
             enter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ArrayList<String> dataList = new ArrayList<>();
+
                     final ParseObject fitnessTest = new ParseObject(Keys.FITNESS_TEST_KEY);
                     fitnessTest.put(Keys.CLASS_POINT, mCurrentStudent
                             .get(Keys.SELECTED_CLASS_POINT));
                     fitnessTest.put(Keys.EVENT_POINT, mEvent);
                     fitnessTest.put(Keys.STUDENT_POINT, mCurrentStudent);
+
+                    // Data base holds an ArrayList of Strings
+                    ArrayList<String> dataList = new ArrayList<>();
                     dataList.add(editText1.getText().toString().trim() + " " + fieldNames.get(0));
 
+                    // If there is ever more than 2 fields this will break...
                     if (mEvent.getNumber(Keys.NUM_FIELDS_NUM) == 2) {
                         dataList.add(editText2.getText().toString().trim() + " "
                                 + fieldNames.get(1));
@@ -168,6 +178,9 @@ public class FitnessAddFragment extends Fragment {
                         @Override
                         public void done(ParseObject parseObject, ParseException e) {
                             if (e == null) {
+                                // TODO test this please
+                                // Since object is found, there is already one for that marking
+                                // period
                                 fitnessTest.put(Keys.TEST_NUMBER_NUM, 2);
                                 fitnessTest.saveInBackground(new SaveCallback() {
                                     @Override

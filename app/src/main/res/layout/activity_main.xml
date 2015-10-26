@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/student_panel"
-        android:name="me.dylanredfield.spfpe.Fragment.StudentPanelFragment"
+        android:name="me.dylanredfield.spfpe.fragment.StudentPanelFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

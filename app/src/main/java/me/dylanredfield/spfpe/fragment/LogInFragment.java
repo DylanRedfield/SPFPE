@@ -1,9 +1,10 @@
-package me.dylanredfield.spfpe.Fragment;
+package me.dylanredfield.spfpe.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,9 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-import me.dylanredfield.spfpe.Activity.SignUpActivity;
-import me.dylanredfield.spfpe.Util.Helpers;
-import me.dylanredfield.spfpe.Activity.MainActivity;
+import me.dylanredfield.spfpe.activity.SignUpActivity;
+import me.dylanredfield.spfpe.util.Helpers;
+import me.dylanredfield.spfpe.activity.MainActivity;
 import me.dylanredfield.spfpe.R;
 
 public class LogInFragment extends Fragment {
@@ -46,6 +47,9 @@ public class LogInFragment extends Fragment {
         mEnter = (Button) mView.findViewById(R.id.enter);
         mNoAccount = (TextView) mView.findViewById(R.id.no_account);
 
+        // TODO test
+        mUsername.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+
         mCurrentUser = ParseUser.getCurrentUser();
 
         mProgressDialog = new ProgressDialog(getActivity());
@@ -57,7 +61,11 @@ public class LogInFragment extends Fragment {
         mEnter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logIn();
+                if (checkValid()) {
+                    logIn();
+                } else {
+                    Helpers.showDialog(getActivity(), "Whoops", "Fill in the required fields");
+                }
             }
         });
 
@@ -66,10 +74,17 @@ public class LogInFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), SignUpActivity.class);
                 startActivity(i);
+
                 // TODO use arrays to not finish this activity until account is created
                 getActivity().finish();
             }
         });
+    }
+
+    // Ensure has correct fields
+    private boolean checkValid() {
+        return mUsername.getText().toString().trim().length() > 0
+                && mUsername.getText().toString().trim().length() > 0;
     }
 
     private void logIn() {

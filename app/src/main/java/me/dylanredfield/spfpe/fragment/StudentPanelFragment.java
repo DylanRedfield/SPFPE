@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.Fragment;
+package me.dylanredfield.spfpe.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import me.dylanredfield.spfpe.Activity.FitnessMainActivity;
+import me.dylanredfield.spfpe.activity.FitnessMainActivity;
 import me.dylanredfield.spfpe.R;
 
 public class StudentPanelFragment extends Fragment {

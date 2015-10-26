@@ -6,6 +6,6 @@
         android:id="@+id/sign_up"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="me.dylanredfield.spfpe.Fragment.SignUpFragment"/>
+        android:name="me.dylanredfield.spfpe.fragment.SignUpFragment"/>
 
 </LinearLayout>
