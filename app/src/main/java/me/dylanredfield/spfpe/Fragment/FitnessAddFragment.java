@@ -3,6 +3,7 @@ package me.dylanredfield.spfpe.Fragment;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -19,7 +20,6 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -52,6 +52,8 @@ public class FitnessAddFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedState) {
         super.onActivityCreated(savedState);
+
+        // Object Id from current student so don't have to query again
         mCurrentStudent = ParseObject.createWithoutData(Keys.STUDENT_KEY,
                 getActivity().getIntent().getStringExtra(Keys.STUDENT_OBJECT_ID_EXTRA));
     }
@@ -72,7 +74,6 @@ public class FitnessAddFragment extends Fragment {
                 NewFitnessDialog dialog = new NewFitnessDialog();
                 dialog.setArguments(mEventList.get(i), mCurrentStudent);
                 dialog.show(getFragmentManager(), null);
-
             }
         });
     }
@@ -85,6 +86,7 @@ public class FitnessAddFragment extends Fragment {
             public void done(List<ParseObject> list, ParseException e) {
                 mProgressDialog.dismiss();
                 if (e == null) {
+                    // Show the list because data is all here
                     mEventList = list;
                     mAdapter = new SingleStringListAdapter(getActivity(), mEventList);
                     mListView.setAdapter(mAdapter);
@@ -109,6 +111,7 @@ public class FitnessAddFragment extends Fragment {
             mCurrentStudent = student;
         }
 
+        @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -126,6 +129,7 @@ public class FitnessAddFragment extends Fragment {
             final EditText editText1 = (EditText) mView.findViewById(R.id.edit_text_1);
             final EditText editText2 = (EditText) mView.findViewById(R.id.edit_text_2);
 
+            // fieldNames contains units
             editText1.setHint(fieldNames.get(0));
             if (mEvent.getNumber(Keys.NUM_FIELDS_NUM) == 1) {
                 editText2.setVisibility(View.GONE);
@@ -154,11 +158,13 @@ public class FitnessAddFragment extends Fragment {
                     }
 
                     fitnessTest.put(Keys.RESULTS_ARR, dataList);
+
+
+                    // Checks to see if it is the first test of the marking period
                     final ParseQuery<ParseObject> attemptQuery =
                             ParseQuery.getQuery(Keys.FITNESS_TEST_KEY);
                     attemptQuery.whereEqualTo(Keys.STUDENT_POINT, mCurrentStudent);
                     attemptQuery.whereEqualTo(Keys.EVENT_POINT, mEvent);
-
                     mProgressDialog.show();
                     attemptQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                         @Override

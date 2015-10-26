@@ -8,7 +8,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import bolts.Task;
 
 public class Helpers {
     public static AlertDialog showDialog(Context context, String title, String message) {
@@ -24,6 +23,14 @@ public class Helpers {
         AlertDialog dialog = builder.create();
         dialog.show();
         return dialog;
+
+    }
+
+    public static ParseQuery<ParseObject> getStudentQuery(ParseUser user) {
+        ParseQuery<ParseObject> studentQuery = ParseQuery.getQuery(Keys.STUDENT_KEY);
+        studentQuery.include(Keys.USER_POINT);
+        studentQuery.whereEqualTo(Keys.USER_POINT, user);
+        return studentQuery;
 
     }
 

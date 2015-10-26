@@ -26,7 +26,7 @@ public class SplashScreenActivity extends Activity {
         mCurrentUser = ParseUser.getCurrentUser();
     }
 
-    private void splashLogic () {
+    private void splashLogic() {
 
         // Checks to see if user is logged in
         if (mCurrentUser == null) {
@@ -34,11 +34,9 @@ public class SplashScreenActivity extends Activity {
             startActivity(i);
             finish();
         } else {
-            // TODO intent to MainActivity
             Intent i = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(i);
             finish();
-            Log.d("Cached User: ", "true");
         }
     }
 }

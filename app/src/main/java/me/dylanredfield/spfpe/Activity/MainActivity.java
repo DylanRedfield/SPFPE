@@ -32,10 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mCurrentUser = ParseUser.getCurrentUser();
 
-        ParseQuery<ParseObject> studentQuery = ParseQuery.getQuery(Keys.STUDENT_KEY);
-        studentQuery.include(Keys.USER_POINT);
-        studentQuery.whereEqualTo(Keys.USER_POINT, mCurrentUser);
-        studentQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+        Helpers.getStudentQuery(mCurrentUser).getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
@@ -48,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
             });
             return true;
         } else if (id == R.id.new_class) {
-
             Intent i = new Intent(getApplicationContext(), NewClassActivity.class);
             i.putExtra(Keys.STUDENT_OBJECT_ID_EXTRA, mCurrentStudent.getObjectId());
             startActivity(i);

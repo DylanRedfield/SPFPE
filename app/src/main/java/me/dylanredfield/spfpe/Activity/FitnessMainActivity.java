@@ -41,7 +41,7 @@ public class FitnessMainActivity extends AppCompatActivity {
                 public void done(ParseException e) {
                     Intent i = new Intent(getApplicationContext(), LogInActivity.class);
                     startActivity(i);
-                    finish();;
+                    finish();
                 }
             });
         }
