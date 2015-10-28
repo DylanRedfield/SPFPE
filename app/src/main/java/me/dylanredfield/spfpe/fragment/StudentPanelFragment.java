@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import me.dylanredfield.spfpe.activity.AssignmentsActivity;
 import me.dylanredfield.spfpe.activity.FitnessMainActivity;
 import me.dylanredfield.spfpe.R;
 
@@ -51,6 +52,8 @@ public class StudentPanelFragment extends Fragment {
         mAssignmentsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent i = new Intent(getActivity(), AssignmentsActivity.class);
+                startActivity(i);
 
             }
         });

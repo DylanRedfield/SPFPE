@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), NewClassActivity.class);
             i.putExtra(Keys.STUDENT_OBJECT_ID_EXTRA, mCurrentStudent.getObjectId());
             startActivity(i);
+        } else if (id == R.id.select_class) {
+            
         }
 
         return super.onOptionsItemSelected(item);

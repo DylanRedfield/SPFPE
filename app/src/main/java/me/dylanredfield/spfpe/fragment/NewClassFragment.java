@@ -98,6 +98,7 @@ public class NewClassFragment extends Fragment {
         // This allows for the user to start the dialog before the query is finished for a more
         // responsive UI.
         ParseQuery<ParseObject> periodQuery = ParseQuery.getQuery(Keys.PERIOD_KEY);
+        periodQuery.addAscendingOrder(Keys.PERIOD_NAME_STR);
         periodQuery.findInBackground(new NewClassQueryCallback(mPeriodDialog));
 
         ParseObject teacherUserType = ParseObject.createWithoutData(Keys.USER_TYPE_KEY,
@@ -105,6 +106,7 @@ public class NewClassFragment extends Fragment {
 
         ParseQuery<ParseObject> teacher = ParseQuery.getQuery(Keys.USER_KEY);
         teacher.whereEqualTo(Keys.USER_TYPE_KEY, teacherUserType);
+        teacher.addAscendingOrder(Keys.NAME_STR);
         teacher.findInBackground(new NewClassQueryCallback(mTeacherDialog));
     }
 

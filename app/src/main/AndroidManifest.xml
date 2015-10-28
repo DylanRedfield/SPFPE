@@ -29,6 +29,7 @@
         <activity android:name=".activity.FitnessMainActivity"/>
         <activity android:name=".activity.FitnessAddActivity"/>
         <activity android:name=".activity.NewClassActivity"/>
+        <activity android:name=".activity.AssignmentsActivity"/>
     </application>
 
 </manifest>

@@ -38,6 +38,7 @@ public class FitnessMainFragment extends Fragment {
     private FloatingActionButton mActionButton;
     private ParseUser mCurrentUser;
     private ParseObject mCurrentStudent;
+    private Fragment mFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -45,9 +46,18 @@ public class FitnessMainFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_fitness_main, null, false);
 
         setDefaultValues();
-        queryParse();
 
         return mView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedState) {
+        super.onActivityCreated(savedState);
+        queryParse();
+
+        if (mFragment == null) {
+            mFragment = this;
+        }
     }
 
     private void setDefaultValues() {
@@ -71,7 +81,7 @@ public class FitnessMainFragment extends Fragment {
                 Intent i = new Intent(getActivity(), FitnessAddActivity.class);
                 // Don't want to have to query for current student every time
                 i.putExtra(Keys.STUDENT_OBJECT_ID_EXTRA, mCurrentStudent.getObjectId());
-                startActivity(i);
+                startActivityForResult(i, Keys.FITNESS_TEST_RESULT_CODE);
             }
         });
     }
@@ -130,6 +140,20 @@ public class FitnessMainFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mAdapter != null && requestCode == Keys.FITNESS_TEST_RESULT_CODE
+                && resultCode == Keys.FITNESS_TEST_RESULT_CODE) {
+            mEventList.add(ParseObject.createWithoutData(Keys.FITNESS_TEST_KEY,
+                    data.getStringExtra(Keys.OBJECT_ID_EXTRA)));
+            mAdapter.notifyDataSetChanged();
+            Log.d("AdapterNotify", "Success");
+        } else {
+            Log.d("AdapterNotify", "Failure");
+        }
+    }
+
 
     public static class FitnessTestAdapter extends BaseAdapter {
 
@@ -141,7 +165,7 @@ public class FitnessMainFragment extends Fragment {
             mContext = context;
         }
 
-        public void setList(ArrayList<ParseObject> list) {
+        public void setList(List<ParseObject> list) {
             mList = list;
         }
 

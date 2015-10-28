@@ -3,7 +3,6 @@ package me.dylanredfield.spfpe.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,15 +12,13 @@ import com.parse.ParseUser;
 
 import me.dylanredfield.spfpe.R;
 
-public class FitnessMainActivity extends AppCompatActivity {
-
+public class AssignmentsActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fitness_main);
+        setContentView(R.layout.activity_assignments);
     }
-
-    @Override
+        @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_fitness_main, menu);
@@ -48,11 +45,5 @@ public class FitnessMainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
     }
 }

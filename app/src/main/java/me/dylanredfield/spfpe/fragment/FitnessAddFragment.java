@@ -2,6 +2,7 @@ package me.dylanredfield.spfpe.fragment;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -173,6 +174,8 @@ public class FitnessAddFragment extends Fragment {
                             ParseQuery.getQuery(Keys.FITNESS_TEST_KEY);
                     attemptQuery.whereEqualTo(Keys.STUDENT_POINT, mCurrentStudent);
                     attemptQuery.whereEqualTo(Keys.EVENT_POINT, mEvent);
+                    attemptQuery.whereEqualTo(Keys.SELECTED_CLASS_POINT,
+                            mCurrentStudent.get(Keys.SELECTED_CLASS_POINT));
                     mProgressDialog.show();
                     attemptQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                         @Override
@@ -187,6 +190,7 @@ public class FitnessAddFragment extends Fragment {
                                     public void done(ParseException e) {
                                         mProgressDialog.dismiss();
                                         if (e == null) {
+                                            sendResultObject(fitnessTest);
                                             getActivity().finish();
                                         } else {
                                             Helpers.showDialog(getActivity(), "Whoops",
@@ -202,6 +206,7 @@ public class FitnessAddFragment extends Fragment {
 
                                         mProgressDialog.dismiss();
                                         if (e == null) {
+                                            sendResultObject(fitnessTest);
                                             getActivity().finish();
                                         } else {
                                             Helpers.showDialog(getActivity(), "Whoops",
@@ -220,6 +225,12 @@ public class FitnessAddFragment extends Fragment {
             Dialog dialog = builder.create();
             return dialog;
 
+        }
+
+        private void sendResultObject(ParseObject fitnessTest) {
+            onActivityResult(getTargetRequestCode()
+                    , Keys.FITNESS_TEST_RESULT_CODE, new Intent()
+                    .putExtra(Keys.OBJECT_ID_EXTRA, fitnessTest.getObjectId()));
         }
 
     }
