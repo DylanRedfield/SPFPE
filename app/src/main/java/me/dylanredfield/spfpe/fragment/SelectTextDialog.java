@@ -73,7 +73,7 @@ public class SelectTextDialog extends DialogFragment {
 
     }
 
-    private void setListeners() {
+    public void setListeners() {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

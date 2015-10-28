@@ -6,13 +6,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.dylanredfield.spfpe.R;
+import me.dylanredfield.spfpe.fragment.SelectClassDialog;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 
@@ -76,7 +83,18 @@ public class MainActivity extends AppCompatActivity {
             i.putExtra(Keys.STUDENT_OBJECT_ID_EXTRA, mCurrentStudent.getObjectId());
             startActivity(i);
         } else if (id == R.id.select_class) {
-            
+            ParseRelation<ParseObject> classRelation =
+                    mCurrentStudent.getRelation(Keys.CLASSES_REL);
+            ParseQuery<ParseObject> classQuery = classRelation.getQuery();
+            classQuery.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> list, ParseException e) {
+                    SelectClassDialog dialog = new SelectClassDialog();
+                    dialog.setArguments(new ArrayList<ParseObject>());
+                    dialog.show(getSupportFragmentManager(), null);
+
+                }
+            });
         }
 
         return super.onOptionsItemSelected(item);
