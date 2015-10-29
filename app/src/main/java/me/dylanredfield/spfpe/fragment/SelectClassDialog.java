@@ -25,9 +25,6 @@ public class SelectClassDialog extends SelectTextDialog {
     private ListView mListView;
     private Dialog mDialog;
 
-    public SelectClassDialog() {
-    }
-
     @Override
     public void setListeners() {
 
@@ -36,8 +33,9 @@ public class SelectClassDialog extends SelectTextDialog {
     @Override
     public Dialog onCreateDialog(Bundle s) {
         mDialog = super.onCreateDialog(s);
-
         mListView = getListView();
+
+        // If the adapter was not set before because onCreateDialog had not yet been called
         if (mListView.getAdapter() != null) {
             mListView.setAdapter(mAdapter);
         }
@@ -52,10 +50,9 @@ public class SelectClassDialog extends SelectTextDialog {
             public void done(List<ParseObject> list, ParseException e) {
 
                 mAdapter = new SingleStringListAdapter(getActivity(), list);
-                Log.d("relationQuery",
-                        ((TextView)mAdapter.getView(0, null, null).findViewById(R.id.name)).getText().toString() + "shit");
+
+                // onCreateDialog may not have been called yet
                 if (mListView != null) {
-                    Log.d("relationQuery", "Success");
                     mListView.setAdapter(mAdapter);
                 }
             }
