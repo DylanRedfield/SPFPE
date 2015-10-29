@@ -8,12 +8,12 @@ import com.parse.ParseObject;
 
 import java.util.List;
 
-import me.dylanredfield.spfpe.fragment.SelectTextDialog;
+import me.dylanredfield.spfpe.fragment.CreateClassDialog;
 
 public class NewClassQueryCallback implements FindCallback<ParseObject> {
-    private SelectTextDialog mDialog;
+    private CreateClassDialog mDialog;
 
-    public NewClassQueryCallback(SelectTextDialog dialog) {
+    public NewClassQueryCallback(CreateClassDialog dialog) {
         mDialog = dialog;
     }
 

@@ -54,10 +54,17 @@ public class SingleStringListAdapter extends BaseAdapter {
             name.setText(mList.get(i).getString(Keys.PERIOD_NAME_STR));
         } else if (mList.get(i).getClassName().equals(Keys.SCHOOL_YEAR_KEY)) {
             name.setText(mList.get(i).getString(Keys.YEAR_STR));
+        } else if (mList.get(i).getClassName().equals(Keys.CLASS_KEY)) {
+            //name.setText(mList.get(i).getString(Keys.T));
         } else {
             name.setText(mList.get(i).getString(Keys.NAME_STR));
         }
-        Log.d("queryLog:", i + " : " + mList.get(i).getString(Keys.NAME_STR));
+
+        Log.d("queryLog:", i + " : " + mList.get(i).
+
+                        getString(Keys.NAME_STR)
+
+        );
         return view;
     }
 }

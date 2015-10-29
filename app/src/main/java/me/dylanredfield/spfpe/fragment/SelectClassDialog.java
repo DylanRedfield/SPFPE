@@ -1,61 +1,63 @@
 package me.dylanredfield.spfpe.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.os.Bundle;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
-import me.dylanredfield.spfpe.R;
 import me.dylanredfield.spfpe.ui.SingleStringListAdapter;
-import me.dylanredfield.spfpe.util.NewClassQueryCallback;
+import me.dylanredfield.spfpe.util.Helpers;
+import me.dylanredfield.spfpe.util.Keys;
 
-public class SelectClassDialog extends SelectTextDialog {
-    private SingleStringListAdapter mAdapter;
-    private ListView mListView;
-    private Dialog mDialog;
+public class SelectClassDialog extends AbstractSingleLineListDialog {
+    private ParseObject mCurrentStudent;
+    private Activity mActivity;
 
-    @Override
-    public void setListeners() {
 
-    }
-
-    @Override
-    public Dialog onCreateDialog(Bundle s) {
-        mDialog = super.onCreateDialog(s);
-        mListView = getListView();
-
-        // If the adapter was not set before because onCreateDialog had not yet been called
-        if (mListView.getAdapter() != null) {
-            mListView.setAdapter(mAdapter);
-        }
-        return mDialog;
-
-    }
-
-    public void setArguments(ParseRelation<ParseObject> relation) {
+    public void setArguments(ParseRelation<ParseObject> relation, ParseObject currentStudent) {
+        mCurrentStudent = currentStudent;
         ParseQuery<ParseObject> classQuery = relation.getQuery();
         classQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
-
-                mAdapter = new SingleStringListAdapter(getActivity(), list);
-
-                // onCreateDialog may not have been called yet
-                if (mListView != null) {
-                    mListView.setAdapter(mAdapter);
+                if (e == null) {
+                    setArguments(list);
+                } else {
+                    Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
                 }
             }
         });
     }
+
+    @Override
+    public void setListeners() {
+        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                dismiss();
+                onActivityResult(getTargetRequestCode()
+                        , Keys.CLASS_RESULT_CODE, new Intent()
+                        .putExtra(Keys.OBJECT_ID_EXTRA, getList().get(i).getObjectId()));
+            }
+        });
+
+
+    }
+
+    public interface OnCompleteListener {
+        void onComplete(String ObjectId);
+    }
+
 }

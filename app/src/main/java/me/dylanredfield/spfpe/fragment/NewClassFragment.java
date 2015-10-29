@@ -40,8 +40,8 @@ public class NewClassFragment extends Fragment {
 
     private ParseObject mCurrentStudent;
     private Fragment mFragment;
-    private SelectTextDialog mTeacherDialog;
-    private SelectTextDialog mPeriodDialog;
+    private CreateClassDialog mTeacherDialog;
+    private CreateClassDialog mPeriodDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup vg, Bundle savedInstanceState) {
@@ -56,7 +56,6 @@ public class NewClassFragment extends Fragment {
 
         mCurrentStudent = ParseObject.createWithoutData(Keys.STUDENT_KEY,
                 getActivity().getIntent().getStringExtra(Keys.STUDENT_OBJECT_ID_EXTRA));
-
         queryParse();
         setListeners();
     }
@@ -72,8 +71,8 @@ public class NewClassFragment extends Fragment {
 
         mEnter = (Button) mView.findViewById(R.id.enter);
 
-        mTeacherDialog = new SelectTextDialog();
-        mPeriodDialog = new SelectTextDialog();
+        mTeacherDialog = new CreateClassDialog();
+        mPeriodDialog = new CreateClassDialog();
         mTeacherDialog.setTargetFragment(mFragment, Keys.TEACHER_RESULT_CODE);
         mPeriodDialog.setTargetFragment(mFragment, Keys.PERIOD_RESULT_CODE);
     }

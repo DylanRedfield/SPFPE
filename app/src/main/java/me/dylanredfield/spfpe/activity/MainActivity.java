@@ -1,8 +1,11 @@
 package me.dylanredfield.spfpe.activity;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,6 +17,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +32,21 @@ import me.dylanredfield.spfpe.util.Keys;
 public class MainActivity extends AppCompatActivity {
     private ParseUser mCurrentUser;
     private ParseObject mCurrentStudent;
+    private ProgressDialog mProgressDialog;
+    private Activity mActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (mActivity == null) {
+            mActivity = this;
+        }
         mCurrentUser = ParseUser.getCurrentUser();
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.setCancelable(false);
 
         Helpers.getStudentQuery(mCurrentUser).getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
@@ -86,12 +99,36 @@ public class MainActivity extends AppCompatActivity {
             ParseRelation<ParseObject> classRelation =
                     mCurrentStudent.getRelation(Keys.CLASSES_REL);
             SelectClassDialog dialog = new SelectClassDialog();
-            dialog.setArguments(classRelation);
+            dialog.setArguments(classRelation, mCurrentStudent);
             dialog.show(getSupportFragmentManager(), null);
 
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Log.d("SelectClass", "Method Called");
+        if (requestCode == Keys.CLASS_RESULT_CODE && resultCode == Keys.CLASS_RESULT_CODE) {
+            Log.d("SelectClass", "Condition True");
+            final ParseObject replaceClass = ParseObject.createWithoutData(Keys.CLASS_KEY,
+                    data.getStringExtra(Keys.OBJECT_ID_EXTRA));
+            mCurrentStudent.put(Keys.SELECTED_CLASS_POINT, replaceClass);
+            mCurrentStudent.getRelation(Keys.CLASSES_REL).add(replaceClass);
+            mCurrentStudent.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    mProgressDialog.dismiss();
+                    if (e == null) {
+                        Log.d("SelectClass", replaceClass.toString());
+                    } else {
+                        Helpers.showDialog(mActivity, "Whoops", e.getMessage());
+                    }
+                }
+            });
+        }
     }
 
 }
