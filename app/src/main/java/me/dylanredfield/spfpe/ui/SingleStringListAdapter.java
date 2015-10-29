@@ -46,6 +46,7 @@ public class SingleStringListAdapter extends BaseAdapter {
             view = LayoutInflater.from(mContext).inflate(R.layout.row_fitness, null, false);
         }
 
+        // TODO fix this for classes and other types
         TextView name = (TextView) view.findViewById(R.id.name);
         if (mList.get(i).getClassName().equals(Keys.USER_KEY)) {
             name.setText(mList.get(i).getString(Keys.USERNAME_STR));

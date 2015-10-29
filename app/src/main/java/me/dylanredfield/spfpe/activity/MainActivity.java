@@ -85,16 +85,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.select_class) {
             ParseRelation<ParseObject> classRelation =
                     mCurrentStudent.getRelation(Keys.CLASSES_REL);
-            ParseQuery<ParseObject> classQuery = classRelation.getQuery();
-            classQuery.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> list, ParseException e) {
-                    SelectClassDialog dialog = new SelectClassDialog();
-                    dialog.setArguments(new ArrayList<ParseObject>());
-                    dialog.show(getSupportFragmentManager(), null);
+            SelectClassDialog dialog = new SelectClassDialog();
+            dialog.setArguments(classRelation);
+            dialog.show(getSupportFragmentManager(), null);
 
-                }
-            });
         }
 
         return super.onOptionsItemSelected(item);

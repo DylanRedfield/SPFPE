@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -38,8 +39,6 @@ public class SelectTextDialog extends DialogFragment {
         if (mListView != null) {
             mListView.setAdapter(mAdapter);
         }
-
-
     }
 
     @Override
@@ -96,6 +95,12 @@ public class SelectTextDialog extends DialogFragment {
                 dismiss();
             }
         });
+    }
+    public Adapter getAdapter() {
+        return mAdapter;
+    }
+    public ListView getListView() {
+        return mListView;
     }
 
     public void hideProgressDialog() {
