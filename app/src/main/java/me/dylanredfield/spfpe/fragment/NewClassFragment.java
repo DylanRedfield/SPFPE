@@ -1,8 +1,11 @@
 package me.dylanredfield.spfpe.fragment;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +17,13 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.util.List;
 
 import me.dylanredfield.spfpe.R;
+import me.dylanredfield.spfpe.activity.MainActivity;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 import me.dylanredfield.spfpe.util.NewClassQueryCallback;
@@ -54,10 +59,38 @@ public class NewClassFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mCurrentStudent = ParseObject.createWithoutData(Keys.STUDENT_KEY,
-                getActivity().getIntent().getStringExtra(Keys.STUDENT_OBJECT_ID_EXTRA));
-        queryParse();
+        if (getActivity().getIntent().hasExtra(Keys.STUDENT_OBJECT_ID_EXTRA)) {
+            mCurrentStudent = ParseObject.createWithoutData(Keys.STUDENT_KEY,
+                    getActivity().getIntent().getStringExtra(Keys.STUDENT_OBJECT_ID_EXTRA));
+        } else {
+
+            mEnter.setVisibility(View.GONE);
+            Helpers.getStudentQuery(ParseUser.getCurrentUser())
+                    .getFirstInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject parseObject, ParseException e) {
+                            if (e == null) {
+                                mCurrentStudent = parseObject;
+                                mEnter.setVisibility(View.VISIBLE);
+                            } else {
+                                AlertDialog dialog = Helpers.showDialog(getActivity(), "Whoops",
+                                        "Error recieiving data\n" +
+                                                "Please try again");
+                                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialogInterface) {
+                                        Intent i = new Intent(getActivity(), MainActivity.class);
+                                        startActivity(i);
+                                    }
+                                });
+                            }
+
+                        }
+                    });
+        }
+
         setListeners();
+        queryParse();
     }
 
     private void setDefaultValues() {
@@ -168,7 +201,7 @@ public class NewClassFragment extends Fragment {
 
     public boolean isValidInputs() {
         return mPeriodObject != null && mCurrentYear != null && mTeacherObject != null
-                        && mMarkingPeriod.getText().toString().trim().length() > 0;
+                && mMarkingPeriod.getText().toString().trim().length() > 0;
     }
 
     public ParseQuery<ParseObject> createCheckForExistingClassQuery() {
@@ -189,7 +222,8 @@ public class NewClassFragment extends Fragment {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    getActivity().finish();
+                    Intent i = new Intent(getActivity(), MainActivity.class);
+                    startActivity(i);
                 } else {
                     Log.d("NewClass", e.getMessage());
                 }

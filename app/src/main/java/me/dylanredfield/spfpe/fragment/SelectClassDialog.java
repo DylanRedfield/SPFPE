@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -48,7 +49,7 @@ public class SelectClassDialog extends AbstractSingleLineListDialog {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 dismiss();
-                ((MainActivity)getActivity()).onReturnValue(getList().get(i).getObjectId());
+                ((MainActivity) getActivity()).onReturnValue(getList().get(i).getObjectId());
             }
         });
 

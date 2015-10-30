@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 
 import java.util.List;
@@ -47,7 +49,7 @@ public class SingleStringListAdapter extends BaseAdapter {
         }
 
         // TODO fix this for classes and other types
-        TextView name = (TextView) view.findViewById(R.id.name);
+        final TextView name = (TextView) view.findViewById(R.id.name);
         if (mList.get(i).getClassName().equals(Keys.USER_KEY)) {
             name.setText(mList.get(i).getString(Keys.USERNAME_STR));
         } else if (mList.get(i).getClassName().equals(Keys.PERIOD_KEY)) {
@@ -55,7 +57,27 @@ public class SingleStringListAdapter extends BaseAdapter {
         } else if (mList.get(i).getClassName().equals(Keys.SCHOOL_YEAR_KEY)) {
             name.setText(mList.get(i).getString(Keys.YEAR_STR));
         } else if (mList.get(i).getClassName().equals(Keys.CLASS_KEY)) {
-            //name.setText(mList.get(i).getString(Keys.T));
+            final TextView info = (TextView) view.findViewById(R.id.info);
+            info.setVisibility(View.VISIBLE);
+            final ParseObject teacher = (ParseObject) mList.get(i).get(Keys.TEACHER_POINT);
+            final ParseObject period = (ParseObject) mList.get(i).get(Keys.PERIOD_POINT);
+            final int markingPeriod = mList.get(i).getInt(Keys.MARKING_PERIOD_NUM);
+            // TODO make last name
+            teacher.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    name.setText(teacher.getString(Keys.USERNAME_STR));
+                }
+            });
+            period.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    info.setText("MP" + markingPeriod + ", Period: " +
+                            period.getString(Keys.PERIOD_NAME_STR));
+                }
+            });
+
+
         } else {
             name.setText(mList.get(i).getString(Keys.NAME_STR));
         }

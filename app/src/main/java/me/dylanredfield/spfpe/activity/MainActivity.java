@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private ParseObject mCurrentStudent;
     private ProgressDialog mProgressDialog;
     private Activity mActivity;
+    private MenuItem mSelectClass;
+    private MenuItem mNewClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +54,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
-                    // TODO only show ActionBarButton now
                     mCurrentStudent = parseObject;
+                    mNewClass.setVisible(true);
+                    mSelectClass.setVisible(true);
                 } else {
                     Helpers.showDialog(getApplicationContext(), "Whoops", e.getMessage());
                 }
@@ -66,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        mNewClass = menu.findItem(R.id.new_class);
+        mSelectClass = menu.findItem(R.id.select_class);
+        mNewClass.setVisible(false);
+        mSelectClass.setVisible(false);
         return true;
     }
 
