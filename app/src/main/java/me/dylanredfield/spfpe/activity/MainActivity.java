@@ -113,22 +113,25 @@ public class MainActivity extends AppCompatActivity {
         Log.d("SelectClass", "Method Called");
         if (requestCode == Keys.CLASS_RESULT_CODE && resultCode == Keys.CLASS_RESULT_CODE) {
             Log.d("SelectClass", "Condition True");
-            final ParseObject replaceClass = ParseObject.createWithoutData(Keys.CLASS_KEY,
-                    data.getStringExtra(Keys.OBJECT_ID_EXTRA));
-            mCurrentStudent.put(Keys.SELECTED_CLASS_POINT, replaceClass);
-            mCurrentStudent.getRelation(Keys.CLASSES_REL).add(replaceClass);
-            mCurrentStudent.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    mProgressDialog.dismiss();
-                    if (e == null) {
-                        Log.d("SelectClass", replaceClass.toString());
-                    } else {
-                        Helpers.showDialog(mActivity, "Whoops", e.getMessage());
-                    }
-                }
-            });
+
         }
+    }
+
+    public void onReturnValue(String value) {
+        final ParseObject replaceClass = ParseObject.createWithoutData(Keys.CLASS_KEY, value);
+        mCurrentStudent.put(Keys.SELECTED_CLASS_POINT, replaceClass);
+        mCurrentStudent.getRelation(Keys.CLASSES_REL).add(replaceClass);
+        mCurrentStudent.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                mProgressDialog.dismiss();
+                if (e == null) {
+                    Log.d("SelectClass", replaceClass.toString());
+                } else {
+                    Helpers.showDialog(mActivity, "Whoops", e.getMessage());
+                }
+            }
+        });
     }
 
 }

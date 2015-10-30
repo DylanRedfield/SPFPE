@@ -17,6 +17,7 @@ import com.parse.SaveCallback;
 
 import java.util.List;
 
+import me.dylanredfield.spfpe.activity.MainActivity;
 import me.dylanredfield.spfpe.ui.SingleStringListAdapter;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
@@ -47,17 +48,11 @@ public class SelectClassDialog extends AbstractSingleLineListDialog {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 dismiss();
-                onActivityResult(getTargetRequestCode()
-                        , Keys.CLASS_RESULT_CODE, new Intent()
-                        .putExtra(Keys.OBJECT_ID_EXTRA, getList().get(i).getObjectId()));
+                ((MainActivity)getActivity()).onReturnValue(getList().get(i).getObjectId());
             }
         });
 
 
-    }
-
-    public interface OnCompleteListener {
-        void onComplete(String ObjectId);
     }
 
 }
