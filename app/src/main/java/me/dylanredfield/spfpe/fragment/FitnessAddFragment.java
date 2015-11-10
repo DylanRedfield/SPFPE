@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -37,6 +38,7 @@ public class FitnessAddFragment extends Fragment {
     private SingleStringListAdapter mAdapter;
     private ProgressDialog mProgressDialog;
     private ParseObject mCurrentStudent;
+    private Fragment mMainFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -64,6 +66,7 @@ public class FitnessAddFragment extends Fragment {
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.setCancelable(false);
 
+
         setListeners();
     }
 
@@ -72,7 +75,7 @@ public class FitnessAddFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 NewFitnessDialog dialog = new NewFitnessDialog();
-                dialog.setArguments(mEventList.get(i), mCurrentStudent);
+                dialog.setArguments(mEventList.get(i), mCurrentStudent, mMainFragment);
                 dialog.show(getFragmentManager(), null);
             }
         });
@@ -106,11 +109,13 @@ public class FitnessAddFragment extends Fragment {
         private ParseObject mEvent;
         private ProgressDialog mProgressDialog;
         private ParseObject mCurrentStudent;
+        private FitnessMainFragment mFragment;
 
 
-        public void setArguments(ParseObject event, ParseObject student) {
+        public void setArguments(ParseObject event, ParseObject student, Fragment fragment) {
             mEvent = event;
             mCurrentStudent = student;
+            mFragment = (FitnessMainFragment) fragment;
         }
 
         @Override
@@ -228,9 +233,9 @@ public class FitnessAddFragment extends Fragment {
         }
 
         private void sendResultObject(ParseObject fitnessTest) {
-            onActivityResult(getTargetRequestCode()
-                    , Keys.FITNESS_TEST_RESULT_CODE, new Intent()
+            getActivity().setResult(Keys.FITNESS_TEST_RESULT_CODE, new Intent()
                     .putExtra(Keys.OBJECT_ID_EXTRA, fitnessTest.getObjectId()));
+
         }
 
     }

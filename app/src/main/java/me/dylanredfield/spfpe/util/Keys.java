@@ -101,6 +101,7 @@ public class Keys {
     public static int FITNESS_TEST_RESULT_CODE = 2;
     public static int CLASS_RESULT_CODE = 3;
     public static String OBJECT_ID_EXTRA = "me.dylanredfield.OBJECT_ID";
+    public static String FRAGMENT_STRING_EXTRA = "me.dylanredfield.FRAGMENT";
     public static String LIST_EXTRA = "me.dylanredfield.LIST";
 
 }

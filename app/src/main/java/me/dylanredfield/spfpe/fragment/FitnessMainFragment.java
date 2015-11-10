@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -78,12 +79,17 @@ public class FitnessMainFragment extends Fragment {
         mActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Gson gson = new Gson();
                 Intent i = new Intent(getActivity(), FitnessAddActivity.class);
                 // Don't want to have to query for current student every time
                 i.putExtra(Keys.STUDENT_OBJECT_ID_EXTRA, mCurrentStudent.getObjectId());
                 startActivityForResult(i, Keys.FITNESS_TEST_RESULT_CODE);
             }
         });
+    }
+
+    public List<ParseObject> getList() {
+        return mEventList;
     }
 
     private void queryParse() {
@@ -112,6 +118,11 @@ public class FitnessMainFragment extends Fragment {
         });
     }
 
+    public void addToList(ParseObject object) {
+        mEventList.add(object);
+        mAdapter.setList();
+    }
+
     // Sets the FitnessTests relevant to the current student
     private void eventQuery() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Keys.FITNESS_TEST_KEY);
@@ -126,12 +137,12 @@ public class FitnessMainFragment extends Fragment {
                 mProgressDialog.dismiss();
                 if (e == null) {
                     mEventList = list;
-                    mAdapter = new FitnessTestAdapter(getActivity(), mEventList);
+                    mAdapter = new FitnessTestAdapter(mFragment);
                     mListView.setAdapter(mAdapter);
                     Log.d("EventQuery", mEventList.toString());
                 } else if (e.getMessage().equals("no results found for query")) {
                     mEventList = list;
-                    mAdapter = new FitnessTestAdapter(getActivity(), mEventList);
+                    mAdapter = new FitnessTestAdapter(mFragment);
                     mListView.setAdapter(mAdapter);
                 } else {
                     Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
@@ -158,15 +169,16 @@ public class FitnessMainFragment extends Fragment {
     public static class FitnessTestAdapter extends BaseAdapter {
 
         private List<ParseObject> mList;
-        private Activity mContext;
+        private FitnessMainFragment mFragment;
 
-        public FitnessTestAdapter(Activity context, List<ParseObject> list) {
-            mList = list;
-            mContext = context;
+        public FitnessTestAdapter(Fragment fragment) {
+            mFragment = (FitnessMainFragment) fragment;
+            mList = mFragment.getList();
         }
 
-        public void setList(List<ParseObject> list) {
-            mList = list;
+        public void setList() {
+            mList = mFragment.getList();
+            notifyDataSetChanged();
         }
 
         @Override
@@ -187,7 +199,7 @@ public class FitnessMainFragment extends Fragment {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             if (view == null) {
-                view = mContext.getLayoutInflater()
+                view = mFragment.getActivity().getLayoutInflater()
                         .inflate(R.layout.row_fitness_test, null, false);
             }
 
