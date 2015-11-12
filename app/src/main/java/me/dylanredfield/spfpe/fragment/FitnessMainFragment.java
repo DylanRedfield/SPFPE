@@ -131,6 +131,7 @@ public class FitnessMainFragment extends Fragment {
                 mCurrentStudent.get(Keys.SELECTED_CLASS_POINT));
         query.include(Keys.EVENT_KEY);
         query.include(Keys.CLASS_KEY);
+        query.addAscendingOrder(Keys.TEST_NUMBER_NUM);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {

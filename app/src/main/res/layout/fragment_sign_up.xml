@@ -14,18 +14,18 @@
         android:id="@+id/first_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/first_name_hint"
         android:inputType="text"
         android:padding="8dp"
-        android:hint="@string/first_name_hint"
         android:textSize="16sp" />
 
     <EditText
         android:id="@+id/last_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/last_name_hint"
         android:inputType="text"
         android:padding="8dp"
-        android:hint="@string/last_name_hint"
         android:textSize="16sp" />
 
     <EditText
@@ -56,18 +56,20 @@
             android:id='@+id/grade_tv'
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:padding="8dp"
-            android:textColor="@android:color/black"
-            android:text="@string/grade_text_view"/>
+            android:text="@string/grade_text_view"
+            android:textColor="@android:color/black" />
+
         <EditText
-            android:inputType="number"
             android:id="@+id/grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_toEndOf="@id/grade_tv"
             android:layout_toRightOf="@id/grade_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:hint="@string/grade_hint"
+            android:inputType="number" />
     </RelativeLayout>
 
     <Button

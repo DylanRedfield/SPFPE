@@ -52,9 +52,8 @@ public class StudentPanelFragment extends Fragment {
         mAssignmentsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), AssignmentsActivity.class);
-                startActivity(i);
-
+                /*Intent i = new Intent(getActivity(), AssignmentsActivity.class);
+                startActivity(i);*/
             }
         });
     }

@@ -224,6 +224,7 @@ public class NewClassFragment extends Fragment {
                 if (e == null) {
                     Intent i = new Intent(getActivity(), MainActivity.class);
                     startActivity(i);
+                    getActivity().finish();
                 } else {
                     Log.d("NewClass", e.getMessage());
                 }

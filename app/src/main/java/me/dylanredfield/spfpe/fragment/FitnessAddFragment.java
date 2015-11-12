@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -179,8 +180,9 @@ public class FitnessAddFragment extends Fragment {
                             ParseQuery.getQuery(Keys.FITNESS_TEST_KEY);
                     attemptQuery.whereEqualTo(Keys.STUDENT_POINT, mCurrentStudent);
                     attemptQuery.whereEqualTo(Keys.EVENT_POINT, mEvent);
-                    attemptQuery.whereEqualTo(Keys.SELECTED_CLASS_POINT,
+                    attemptQuery.whereEqualTo(Keys.CLASS_POINT,
                             mCurrentStudent.get(Keys.SELECTED_CLASS_POINT));
+                    Log.d("FitnessAddQuery", mCurrentStudent.getObjectId());
                     mProgressDialog.show();
                     attemptQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                         @Override
@@ -188,22 +190,31 @@ public class FitnessAddFragment extends Fragment {
                             if (e == null) {
                                 // TODO test this please
                                 // Since object is found, there is already one for that marking
-                                // period
-                                fitnessTest.put(Keys.TEST_NUMBER_NUM, 2);
-                                fitnessTest.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        mProgressDialog.dismiss();
-                                        if (e == null) {
-                                            sendResultObject(fitnessTest);
-                                            getActivity().finish();
-                                        } else {
-                                            Helpers.showDialog(getActivity(), "Whoops",
-                                                    e.getMessage());
+                                // period, now need to make sure dont create more than 2
+
+                                if (parseObject.getInt(Keys.TEST_NUMBER_NUM) <= 2) {
+                                    mProgressDialog.dismiss();
+                                    Helpers.showDialog(getActivity(), "Whoops",
+                                            "Already 2 attempts for the marking period");
+                                    getActivity().finish();
+                                } else {
+                                    fitnessTest.put(Keys.TEST_NUMBER_NUM, 2);
+                                    fitnessTest.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            mProgressDialog.dismiss();
+                                            if (e == null) {
+                                                sendResultObject(fitnessTest);
+                                                getActivity().finish();
+                                            } else {
+                                                Helpers.showDialog(getActivity(), "Whoops",
+                                                        e.getMessage());
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
                             } else if (e.getCode() == ParseException.OBJECT_NOT_FOUND) {
+                                Log.d("FitnessAddQuery", "ObjectNotFound");
                                 fitnessTest.put(Keys.TEST_NUMBER_NUM, 1);
                                 fitnessTest.saveInBackground(new SaveCallback() {
                                     @Override

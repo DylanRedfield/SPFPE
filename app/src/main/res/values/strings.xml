@@ -15,8 +15,8 @@
     <string name="password_confirm_hint">Confirm Student ID</string>
     <string name="no_account">Do not have an account?</string>
     <string name="grade_text_view">Grade: </string>
-    <string name="grade_hint">11</string>
-    <string name="fitness">Fitness</string>
+    <string name="grade_hint">Grade</string>
+    <string name="select_teacher">Select Teacher</string>
     <string name="makeups">Makeups</string>
     <string name="assignments">Assignments</string>
     <string name="logout">Logout</string>
@@ -26,4 +26,5 @@
     <string name="period_hint">Period</string>
     <string name="marking_period_hint">Marking Period: </string>
     <string name="select_class">Select Class</string>
+    <string name="coming_soon">Coming Soon</string>
 </resources>
