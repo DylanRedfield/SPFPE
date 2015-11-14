@@ -47,7 +47,6 @@ public class LogInFragment extends Fragment {
         mEnter = (Button) mView.findViewById(R.id.enter);
         mNoAccount = (TextView) mView.findViewById(R.id.no_account);
 
-        // TODO test
         mUsername.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 
         mCurrentUser = ParseUser.getCurrentUser();
@@ -75,7 +74,6 @@ public class LogInFragment extends Fragment {
                 Intent i = new Intent(getActivity(), SignUpActivity.class);
                 startActivity(i);
 
-                // TODO use arrays to not finish this activity until account is created
                 getActivity().finish();
             }
         });

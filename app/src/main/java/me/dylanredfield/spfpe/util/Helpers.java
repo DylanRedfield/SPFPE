@@ -8,6 +8,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.text.ParseException;
+
 
 public class Helpers {
     public static AlertDialog showDialog(Context context, String title, String message) {
@@ -34,4 +36,17 @@ public class Helpers {
 
     }
 
+    public static String getTeacherName(ParseObject teacher) {
+        String username = teacher.getString(Keys.USERNAME_STR);
+        String name;
+        name = username.substring(0, username.indexOf("."));
+        username = username.substring(0, username.indexOf("."));
+        name = username.substring(0, username.indexOf("."));
+
+        return name;
+    }
+
+    public static String getReadableError(ParseException e ) {
+        return null;
+    }
 }

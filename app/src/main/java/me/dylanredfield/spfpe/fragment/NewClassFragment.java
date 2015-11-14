@@ -240,8 +240,8 @@ public class NewClassFragment extends Fragment {
             mTeacherObject = ParseObject.createWithoutData(Keys.USER_KEY,
                     data.getStringExtra(Keys.OBJECT_ID_EXTRA));
 
-            //TODO to be teacher first and last name
-            mTeacher.setText(mTeacherObject.getString(Keys.USERNAME_STR));
+            //TODO test getTeacherName
+            mTeacher.setText(Helpers.getTeacherName(mTeacherObject));
         } else if (requestCode == Keys.PERIOD_RESULT_CODE && resultCode ==
                 Keys.PERIOD_RESULT_CODE) {
             mPeriodObject = ParseObject.createWithoutData(Keys.PERIOD_KEY,

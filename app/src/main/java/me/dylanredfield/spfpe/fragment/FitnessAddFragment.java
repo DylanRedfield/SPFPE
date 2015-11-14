@@ -2,6 +2,7 @@ package me.dylanredfield.spfpe.fragment;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -184,11 +185,17 @@ public class FitnessAddFragment extends Fragment {
                             mCurrentStudent.get(Keys.SELECTED_CLASS_POINT));
                     Log.d("FitnessAddQuery", mCurrentStudent.getObjectId());
                     mProgressDialog.show();
+                    mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialogInterface) {
+                            // TODO this for erraything
+                            attemptQuery.cancel();
+                        }
+                    });
                     attemptQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                         @Override
                         public void done(ParseObject parseObject, ParseException e) {
                             if (e == null) {
-                                // TODO test this please
                                 // Since object is found, there is already one for that marking
                                 // period, now need to make sure dont create more than 2
 

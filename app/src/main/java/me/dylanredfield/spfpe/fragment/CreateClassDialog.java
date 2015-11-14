@@ -21,7 +21,6 @@ public class CreateClassDialog extends AbstractSingleLineListDialog {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (getList().get(i).getClassName().equals(Keys.USER_KEY)) {
-                    //TODO fix this string so instead of username it is the teachers actual name
                     getTargetFragment().onActivityResult(getTargetRequestCode()
                             , Keys.TEACHER_RESULT_CODE, new Intent()
                             .putExtra(Keys.OBJECT_ID_EXTRA, getList().get(i).getObjectId()));
