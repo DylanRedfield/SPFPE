@@ -67,7 +67,7 @@ public class SingleStringListAdapter extends BaseAdapter {
             teacher.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
                 @Override
                 public void done(ParseObject parseObject, ParseException e) {
-                    name.setText(teacher.getString(Keys.USERNAME_STR));
+                    name.setText(Helpers.getTeacherName(parseObject));
                 }
             });
             period.fetchIfNeededInBackground(new GetCallback<ParseObject>() {

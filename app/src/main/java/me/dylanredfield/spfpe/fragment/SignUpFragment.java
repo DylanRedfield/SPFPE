@@ -21,6 +21,7 @@ import com.parse.SignUpCallback;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import me.dylanredfield.spfpe.activity.LogInActivity;
 import me.dylanredfield.spfpe.activity.NewClassActivity;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
@@ -71,6 +72,15 @@ public class SignUpFragment extends Fragment {
                 if (checkInputs()) {
                     signUp();
                 }
+            }
+        });
+
+        mAlreadyHave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), LogInActivity.class);
+                startActivity(i);
+                getActivity().finish();
             }
         });
     }

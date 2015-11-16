@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.SplashScreenActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,15 +23,27 @@
         </activity>
         <activity
             android:name=".activity.LogInActivity"
-            android:label="@string/title_activity_log_in"/>
-        <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.SignUpActivity" />
-        <activity android:name=".activity.FitnessMainActivity" />
-        <activity android:name=".activity.FitnessAddActivity" />
+            android:label="@string/title_activity_log_in"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FitnessMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FitnessAddActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.NewClassActivity"
-            android:label="@string/select_class" />
-        <activity android:name=".activity.AssignmentsActivity" />
+            android:label="@string/select_class"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AssignmentsActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
