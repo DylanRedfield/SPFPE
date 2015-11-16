@@ -128,12 +128,12 @@ public class SignUpFragment extends Fragment {
                                 startActivity(i);
                                 getActivity().finish();
                             } else {
-                                Log.d("SAVE", e.getMessage());
+                                Log.d("SAVE", Helpers.getReadableError(e));
                             }
                         }
                     });
                 } else {
-                    Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
+                    Helpers.showDialog(getActivity(), "Whoops", Helpers.getReadableError(e));
                 }
 
             }

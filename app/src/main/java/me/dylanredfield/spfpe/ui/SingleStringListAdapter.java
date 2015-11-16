@@ -15,6 +15,7 @@ import com.parse.ParseObject;
 import java.util.List;
 
 import me.dylanredfield.spfpe.R;
+import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 
 public class SingleStringListAdapter extends BaseAdapter {
@@ -51,7 +52,7 @@ public class SingleStringListAdapter extends BaseAdapter {
         // TODO fix this for classes and other types
         final TextView name = (TextView) view.findViewById(R.id.name);
         if (mList.get(i).getClassName().equals(Keys.USER_KEY)) {
-            name.setText(mList.get(i).getString(Keys.USERNAME_STR));
+            name.setText(Helpers.getTeacherName(mList.get(i)));
         } else if (mList.get(i).getClassName().equals(Keys.PERIOD_KEY)) {
             name.setText(mList.get(i).getString(Keys.PERIOD_NAME_STR));
         } else if (mList.get(i).getClassName().equals(Keys.SCHOOL_YEAR_KEY)) {

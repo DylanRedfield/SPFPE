@@ -118,7 +118,7 @@ public class NewClassFragment extends Fragment {
                         if (e == null) {
                             mCurrentYear = parseObject;
                         } else {
-                            Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
+                            Helpers.showDialog(getActivity(), "Whoops", Helpers.getReadableError(e));
                         }
 
                     }
@@ -181,13 +181,13 @@ public class NewClassFragment extends Fragment {
                                             saveClassInStudent();
                                         } else {
                                             Helpers.showDialog(getActivity(), "Whoops",
-                                                    e.getMessage());
+                                                    Helpers.getReadableError(e));
                                         }
 
                                     }
                                 });
                             } else {
-                                Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
+                                Helpers.showDialog(getActivity(), "Whoops", Helpers.getReadableError(e));
                             }
                         }
                     });
@@ -226,7 +226,7 @@ public class NewClassFragment extends Fragment {
                     startActivity(i);
                     getActivity().finish();
                 } else {
-                    Log.d("NewClass", e.getMessage());
+                    Log.d("NewClass", Helpers.getReadableError(e));
                 }
             }
         });

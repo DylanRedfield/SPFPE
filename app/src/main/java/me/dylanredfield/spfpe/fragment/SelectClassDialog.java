@@ -37,7 +37,7 @@ public class SelectClassDialog extends AbstractSingleLineListDialog {
                 if (e == null) {
                     setArguments(list);
                 } else {
-                    Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
+                    Helpers.showDialog(getActivity(), "Whoops", Helpers.getReadableError(e));
                 }
             }
         });

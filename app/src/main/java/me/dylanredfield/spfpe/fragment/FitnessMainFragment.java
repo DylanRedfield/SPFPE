@@ -110,7 +110,7 @@ public class FitnessMainFragment extends Fragment {
                     mCurrentStudent = parseObject;
                     eventQuery();
                 } else {
-                    Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
+                    Helpers.showDialog(getActivity(), "Whoops", Helpers.getReadableError(e));
                     mProgressDialog.dismiss();
                 }
 
@@ -141,12 +141,12 @@ public class FitnessMainFragment extends Fragment {
                     mAdapter = new FitnessTestAdapter(mFragment);
                     mListView.setAdapter(mAdapter);
                     Log.d("EventQuery", mEventList.toString());
-                } else if (e.getMessage().equals("no results found for query")) {
+                } else if (Helpers.getReadableError(e).equals("no results found for query")) {
                     mEventList = list;
                     mAdapter = new FitnessTestAdapter(mFragment);
                     mListView.setAdapter(mAdapter);
                 } else {
-                    Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
+                    Helpers.showDialog(getActivity(), "Whoops", Helpers.getReadableError(e));
                 }
             }
         });

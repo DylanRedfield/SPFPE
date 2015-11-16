@@ -98,7 +98,7 @@ public class FitnessAddFragment extends Fragment {
                     mAdapter = new SingleStringListAdapter(getActivity(), mEventList);
                     mListView.setAdapter(mAdapter);
                 } else {
-                    Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
+                    Helpers.showDialog(getActivity(), "Whoops", Helpers.getReadableError(e));
                 }
             }
         });
@@ -215,7 +215,7 @@ public class FitnessAddFragment extends Fragment {
                                                 getActivity().finish();
                                             } else {
                                                 Helpers.showDialog(getActivity(), "Whoops",
-                                                        e.getMessage());
+                                                        Helpers.getReadableError(e));
                                             }
                                         }
                                     });
@@ -233,12 +233,12 @@ public class FitnessAddFragment extends Fragment {
                                             getActivity().finish();
                                         } else {
                                             Helpers.showDialog(getActivity(), "Whoops",
-                                                    e.getMessage());
+                                                    Helpers.getReadableError(e));
                                         }
                                     }
                                 });
                             } else {
-                                Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
+                                Helpers.showDialog(getActivity(), "Whoops", Helpers.getReadableError(e));
                             }
                         }
                     });

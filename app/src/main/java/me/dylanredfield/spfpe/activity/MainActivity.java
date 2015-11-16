@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     mNewClass.setVisible(true);
                     mSelectClass.setVisible(true);
                 } else {
-                    Helpers.showDialog(getApplicationContext(), "Whoops", e.getMessage());
+                    Helpers.showDialog(getApplicationContext(), "Whoops", Helpers.getReadableError(e));
                 }
 
             }
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 if (e == null) {
                     Log.d("SelectClass", replaceClass.toString());
                 } else {
-                    Helpers.showDialog(mActivity, "Whoops", e.getMessage());
+                    Helpers.showDialog(mActivity, "Whoops", Helpers.getReadableError(e));
                 }
             }
         });
