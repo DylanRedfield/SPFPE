@@ -39,7 +39,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.NewClassActivity"
-            android:label="@string/select_class"
+            android:label="@string/new_class"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AssignmentsActivity"

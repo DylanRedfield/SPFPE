@@ -52,7 +52,7 @@ public class LogInFragment extends Fragment {
         mCurrentUser = ParseUser.getCurrentUser();
 
         mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage("Loading..");
+        mProgressDialog.setMessage("Loading...");
         mProgressDialog.setCancelable(false);
     }
 

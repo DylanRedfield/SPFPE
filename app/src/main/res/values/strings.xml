@@ -10,10 +10,10 @@
     <string name="last_name_hint">Last Name</string>
     <string name="title_activity_log_in">LogInActivity</string>
     <string name="enter">Enter</string>
-    <string name="username_hint">Enter Username</string>
+    <string name="username_hint">Enter Username (first.last.spfhs)</string>
     <string name="password_hint">Enter Student ID</string>
     <string name="password_confirm_hint">Confirm Student ID</string>
-    <string name="no_account">Do not have an account?</string>
+    <string name="no_account">Do not have an account?\nSign Up!</string>
     <string name="grade_text_view">Grade: </string>
     <string name="grade_hint">Grade</string>
     <string name="select_teacher">Select Teacher</string>

@@ -165,12 +165,20 @@ public class FitnessAddFragment extends Fragment {
 
                     // Data base holds an ArrayList of Strings
                     ArrayList<String> dataList = new ArrayList<>();
-                    dataList.add(editText1.getText().toString().trim() + " " + fieldNames.get(0));
+                    if (editText1.getText().toString().trim().equals("")) {
+                        dataList.add("0 " + fieldNames.get(0));
+                    } else {
+                        dataList.add(editText1.getText().toString().trim() + " " + fieldNames.get(0));
+                    }
 
                     // If there is ever more than 2 fields this will break...
                     if (mEvent.getNumber(Keys.NUM_FIELDS_NUM) == 2) {
-                        dataList.add(editText2.getText().toString().trim() + " "
-                                + fieldNames.get(1));
+                        if (editText2.getText().toString().trim().equals("")) {
+                            dataList.add("0 " + fieldNames.get(1));
+                        } else {
+                            dataList.add(editText2.getText().toString().trim() + " "
+                                    + fieldNames.get(1));
+                        }
                     }
 
                     fitnessTest.put(Keys.RESULTS_ARR, dataList);
