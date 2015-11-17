@@ -79,7 +79,6 @@ public class FitnessMainFragment extends Fragment {
         mActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gson gson = new Gson();
                 Intent i = new Intent(getActivity(), FitnessAddActivity.class);
                 // Don't want to have to query for current student every time
                 i.putExtra(Keys.STUDENT_OBJECT_ID_EXTRA, mCurrentStudent.getObjectId());

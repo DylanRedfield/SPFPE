@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.fragment;
+package me.dylanredfield.spfpe.dialog;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;

@@ -10,22 +10,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import me.dylanredfield.spfpe.R;
-import me.dylanredfield.spfpe.fragment.SelectClassDialog;
+import me.dylanredfield.spfpe.dialog.SelectClassDialog;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 
@@ -61,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
                     mSelectClass.setVisible(true);
                     checkForClass();
                 } else {
-                    Helpers.showDialog(getApplicationContext(), "Whoops", Helpers.getReadableError(e));
+                    Toast.makeText(getApplicationContext(), Helpers.getReadableError(e),
+                            Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -112,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(i);
                         finish();
                     } else {
-
+                        Helpers.showDialog(mActivity, "Whoops", "Log out did not work, try again");
                     }
                 }
             });
@@ -154,7 +151,8 @@ public class MainActivity extends AppCompatActivity {
                 if (e == null) {
                     Log.d("SelectClass", replaceClass.toString());
                 } else {
-                    Helpers.showDialog(mActivity, "Whoops", Helpers.getReadableError(e));
+                    Toast.makeText(getApplicationContext(), e.getMessage() + "\n Try again",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
