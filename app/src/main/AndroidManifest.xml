@@ -24,12 +24,14 @@
         <activity
             android:name=".activity.LogInActivity"
             android:label="@string/title_activity_log_in"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:noHistory="true"/>
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SignUpActivity"
+            android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.FitnessMainActivity"

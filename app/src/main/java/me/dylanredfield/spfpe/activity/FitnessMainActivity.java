@@ -41,6 +41,7 @@ public class FitnessMainActivity extends AppCompatActivity {
                 @Override
                 public void done(ParseException e) {
                     Intent i = new Intent(getApplicationContext(), LogInActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(i);
                     finish();
                 }
