@@ -81,12 +81,13 @@ public class FitnessAddFragment extends Fragment {
                 dialog.show(getFragmentManager(), null);
             }
         });
+
     }
 
     private void queryParse() {
 
         // An event is 20 yard dash, mile, ect
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(Keys.EVENT_KEY);
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery(Keys.EVENT_KEY);
         mProgressDialog.show();
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override

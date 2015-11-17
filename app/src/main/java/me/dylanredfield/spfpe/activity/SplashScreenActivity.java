@@ -3,6 +3,7 @@ package me.dylanredfield.spfpe.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.parse.ParseUser;
 
@@ -26,7 +27,6 @@ public class SplashScreenActivity extends Activity {
     }
 
     private void splashLogic() {
-
         // Checks to see if user is logged in
         if (mCurrentUser == null) {
             Intent i = new Intent(getApplicationContext(), LogInActivity.class);

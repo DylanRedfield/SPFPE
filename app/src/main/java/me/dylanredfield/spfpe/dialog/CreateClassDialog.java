@@ -1,17 +1,9 @@
-package me.dylanredfield.spfpe.fragment;
+package me.dylanredfield.spfpe.dialog;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
-import com.parse.ParseObject;
-
-import java.util.List;
-
-import me.dylanredfield.spfpe.R;
-import me.dylanredfield.spfpe.ui.SingleStringListAdapter;
 import me.dylanredfield.spfpe.util.Keys;
 
 public class CreateClassDialog extends AbstractSingleLineListDialog {

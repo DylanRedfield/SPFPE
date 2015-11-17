@@ -53,7 +53,6 @@ public class LogInFragment extends Fragment {
 
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage("Loading..");
-        mProgressDialog.setCancelable(false);
     }
 
     private void setListeners() {

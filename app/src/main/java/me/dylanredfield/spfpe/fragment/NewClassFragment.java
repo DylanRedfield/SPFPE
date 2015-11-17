@@ -1,6 +1,5 @@
 package me.dylanredfield.spfpe.fragment;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +23,7 @@ import java.util.List;
 
 import me.dylanredfield.spfpe.R;
 import me.dylanredfield.spfpe.activity.MainActivity;
+import me.dylanredfield.spfpe.dialog.CreateClassDialog;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 import me.dylanredfield.spfpe.util.NewClassQueryCallback;
@@ -62,6 +62,8 @@ public class NewClassFragment extends Fragment {
         if (getActivity().getIntent().hasExtra(Keys.STUDENT_OBJECT_ID_EXTRA)) {
             mCurrentStudent = ParseObject.createWithoutData(Keys.STUDENT_KEY,
                     getActivity().getIntent().getStringExtra(Keys.STUDENT_OBJECT_ID_EXTRA));
+            setListeners();
+            queryParse();
         } else {
 
             mEnter.setVisibility(View.GONE);
@@ -71,6 +73,8 @@ public class NewClassFragment extends Fragment {
                         public void done(ParseObject parseObject, ParseException e) {
                             if (e == null) {
                                 mCurrentStudent = parseObject;
+                                setListeners();
+                                queryParse();
                                 mEnter.setVisibility(View.VISIBLE);
                             } else {
                                 AlertDialog dialog = Helpers.showDialog(getActivity(), "Whoops",
@@ -89,8 +93,7 @@ public class NewClassFragment extends Fragment {
                     });
         }
 
-        setListeners();
-        queryParse();
+
     }
 
     private void setDefaultValues() {

@@ -8,7 +8,7 @@ import com.parse.ParseObject;
 
 import java.util.List;
 
-import me.dylanredfield.spfpe.fragment.CreateClassDialog;
+import me.dylanredfield.spfpe.dialog.CreateClassDialog;
 
 public class NewClassQueryCallback implements FindCallback<ParseObject> {
     private CreateClassDialog mDialog;
