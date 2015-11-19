@@ -203,8 +203,15 @@ public class NewClassFragment extends Fragment {
     }
 
     public boolean isValidInputs() {
-        return mPeriodObject != null && mCurrentYear != null && mTeacherObject != null
-                && mMarkingPeriod.getText().toString().trim().length() > 0;
+        if (mPeriod.getText().toString().equals("")) {
+            return false;
+        } else if (mTeacher.getText().toString().equals("")) {
+            return false;
+        } else if (mPeriod.getText().toString().trim().equals("")) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public ParseQuery<ParseObject> createCheckForExistingClassQuery() {

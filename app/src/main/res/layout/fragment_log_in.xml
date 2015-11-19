@@ -44,12 +44,13 @@
         android:layout_height="wrap_content"
         android:text="@string/no_account"
         android:layout_marginBottom="12dp"
-        android:textSize="14sp"/>
+        android:textStyle="bold"
+        android:textSize="18sp"/>
     <TextView
         android:id="@+id/case_sensitive"
         android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/case_sensitive"
-        android:textSize="14sp"/>
+        android:textSize="12sp"/>
 </LinearLayout>
