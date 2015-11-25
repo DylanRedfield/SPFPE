@@ -46,6 +46,7 @@
         <activity
             android:name=".activity.AssignmentsActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.TestEditTextActivity"/>
     </application>
 
 </manifest>

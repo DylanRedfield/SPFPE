@@ -37,7 +37,7 @@ public class Keys {
     public static String SPORT_POINT = "Sport";
 
     // CurrentSchoolYear
-    public static String CURRENT_SCHOOL_YEAR_KEY = "SchoolYear";
+    public static String CURRENT_SCHOOL_YEAR_KEY = "CurrentSchoolYear";
     /* public static String SCHOOL_YEAR_POINT = "SchoolYear"; */
 
     // Event
