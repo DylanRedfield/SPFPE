@@ -1,6 +1,5 @@
 package me.dylanredfield.spfpe.fragment;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -22,7 +20,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.software.shell.fab.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.dylanredfield.spfpe.activity.FitnessAddActivity;
@@ -200,7 +197,7 @@ public class FitnessMainFragment extends Fragment {
         public View getView(int i, View view, ViewGroup viewGroup) {
             if (view == null) {
                 view = mFragment.getActivity().getLayoutInflater()
-                        .inflate(R.layout.row_fitness_test, null, false);
+                        .inflate(R.layout.row_two_line, null, false);
             }
 
 

@@ -47,6 +47,7 @@
             android:name=".activity.AssignmentsActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.TestEditTextActivity"/>
+        <activity android:name=".activity.StudentMakeupsActivity"/>
     </application>
 
 </manifest>

@@ -7,16 +7,17 @@
     <RelativeLayout
         android:id="@+id/fitness"
         android:layout_width="match_parent"
-        android:padding="30dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_light">
+        android:background="@android:color/holo_blue_light"
+        android:padding="30dp">
 
         <ImageView
             android:id="@+id/fitness_image"
-            android:src="@drawable/fitness_icon"
-            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
-            android:layout_height="30dp" />
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/fitness_icon" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,21 +31,23 @@
     <RelativeLayout
         android:id="@+id/makeups"
         android:layout_width="match_parent"
-        android:padding="30dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray">
+        android:background="@android:color/holo_orange_light"
+        android:padding="30dp">
+
         <ImageView
             android:id="@+id/makeup_image"
-            android:src="@drawable/make_up_icon"
-            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
-            android:layout_height="30dp" />
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/make_up_icon" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@id/makeup_image"
-            android:text="@string/coming_soon"
+            android:layout_centerHorizontal="true"
+            android:text="@string/makeups"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
     </RelativeLayout>
@@ -53,20 +56,22 @@
         android:id="@+id/assignments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="30dp"
-        android:background="@android:color/darker_gray">
+        android:background="@android:color/holo_red_light"
+        android:padding="30dp">
+
         <ImageView
             android:id="@+id/assignments_image"
-            android:src="@drawable/notebook_icon"
-            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
-            android:layout_height="30dp" />
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/notebook_icon" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@id/assignments_image"
-            android:text="@string/coming_soon"
+            android:layout_centerHorizontal="true"
+            android:text="@string/assignments"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
     </RelativeLayout>

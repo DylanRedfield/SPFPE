@@ -29,4 +29,8 @@
     <string name="select_class">Select Class</string>
     <string name="coming_soon">Coming Soon</string>
     <string name="case_sensitive">*Username is Case Sensitive</string>
+    <string name="empty_makeups">No Makeups to Display</string>
+    <string name="time_hint">Minutes Exercised</string>
+    <string name="exercise_type_hint">Event</string>
+    <string name="date">Date</string>
 </resources>

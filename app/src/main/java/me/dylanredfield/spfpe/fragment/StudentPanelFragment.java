@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import me.dylanredfield.spfpe.activity.AssignmentsActivity;
 import me.dylanredfield.spfpe.activity.FitnessMainActivity;
 import me.dylanredfield.spfpe.R;
+import me.dylanredfield.spfpe.activity.StudentMakeupsActivity;
 import me.dylanredfield.spfpe.activity.TestEditTextActivity;
 
 public class StudentPanelFragment extends Fragment {
@@ -47,7 +48,7 @@ public class StudentPanelFragment extends Fragment {
         mMakeupLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), TestEditTextActivity.class);
+                Intent i = new Intent(getActivity(), StudentMakeupsActivity.class);
                 startActivity(i);
 
             }
@@ -55,8 +56,8 @@ public class StudentPanelFragment extends Fragment {
         mAssignmentsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Intent i = new Intent(getActivity(), AssignmentsActivity.class);
-                startActivity(i);*/
+                Intent i = new Intent(getActivity(), AssignmentsActivity.class);
+                startActivity(i);
             }
         });
     }
