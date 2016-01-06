@@ -2,12 +2,14 @@ package me.dylanredfield.spfpe.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -57,6 +59,7 @@ public class StudentMakeupsFragment extends Fragment {
         mCurrentUser = ParseUser.getCurrentUser();
         mListView = (ListView) mView.findViewById(R.id.list);
         mAdapter = new MakeupListAdapter(this);
+        mListView.setAdapter(mAdapter);
 
         mButton = (FloatingActionButton) mView.findViewById(R.id.button);
     }
@@ -81,6 +84,7 @@ public class StudentMakeupsFragment extends Fragment {
             public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
                     mCurrentStudent = parseObject;
+                    mSelectedClass = (ParseObject) mCurrentStudent.get(Keys.SELECTED_CLASS_POINT);
                     queryParseForMakeups();
                 } else {
                     Helpers.showDialog(getActivity(), "Whoops", Helpers.getReadableError(e));
@@ -97,7 +101,13 @@ public class StudentMakeupsFragment extends Fragment {
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
-                mList = list;
+                if (e == null) {
+                    mList = list;
+                    mAdapter.setList(mList);
+                    Log.d("Makeups", list.toString());
+                } else {
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -108,6 +118,10 @@ public class StudentMakeupsFragment extends Fragment {
 
     public ParseObject getSelectedClass() {
         return mSelectedClass;
+    }
+    public void addMakeup(ParseObject makeup) {
+        mList.add(makeup);
+        mAdapter.setList(mList);
     }
 
     static class MakeupListAdapter extends BaseAdapter {
@@ -141,7 +155,7 @@ public class StudentMakeupsFragment extends Fragment {
 
             minutesTextView.setText("" + mList.get(i).getInt(Keys.MINUTES_LOGGED_NUM) + " minutes logged");
             Date date = mList.get(i).getDate(Keys.DATE_DATE);
-            SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yy", Locale.US);
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
             String dateString = sdf.format(date);
             dateTextView.setText(dateString);
 

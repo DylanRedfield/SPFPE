@@ -13,11 +13,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import me.dylanredfield.spfpe.R;
@@ -34,6 +38,7 @@ public class AddMakeupDialog extends DialogFragment {
     private ParseObject mMakeup;
     private ParseObject mSelectedClass;
     private StudentMakeupsFragment mFragment;
+    private Calendar mDate;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -75,10 +80,23 @@ public class AddMakeupDialog extends DialogFragment {
                 if (isValid()) {
                     mMakeup.put(Keys.CLASS_POINT, mSelectedClass);
                     mMakeup.put(Keys.STUDENT_POINT, mCurrentStudent);
-                    mMakeup.put(Keys.MINUTES_LOGGED_NUM, mTime.getText().toString().trim());
+                    mMakeup.put(Keys.MINUTES_LOGGED_NUM,
+                            Integer.parseInt(mTime.getText().toString().trim()));
+                    mMakeup.put(Keys.DATE_DATE, mDate.getTime());
+                    mMakeup.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            // TODO error handle
+                            if (e == null) {
+                                mFragment.addMakeup(mMakeup);
+                                dismiss();
+                            } else {
+                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT)
+                                        .show();
 
-                    //TODO fix this shit for date from DatePickDialog...
-                    mMakeup.put(Keys.DATE_DATE, null);
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -86,7 +104,7 @@ public class AddMakeupDialog extends DialogFragment {
         mDateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Calendar date = Calendar.getInstance();
+                mDate = Calendar.getInstance();
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
                         Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mDateText.getWindowToken(), 0);
@@ -96,14 +114,14 @@ public class AddMakeupDialog extends DialogFragment {
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
-                                date.set(year, monthOfYear, dayOfMonth);
+                                mDate.set(year, monthOfYear, dayOfMonth);
 
                                 String format = "MM/dd/yy";
                                 SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
-                                mDateText.setText(sdf.format(date.getTime()));
+                                mDateText.setText(sdf.format(mDate.getTime()));
                             }
-                        }, date.get(Calendar.YEAR), date.get(Calendar.MONTH),
-                        date.get(Calendar.DAY_OF_MONTH));
+                        }, mDate.get(Calendar.YEAR), mDate.get(Calendar.MONTH),
+                        mDate.get(Calendar.DAY_OF_MONTH));
                 dpd.show();
                 dpd.setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.software.shell.fab.FloatingActionButton;
 import java.util.List;
 
 import me.dylanredfield.spfpe.activity.FitnessAddActivity;
+import me.dylanredfield.spfpe.dialog.NewFitnessDialog;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 import me.dylanredfield.spfpe.R;
@@ -37,7 +39,6 @@ public class FitnessMainFragment extends Fragment {
     private ParseUser mCurrentUser;
     private ParseObject mCurrentStudent;
     private Fragment mFragment;
-
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup viewGroup, Bundle savedInstanceState) {
@@ -80,6 +81,14 @@ public class FitnessMainFragment extends Fragment {
                 // Don't want to have to query for current student every time
                 i.putExtra(Keys.STUDENT_OBJECT_ID_EXTRA, mCurrentStudent.getObjectId());
                 startActivityForResult(i, Keys.FITNESS_TEST_RESULT_CODE);
+            }
+        });
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                NewFitnessDialog dialog = new NewFitnessDialog();
+
+
             }
         });
     }
