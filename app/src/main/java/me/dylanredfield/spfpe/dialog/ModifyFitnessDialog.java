@@ -1,12 +1,16 @@
 package me.dylanredfield.spfpe.dialog;
 
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 
+import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 
 public class ModifyFitnessDialog extends NewFitnessDialog {
@@ -35,6 +39,17 @@ public class ModifyFitnessDialog extends NewFitnessDialog {
                 }
 
                 mFitnessTest.put(Keys.RESULTS_ARR, dataList);
+                mFitnessTest.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            dismiss();
+                        } else {
+                            Helpers.showDialog(getActivity(), "Whoops", Helpers.getReadableError(e));
+                        }
+                    }
+                });
+
             }
         });
     }
@@ -42,6 +57,7 @@ public class ModifyFitnessDialog extends NewFitnessDialog {
     public void setArguments(ParseObject event, ParseObject student, Fragment fragment, ParseObject test) {
         setArguments(event, student, fragment);
         mFitnessTest = test;
+        Log.v("SetArguments", "super");
 
     }
 }

@@ -46,6 +46,8 @@ public class NewFitnessDialog extends DialogFragment {
         mEvent = event;
         mCurrentStudent = student;
         mFragment = (FitnessMainFragment) fragment;
+
+        Log.v("SetArguments", "sub");
     }
 
     @Override
@@ -57,12 +59,14 @@ public class NewFitnessDialog extends DialogFragment {
 
         builder.setTitle(mEvent.getString(Keys.NAME_STR));
 
-        defaultValues();
-
+        Log.v("onCreate", "sub");
         mFieldNames = mEvent.getList(Keys.FIELD_NAMES_ARR);
+        defaultValues();
+        setListeners();
 
-        mEnter = (Button) mView.findViewById(R.id.enter);
-        mEnter.setText("Enter");
+
+
+
 
 
         Dialog dialog = builder.create();
@@ -180,7 +184,8 @@ public class NewFitnessDialog extends DialogFragment {
 
         mTopLine = (EditText) mView.findViewById(R.id.edit_text_1);
         mBottomLine = (EditText) mView.findViewById(R.id.edit_text_2);
-
+        mEnter = (Button) mView.findViewById(R.id.enter);
+        mEnter.setText("Enter");
         // fieldNames contains units
         // Will always be at least 1 field, so set the first
         mTopLine.setHint(mFieldNames.get(0));

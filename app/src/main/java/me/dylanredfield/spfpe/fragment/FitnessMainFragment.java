@@ -24,6 +24,7 @@ import com.software.shell.fab.FloatingActionButton;
 import java.util.List;
 
 import me.dylanredfield.spfpe.activity.FitnessAddActivity;
+import me.dylanredfield.spfpe.dialog.ModifyFitnessDialog;
 import me.dylanredfield.spfpe.dialog.NewFitnessDialog;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
@@ -39,6 +40,7 @@ public class FitnessMainFragment extends Fragment {
     private ParseUser mCurrentUser;
     private ParseObject mCurrentStudent;
     private Fragment mFragment;
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup viewGroup, Bundle savedInstanceState) {
@@ -86,9 +88,11 @@ public class FitnessMainFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                NewFitnessDialog dialog = new NewFitnessDialog();
-
-
+                ModifyFitnessDialog dialog = new ModifyFitnessDialog();
+                dialog.setArguments(((ParseObject) mAdapter.getItem(i)).getParseObject(Keys.EVENT_POINT),
+                        mCurrentStudent, mFragment, (ParseObject) mAdapter.getItem(i));
+                dialog.setTargetFragment(mFragment, 0);
+                dialog.show(getFragmentManager(), null);
             }
         });
     }
