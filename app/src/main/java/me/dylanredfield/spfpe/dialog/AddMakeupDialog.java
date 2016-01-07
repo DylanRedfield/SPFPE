@@ -74,33 +74,7 @@ public class AddMakeupDialog extends DialogFragment {
     }
 
     private void setListeners() {
-        mEnter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isValid()) {
-                    mMakeup.put(Keys.CLASS_POINT, mSelectedClass);
-                    mMakeup.put(Keys.STUDENT_POINT, mCurrentStudent);
-                    mMakeup.put(Keys.MINUTES_LOGGED_NUM,
-                            Integer.parseInt(mTime.getText().toString().trim()));
-                    mMakeup.put(Keys.DATE_DATE, mDate.getTime());
-                    mMakeup.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            // TODO error handle
-                            if (e == null) {
-                                mFragment.addMakeup(mMakeup);
-                                dismiss();
-                            } else {
-                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT)
-                                        .show();
-
-                            }
-                        }
-                    });
-                }
-            }
-        });
-
+        setOnEnterClickListener();
         mDateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,6 +103,35 @@ public class AddMakeupDialog extends DialogFragment {
                         mDateText.setText("");
                     }
                 });
+            }
+        });
+    }
+
+    public void setOnEnterClickListener() {
+        mEnter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isValid()) {
+                    mMakeup.put(Keys.CLASS_POINT, mSelectedClass);
+                    mMakeup.put(Keys.STUDENT_POINT, mCurrentStudent);
+                    mMakeup.put(Keys.MINUTES_LOGGED_NUM,
+                            Integer.parseInt(mTime.getText().toString().trim()));
+                    mMakeup.put(Keys.DATE_DATE, mDate.getTime());
+                    mMakeup.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            // TODO error handle
+                            if (e == null) {
+                                mFragment.addMakeup(mMakeup);
+                                dismiss();
+                            } else {
+                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT)
+                                        .show();
+
+                            }
+                        }
+                    });
+                }
             }
         });
     }
