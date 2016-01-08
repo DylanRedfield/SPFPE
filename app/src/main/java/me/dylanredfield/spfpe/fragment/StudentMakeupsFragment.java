@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +28,8 @@ import java.util.Locale;
 
 import me.dylanredfield.spfpe.R;
 import me.dylanredfield.spfpe.dialog.AddMakeupDialog;
+import me.dylanredfield.spfpe.dialog.ModifyFitnessDialog;
+import me.dylanredfield.spfpe.dialog.ModifyMakeupDialog;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 
@@ -73,6 +76,27 @@ public class StudentMakeupsFragment extends Fragment {
                 dialog.show(getFragmentManager(), null);
             }
         });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                modifyMakeup(i);
+            }
+        });
+
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                modifyMakeup(i);
+                return false;
+            }
+        });
+    }
+
+    public void modifyMakeup(int i) {
+        ModifyMakeupDialog dialog = ModifyMakeupDialog.newInstance();
+        dialog.setMakeup((ParseObject) mAdapter.getItem(i));
+        dialog.show(getFragmentManager(), null);
     }
 
     private void studentQuery() {

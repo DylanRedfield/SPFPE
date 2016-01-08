@@ -33,12 +33,41 @@ public class AddMakeupDialog extends DialogFragment {
     private View mView;
     private EditText mTime;
     private EditText mDateText;
+
+    public StudentMakeupsFragment getFragment() {
+        return mFragment;
+    }
+
     private Button mEnter;
     private ParseObject mCurrentStudent;
     private ParseObject mMakeup;
     private ParseObject mSelectedClass;
     private StudentMakeupsFragment mFragment;
     private Calendar mDate;
+
+    public EditText getTime() {
+        return mTime;
+    }
+
+    public EditText getDateText() {
+        return mDateText;
+    }
+
+    public Button getEnter() {
+        return mEnter;
+    }
+
+    public ParseObject getCurrentStudent() {
+        return mCurrentStudent;
+    }
+
+    public ParseObject getSelectedClass() {
+        return mSelectedClass;
+    }
+
+    public Calendar getDate() {
+        return mDate;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

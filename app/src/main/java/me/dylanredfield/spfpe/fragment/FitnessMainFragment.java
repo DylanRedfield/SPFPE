@@ -88,13 +88,25 @@ public class FitnessMainFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ModifyFitnessDialog dialog = new ModifyFitnessDialog();
-                dialog.setArguments(((ParseObject) mAdapter.getItem(i)).getParseObject(Keys.EVENT_POINT),
-                        mCurrentStudent, mFragment, (ParseObject) mAdapter.getItem(i));
-                dialog.setTargetFragment(mFragment, 0);
-                dialog.show(getFragmentManager(), null);
+                modifyFitness(i);
             }
         });
+
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                modifyFitness(i);
+                return false;
+            }
+        });
+    }
+
+    public void modifyFitness(int i) {
+        ModifyFitnessDialog dialog = new ModifyFitnessDialog();
+        dialog.setArguments(((ParseObject) mAdapter.getItem(i)).getParseObject(Keys.EVENT_POINT),
+                mCurrentStudent, mFragment, (ParseObject) mAdapter.getItem(i));
+        dialog.setTargetFragment(mFragment, 0);
+        dialog.show(getFragmentManager(), null);
     }
 
     public List<ParseObject> getList() {
