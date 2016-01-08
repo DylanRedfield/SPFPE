@@ -33,17 +33,21 @@ public class AddMakeupDialog extends DialogFragment {
     private View mView;
     private EditText mTime;
     private EditText mDateText;
-
-    public StudentMakeupsFragment getFragment() {
-        return mFragment;
-    }
-
     private Button mEnter;
     private ParseObject mCurrentStudent;
     private ParseObject mMakeup;
     private ParseObject mSelectedClass;
     private StudentMakeupsFragment mFragment;
     private Calendar mDate;
+    private AlertDialog.Builder mBuilder;
+
+    public StudentMakeupsFragment getFragment() {
+        return mFragment;
+    }
+
+    public AlertDialog.Builder getBuilder() {
+        return mBuilder;
+    }
 
     public EditText getTime() {
         return mTime;
@@ -71,11 +75,11 @@ public class AddMakeupDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        mBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         mView = inflater.inflate(R.layout.dialog_new_makeup, null);
-        builder.setView(mView);
-        builder.setTitle("New Makeup");
+        mBuilder.setView(mView);
+        mBuilder.setTitle("New Makeup");
 
         // setRetainInstance(true);
 
@@ -83,12 +87,12 @@ public class AddMakeupDialog extends DialogFragment {
         setListeners();
 
 
-        Dialog dialog = builder.create();
+        Dialog dialog = mBuilder.create();
         return dialog;
 
     }
 
-    private void defaultValues() {
+    public void defaultValues() {
 
         // TODO add DatePickerDialog
         mTime = (EditText) mView.findViewById(R.id.time);

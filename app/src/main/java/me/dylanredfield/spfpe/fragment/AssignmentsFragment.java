@@ -77,9 +77,10 @@ public class AssignmentsFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.v("Click", "Click!");
                 String url = mAssignmentList.get(i).getString(Keys.LINK_STR);
-                if (!url.startsWith("https://") && !url.startsWith("http://")) {
+                if (!(url.startsWith("https://") || url.startsWith("http://"))) {
                     url = "http://" + url;
                 }
+                Log.d("openUrlIntent", url);
                 Intent openUrlIntent = new Intent(Intent.ACTION_VIEW);
                 openUrlIntent.setData(Uri.parse(url));
                 startActivity(openUrlIntent);
@@ -130,12 +131,12 @@ public class AssignmentsFragment extends Fragment {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             if (view == null) {
-                view = mFragment.getActivity().getLayoutInflater().inflate(R.layout.row_fitness,
+                view = mFragment.getActivity().getLayoutInflater().inflate(R.layout.row_two_line,
                         null, false);
             }
 
-            TextView line1 = (TextView) view.findViewById(R.id.name);
-            TextView line2 = (TextView) view.findViewById(R.id.info);
+            TextView line1 = (TextView) view.findViewById(R.id.top_line);
+            TextView line2 = (TextView) view.findViewById(R.id.bottom_line);
             line2.setVisibility(View.VISIBLE);
 
             line1.setText(mList.get(i).getString(Keys.ASSIGNMENT_NAME_STR));

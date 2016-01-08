@@ -96,6 +96,7 @@ public class StudentMakeupsFragment extends Fragment {
     public void modifyMakeup(int i) {
         ModifyMakeupDialog dialog = ModifyMakeupDialog.newInstance();
         dialog.setMakeup((ParseObject) mAdapter.getItem(i));
+        dialog.setTargetFragment(mFragment, 0);
         dialog.show(getFragmentManager(), null);
     }
 

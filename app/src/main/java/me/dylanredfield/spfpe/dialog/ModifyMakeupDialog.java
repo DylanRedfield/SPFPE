@@ -19,22 +19,37 @@ public class ModifyMakeupDialog extends AddMakeupDialog {
     }
 
     @Override
-    public void setOnEnterClickListener() {
-        mMakeup.put(Keys.MINUTES_LOGGED_NUM,
-                Integer.parseInt(getTime().getText().toString().trim()));
+    public void defaultValues() {
+        super.defaultValues();
         getDateText().setVisibility(View.GONE);
+        getBuilder().setTitle("Modify Makeup");
 
-        mMakeup.saveInBackground(new SaveCallback() {
+    }
+
+    @Override
+    public void setOnEnterClickListener() {
+        getEnter().setOnClickListener(new View.OnClickListener() {
             @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    // TODO update list
-                    dismiss();
-                } else {
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT)
-                            .show();
+            public void onClick(View view) {
 
-                }
+
+                mMakeup.put(Keys.MINUTES_LOGGED_NUM,
+                        Integer.parseInt(getTime().getText().toString().trim()));
+                getDateText().setVisibility(View.GONE);
+
+                mMakeup.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            // TODO update list
+                            dismiss();
+                        } else {
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT)
+                                    .show();
+
+                        }
+                    }
+                });
             }
         });
     }

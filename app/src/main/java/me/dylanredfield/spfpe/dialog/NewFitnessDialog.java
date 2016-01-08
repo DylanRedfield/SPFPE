@@ -39,6 +39,7 @@ public class NewFitnessDialog extends DialogFragment {
     private EditText mTopLine;
     private EditText mBottomLine;
     private Button mEnter;
+    private AlertDialog.Builder mBuilder;
     private List<String> mFieldNames;
 
 
@@ -52,12 +53,12 @@ public class NewFitnessDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        mBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         mView = inflater.inflate(R.layout.dialog_new_fitness_event, null);
-        builder.setView(mView);
+        mBuilder.setView(mView);
 
-        builder.setTitle(mEvent.getString(Keys.NAME_STR));
+        mBuilder.setTitle(mEvent.getString(Keys.NAME_STR));
 
         Log.v("onCreate", "sub");
         mFieldNames = mEvent.getList(Keys.FIELD_NAMES_ARR);
@@ -69,9 +70,13 @@ public class NewFitnessDialog extends DialogFragment {
 
 
 
-        Dialog dialog = builder.create();
+        Dialog dialog = mBuilder.create();
         return dialog;
 
+    }
+
+    public AlertDialog.Builder getBuilder() {
+        return mBuilder;
     }
 
     public void setListeners() {
