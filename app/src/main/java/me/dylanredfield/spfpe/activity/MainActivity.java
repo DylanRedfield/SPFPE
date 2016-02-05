@@ -48,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
         mProgressDialog.setMessage("Loading...");
         mProgressDialog.setCancelable(false);
 
+        if (mCurrentUser.getParseObject(Keys.USER_TYPE_KEY).getObjectId().equals(Keys.TEACHER_OBJECT_ID)) {
+            // TODO teacher shit
+        } else {
+            queryForStudent();
+        }
+    }
+
+    public void queryForStudent() {
         Helpers.getStudentQuery(mCurrentUser).getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
@@ -82,59 +90,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        mNewClass = menu.findItem(R.id.new_class);
-        mSelectClass = menu.findItem(R.id.select_class);
-        mNewClass.setVisible(false);
-        mSelectClass.setVisible(false);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.logout) {
-            ParseUser.logOutInBackground(new LogOutCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        Intent i = new Intent(getApplicationContext(), LogInActivity.class);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(i);
-                        finish();
-                    } else {
-                        Helpers.showDialog(mActivity, "Whoops", "Log out did not work, try again");
-                    }
-                }
-            });
-            return true;
-        } else if (id == R.id.new_class) {
-            Intent i = new Intent(getApplicationContext(), NewClassActivity.class);
-            i.putExtra(Keys.STUDENT_OBJECT_ID_EXTRA, mCurrentStudent.getObjectId());
-            startActivity(i);
-        } else if (id == R.id.select_class) {
-            ParseRelation<ParseObject> classRelation =
-                    mCurrentStudent.getRelation(Keys.CLASSES_REL);
-            SelectClassDialog dialog = new SelectClassDialog();
-            dialog.setArguments(classRelation, mCurrentStudent);
-            dialog.show(getSupportFragmentManager(), null);
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         Log.d("SelectClass", "Method Called");
         if (requestCode == Keys.CLASS_RESULT_CODE && resultCode == Keys.CLASS_RESULT_CODE) {
             Log.d("SelectClass", "Condition True");

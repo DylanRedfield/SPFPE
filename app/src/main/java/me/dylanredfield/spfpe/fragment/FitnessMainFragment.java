@@ -4,10 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -40,10 +42,10 @@ public class FitnessMainFragment extends Fragment {
     private ParseUser mCurrentUser;
     private ParseObject mCurrentStudent;
     private Fragment mFragment;
+    private SwipeRefreshLayout mRefreshLayout;
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup viewGroup, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_fitness_main, null, false);
 
         setDefaultValues();
@@ -70,6 +72,7 @@ public class FitnessMainFragment extends Fragment {
 
         mActionButton = (FloatingActionButton) mView.findViewById(R.id.button);
 
+        mRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.refresh_layout);
         mCurrentUser = ParseUser.getCurrentUser();
 
         setListeners();
@@ -96,7 +99,14 @@ public class FitnessMainFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 modifyFitness(i);
-                return false;
+                return true;
+            }
+        });
+
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                eventQuery();
             }
         });
     }
@@ -153,9 +163,12 @@ public class FitnessMainFragment extends Fragment {
         query.include(Keys.EVENT_KEY);
         query.include(Keys.CLASS_KEY);
         query.addAscendingOrder(Keys.TEST_NUMBER_NUM);
+        Log.d("FUCK THIS SHIT", "start");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
+                Log.d("FUCK THIS SHIT", "done");
+                mRefreshLayout.setEnabled(false);
                 mProgressDialog.dismiss();
                 if (e == null) {
                     mEventList = list;
