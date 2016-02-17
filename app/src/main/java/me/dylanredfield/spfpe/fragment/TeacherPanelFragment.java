@@ -5,7 +5,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -27,12 +29,14 @@ public class TeacherPanelFragment extends Fragment {
     private ParseUser mCurrentUser;
     private List<ParseObject> mClassList;
     private ClassListAdapter mAdapter;
+    private ListView mClassListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_teacher_panel, null, false);
 
         defaultValues();
+        defaultListeners();
         classQuery();
 
         return mView;
@@ -41,6 +45,16 @@ public class TeacherPanelFragment extends Fragment {
     public void defaultValues() {
         mCurrentUser = ParseUser.getCurrentUser();
         mAdapter = new ClassListAdapter(this);
+        mClassListView = (ListView) mView.findViewById(R.id.list);
+    }
+
+    public void defaultListeners() {
+        mClassListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
     }
 
     public void classQuery() {

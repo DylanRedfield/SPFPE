@@ -41,11 +41,13 @@ public class ClassListAdapter extends BaseAdapter {
         }
 
         TextView topLine = (TextView) view.findViewById(R.id.top_line);
-        topLine.setText(Helpers.getTeacherName(mClassList.get(i).getParseObject(Keys.TEACHER_POINT)));
+        //topLine.setText(Helpers.getTeacherName(mClassList.get(i).getParseObject(Keys.TEACHER_POINT)));
 
         TextView bottomLine = (TextView) view.findViewById(R.id.bottom_line);
-        bottomLine.setText("MP" + mClassList.get(i).getInt(Keys.MARKING_PERIOD_NUM) + "," +
+        topLine.setText("MP" + mClassList.get(i).getInt(Keys.MARKING_PERIOD_NUM) + "," +
                 " Period: " + mClassList.get(i).getParseObject(Keys.PERIOD_POINT).getString(Keys.PERIOD_NAME_STR));
+
+        bottomLine.setText(mClassList.get(i).getParseObject(Keys.SCHOOL_YEAR_POINT).getString(Keys.YEAR_STR));
 
         return view;
     }
