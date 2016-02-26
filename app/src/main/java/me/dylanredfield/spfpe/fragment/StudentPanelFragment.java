@@ -43,7 +43,7 @@ public class StudentPanelFragment extends Fragment {
         return mView;
     }
 
-    private void setDefaultValues() {
+    public void setDefaultValues() {
         mFitnessLayout = (RelativeLayout) mView.findViewById(R.id.fitness);
         mMakeupLayout = (RelativeLayout) mView.findViewById(R.id.makeups);
         mAssignmentsLayout = (RelativeLayout) mView.findViewById(R.id.assignments);
@@ -56,15 +56,13 @@ public class StudentPanelFragment extends Fragment {
         mFitnessLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent fitnessIntent = new Intent(getActivity(), FitnessMainActivity.class);
-                startActivity(fitnessIntent);
+                fitnessIntent();
             }
         });
         mMakeupLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), StudentMakeupsActivity.class);
-                startActivity(i);
+                makeupIntent();
 
             }
         });
@@ -76,6 +74,19 @@ public class StudentPanelFragment extends Fragment {
             }
         });
 
+    }
+    public RelativeLayout getAssignmentsLayout() {
+        return mAssignmentsLayout;
+    }
+
+    public void fitnessIntent() {
+        Intent fitnessIntent = new Intent(getActivity(), FitnessMainActivity.class);
+        startActivity(fitnessIntent);
+    }
+
+    public void makeupIntent() {
+        Intent i = new Intent(getActivity(), StudentMakeupsActivity.class);
+        startActivity(i);
     }
 
     @Override

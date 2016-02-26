@@ -63,7 +63,7 @@ public class FitnessAddFragment extends Fragment {
                 getActivity().getIntent().getStringExtra(Keys.STUDENT_OBJECT_ID_EXTRA));
     }
 
-    private void setDefaultValues() {
+    public void setDefaultValues() {
         mListView = (ListView) mView.findViewById(R.id.list);
         mProgressDialog = new ProgressDialog(getActivity());
         mProgressDialog.setMessage("Loading...");

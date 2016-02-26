@@ -21,6 +21,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.software.shell.fab.ActionButton;
 import com.software.shell.fab.FloatingActionButton;
 
 import java.util.List;
@@ -63,7 +64,7 @@ public class FitnessMainFragment extends Fragment {
         }
     }
 
-    private void setDefaultValues() {
+    public void setDefaultValues() {
         mListView = (ListView) mView.findViewById(R.id.list);
         mListView.setEmptyView(mView.findViewById(R.id.empty_list));
         mProgressDialog = new ProgressDialog(getActivity());
@@ -76,6 +77,9 @@ public class FitnessMainFragment extends Fragment {
         mCurrentUser = ParseUser.getCurrentUser();
 
         setListeners();
+    }
+    public ActionButton getActionButton() {
+        return mActionButton;
     }
 
     public void setListeners() {
@@ -129,7 +133,7 @@ public class FitnessMainFragment extends Fragment {
     }
 
     // Sets the current student
-    private void studentQuery() {
+    public void studentQuery() {
         ParseQuery<ParseObject> studentQuery = ParseQuery.getQuery(Keys.STUDENT_KEY);
         studentQuery.include(Keys.USER_POINT);
         studentQuery.whereEqualTo(Keys.USER_POINT, mCurrentUser);
@@ -184,6 +188,9 @@ public class FitnessMainFragment extends Fragment {
                 }
             }
         });
+    }
+    public void setStudent(ParseObject student) {
+        mCurrentStudent = student;
     }
 
     @Override
