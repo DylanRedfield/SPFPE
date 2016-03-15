@@ -3,10 +3,10 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+
     <fragment
         android:id="@+id/frag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="me.dylanredfield.spfpe.fragment.teacher.IndividualStudentFitnessMainFragment"/>
-
+        android:name="me.dylanredfield.spfpe.fragment.teacher.IndividualStudentPanelFragment"/>
 </LinearLayout>

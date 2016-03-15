@@ -5,7 +5,7 @@
     android:orientation="vertical">
     <fragment
         android:id="@+id/frag"
-        android:name="me.dylanredfield.spfpe.fragment.StudentMakeupsFragment"
+        android:name="me.dylanredfield.spfpe.fragment.student.MakeupListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

@@ -34,20 +34,20 @@
             android:noHistory="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.FitnessMainActivity"
+            android:name=".activity.student.FitnessMainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.FitnessAddActivity"
+            android:name=".activity.student.FitnessAddActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.NewClassActivity"
+            android:name=".activity.student.NewClassActivity"
             android:label="@string/new_class"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AssignmentsActivity"
+            android:name=".activity.student.AssignmentsActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.TestEditTextActivity"/>
-        <activity android:name=".activity.StudentMakeupsActivity"/>
+        <activity android:name=".activity.student.MakeUpListActivity"/>
     </application>
 
 </manifest>

@@ -1,12 +1,12 @@
-package me.dylanredfield.spfpe.fragment;
+package me.dylanredfield.spfpe.fragment.teacher;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -20,10 +20,11 @@ import com.parse.ParseUser;
 import java.util.List;
 
 import me.dylanredfield.spfpe.R;
+import me.dylanredfield.spfpe.activity.teacher.ClassActivity;
 import me.dylanredfield.spfpe.ui.ClassListAdapter;
 import me.dylanredfield.spfpe.util.Keys;
 
-public class TeacherPanelFragment extends Fragment {
+public class ClassListFragment extends Fragment {
     private View mView;
     private ParseObject mClass;
     private ParseUser mCurrentUser;
@@ -52,6 +53,9 @@ public class TeacherPanelFragment extends Fragment {
         mClassListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getActivity(), ClassActivity.class);
+                intent.putExtra(Keys.CLASS_OBJECT_ID_EXTRA, mClassList.get(i).getObjectId());
+                startActivity(intent);
             }
         });
     }

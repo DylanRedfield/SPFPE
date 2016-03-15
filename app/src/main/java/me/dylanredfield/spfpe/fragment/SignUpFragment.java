@@ -22,10 +22,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import me.dylanredfield.spfpe.activity.LogInActivity;
-import me.dylanredfield.spfpe.activity.NewClassActivity;
+import me.dylanredfield.spfpe.activity.student.NewClassActivity;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
-import me.dylanredfield.spfpe.activity.MainActivity;
 import me.dylanredfield.spfpe.R;
 
 public class SignUpFragment extends Fragment {

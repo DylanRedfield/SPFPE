@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.fragment;
+package me.dylanredfield.spfpe.fragment.student;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,12 +28,11 @@ import java.util.Locale;
 
 import me.dylanredfield.spfpe.R;
 import me.dylanredfield.spfpe.dialog.AddMakeupDialog;
-import me.dylanredfield.spfpe.dialog.ModifyFitnessDialog;
 import me.dylanredfield.spfpe.dialog.ModifyMakeupDialog;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 
-public class StudentMakeupsFragment extends Fragment {
+public class MakeupListFragment extends Fragment {
     private View mView;
     private ListView mListView;
     private List<ParseObject> mList;
@@ -150,7 +149,7 @@ public class StudentMakeupsFragment extends Fragment {
     }
 
     static class MakeupListAdapter extends BaseAdapter {
-        private StudentMakeupsFragment mFragment;
+        private MakeupListFragment mFragment;
         private List<ParseObject> mList = new ArrayList<>();
 
         @Override
@@ -188,7 +187,7 @@ public class StudentMakeupsFragment extends Fragment {
         }
 
         public MakeupListAdapter(Fragment fragment) {
-            mFragment = (StudentMakeupsFragment) fragment;
+            mFragment = (MakeupListFragment) fragment;
         }
 
         public void setList(List<ParseObject> list) {

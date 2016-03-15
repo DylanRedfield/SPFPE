@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.fragment;
+package me.dylanredfield.spfpe.fragment.student;
 
 import android.content.DialogInterface;
 import android.content.Intent;

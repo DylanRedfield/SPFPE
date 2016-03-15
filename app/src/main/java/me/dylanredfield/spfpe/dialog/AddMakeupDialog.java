@@ -21,11 +21,10 @@ import com.parse.SaveCallback;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import me.dylanredfield.spfpe.R;
-import me.dylanredfield.spfpe.fragment.StudentMakeupsFragment;
+import me.dylanredfield.spfpe.fragment.student.MakeupListFragment;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 
@@ -37,11 +36,11 @@ public class AddMakeupDialog extends DialogFragment {
     private ParseObject mCurrentStudent;
     private ParseObject mMakeup;
     private ParseObject mSelectedClass;
-    private StudentMakeupsFragment mFragment;
+    private MakeupListFragment mFragment;
     private Calendar mDate;
     private AlertDialog.Builder mBuilder;
 
-    public StudentMakeupsFragment getFragment() {
+    public MakeupListFragment getFragment() {
         return mFragment;
     }
 
@@ -99,7 +98,7 @@ public class AddMakeupDialog extends DialogFragment {
         mDateText = (EditText) mView.findViewById(R.id.date);
         mEnter = (Button) mView.findViewById(R.id.enter);
 
-        mFragment = (StudentMakeupsFragment) getTargetFragment();
+        mFragment = (MakeupListFragment) getTargetFragment();
         mSelectedClass = mFragment.getSelectedClass();
         mCurrentStudent = mFragment.getStudent();
 

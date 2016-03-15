@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.activity;
+package me.dylanredfield.spfpe.activity.student;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import me.dylanredfield.spfpe.R;
+import me.dylanredfield.spfpe.activity.LogInActivity;
 
 public class AssignmentsActivity extends AppCompatActivity{
     @Override

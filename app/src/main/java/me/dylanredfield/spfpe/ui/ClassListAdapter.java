@@ -1,6 +1,5 @@
 package me.dylanredfield.spfpe.ui;
 
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,13 +10,12 @@ import com.parse.ParseObject;
 import java.util.List;
 
 import me.dylanredfield.spfpe.R;
-import me.dylanredfield.spfpe.fragment.TeacherPanelFragment;
-import me.dylanredfield.spfpe.util.Helpers;
+import me.dylanredfield.spfpe.fragment.teacher.ClassListFragment;
 import me.dylanredfield.spfpe.util.Keys;
 
 public class ClassListAdapter extends BaseAdapter {
     private List<ParseObject> mClassList;
-    private TeacherPanelFragment mFragment;
+    private ClassListFragment mFragment;
 
     @Override
     public int getCount() {
@@ -52,7 +50,7 @@ public class ClassListAdapter extends BaseAdapter {
         return view;
     }
 
-    public ClassListAdapter(TeacherPanelFragment fragment) {
+    public ClassListAdapter(ClassListFragment fragment) {
         mFragment = fragment;
     }
 

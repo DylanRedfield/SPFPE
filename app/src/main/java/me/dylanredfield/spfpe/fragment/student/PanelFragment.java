@@ -1,8 +1,10 @@
-package me.dylanredfield.spfpe.fragment;
+package me.dylanredfield.spfpe.fragment.student;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,24 +12,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
-import me.dylanredfield.spfpe.activity.AssignmentsActivity;
-import me.dylanredfield.spfpe.activity.FitnessMainActivity;
+import me.dylanredfield.spfpe.activity.student.AssignmentsActivity;
+import me.dylanredfield.spfpe.activity.student.FitnessMainActivity;
 import me.dylanredfield.spfpe.R;
 import me.dylanredfield.spfpe.activity.LogInActivity;
-import me.dylanredfield.spfpe.activity.NewClassActivity;
-import me.dylanredfield.spfpe.activity.StudentMakeupsActivity;
+import me.dylanredfield.spfpe.activity.student.NewClassActivity;
+import me.dylanredfield.spfpe.activity.student.MakeUpListActivity;
 import me.dylanredfield.spfpe.dialog.SelectClassDialog;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 
-public class StudentPanelFragment extends Fragment {
+public class PanelFragment extends Fragment {
     private View mView;
     private RelativeLayout mFitnessLayout;
     private RelativeLayout mMakeupLayout;
@@ -39,6 +43,7 @@ public class StudentPanelFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_student_panel, null, false);
 
         setDefaultValues();
+        queryForStudent();
 
         return mView;
     }
@@ -50,6 +55,39 @@ public class StudentPanelFragment extends Fragment {
 
         setListeners();
         setHasOptionsMenu(true);
+    }
+
+    public void queryForStudent() {
+        Helpers.getStudentQuery(ParseUser.getCurrentUser()).getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (e == null) {
+                    mCurrentStudent = parseObject;
+                    checkForClass();
+                } else {
+                    Toast.makeText(getActivity(), Helpers.getReadableError(e),
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+    }
+
+    public void checkForClass() {
+        if (mCurrentStudent.get(Keys.SELECTED_CLASS_POINT) == null) {
+            AlertDialog dialog = Helpers.showDialog(getActivity(), "Whoops", "You did not select a class\n " +
+                    "You need to do that now!");
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    Intent i = new Intent(getActivity(), NewClassActivity.class);
+                    i.putExtra(Keys.STUDENT_OBJECT_ID_EXTRA, mCurrentStudent.getObjectId());
+                    startActivity(i);
+                    getActivity().finish();
+                }
+            });
+
+        }
     }
 
     private void setListeners() {
@@ -75,6 +113,7 @@ public class StudentPanelFragment extends Fragment {
         });
 
     }
+
     public RelativeLayout getAssignmentsLayout() {
         return mAssignmentsLayout;
     }
@@ -85,7 +124,7 @@ public class StudentPanelFragment extends Fragment {
     }
 
     public void makeupIntent() {
-        Intent i = new Intent(getActivity(), StudentMakeupsActivity.class);
+        Intent i = new Intent(getActivity(), MakeUpListActivity.class);
         startActivity(i);
     }
 

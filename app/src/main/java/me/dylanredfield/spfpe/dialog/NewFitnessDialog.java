@@ -18,14 +18,13 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseSession;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import me.dylanredfield.spfpe.R;
-import me.dylanredfield.spfpe.fragment.FitnessMainFragment;
+import me.dylanredfield.spfpe.fragment.student.FitnessMainFragment;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 

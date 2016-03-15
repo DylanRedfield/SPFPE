@@ -1,5 +1,6 @@
-package me.dylanredfield.spfpe.fragment;
+package me.dylanredfield.spfpe.fragment.teacher;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,15 +16,15 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import me.dylanredfield.spfpe.R;
+import me.dylanredfield.spfpe.activity.teacher.IndividualStudentPanelActivity;
 import me.dylanredfield.spfpe.util.Keys;
 
-public class StudentListFragment extends Fragment {
+public class ClassFragment extends Fragment {
     private View mView;
     private ListView mStudentListView;
     private StudentAdapter mStudentAdapter;
@@ -65,7 +66,9 @@ public class StudentListFragment extends Fragment {
         mStudentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Intent intent = new Intent(getActivity(), IndividualStudentPanelActivity.class);
+                intent.putExtra(Keys.STUDENT_OBJECT_ID_EXTRA, mStudentList.get(i).getObjectId());
+                startActivity(intent);
             }
         });
     }
@@ -90,7 +93,7 @@ public class StudentListFragment extends Fragment {
     }
 
     public static class StudentAdapter extends BaseAdapter {
-        private StudentListFragment mFragment;
+        private ClassFragment mFragment;
         private List<ParseObject> mList;
 
         @Override
@@ -120,7 +123,7 @@ public class StudentListFragment extends Fragment {
             return view;
         }
 
-        public StudentAdapter(StudentListFragment fragment) {
+        public StudentAdapter(ClassFragment fragment) {
             mFragment = fragment;
             mList = mFragment.getStudents();
         }

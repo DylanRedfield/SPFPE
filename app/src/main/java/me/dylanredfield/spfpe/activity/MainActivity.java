@@ -2,23 +2,22 @@ package me.dylanredfield.spfpe.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import me.dylanredfield.spfpe.R;
-import me.dylanredfield.spfpe.util.Helpers;
+import me.dylanredfield.spfpe.fragment.student.PanelFragment;
+import me.dylanredfield.spfpe.fragment.teacher.ClassListFragment;
 import me.dylanredfield.spfpe.util.Keys;
 
 
@@ -28,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private ParseObject mCurrentStudent;
     private ProgressDialog mProgressDialog;
     private Activity mActivity;
-    private MenuItem mSelectClass;
-    private MenuItem mNewClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,46 +43,18 @@ public class MainActivity extends AppCompatActivity {
 
         if (mCurrentUser.getParseObject(Keys.USER_TYPE_KEY).getObjectId().equals(Keys.TEACHER_OBJECT_ID)) {
             // TODO teacher shit
+            addFragment(new ClassListFragment());
         } else {
-            queryForStudent();
+            addFragment(new PanelFragment());
         }
     }
+    public void addFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
-    public void queryForStudent() {
-        Helpers.getStudentQuery(mCurrentUser).getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject parseObject, ParseException e) {
-                if (e == null) {
-                    mCurrentStudent = parseObject;
-                    mNewClass.setVisible(true);
-                    mSelectClass.setVisible(true);
-                    checkForClass();
-                } else {
-                    Toast.makeText(getApplicationContext(), Helpers.getReadableError(e),
-                            Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
+            fragmentManager.beginTransaction()
+                    .add(R.id.content, fragment)
+                    .commit();
     }
-
-    public void checkForClass() {
-        if (mCurrentStudent.get(Keys.SELECTED_CLASS_POINT) == null) {
-            AlertDialog dialog = Helpers.showDialog(this, "Whoops", "You did not select a class\n " +
-                    "You need to do that now!");
-            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    Intent i = new Intent(getApplicationContext(), NewClassActivity.class);
-                    i.putExtra(Keys.STUDENT_OBJECT_ID_EXTRA, mCurrentStudent.getObjectId());
-                    startActivity(i);
-                    finish();
-                }
-            });
-
-        }
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

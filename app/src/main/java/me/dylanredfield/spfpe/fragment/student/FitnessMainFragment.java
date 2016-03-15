@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.fragment;
+package me.dylanredfield.spfpe.fragment.student;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -26,9 +25,8 @@ import com.software.shell.fab.FloatingActionButton;
 
 import java.util.List;
 
-import me.dylanredfield.spfpe.activity.FitnessAddActivity;
+import me.dylanredfield.spfpe.activity.student.FitnessAddActivity;
 import me.dylanredfield.spfpe.dialog.ModifyFitnessDialog;
-import me.dylanredfield.spfpe.dialog.NewFitnessDialog;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 import me.dylanredfield.spfpe.R;
@@ -95,14 +93,14 @@ public class FitnessMainFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                modifyFitness(i);
+                listViewItemAction(i);
             }
         });
 
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                modifyFitness(i);
+                listViewItemAction(i);
                 return true;
             }
         });
@@ -113,6 +111,10 @@ public class FitnessMainFragment extends Fragment {
                 eventQuery();
             }
         });
+    }
+
+    public void listViewItemAction(int position) {
+        modifyFitness(position);
     }
 
     public void modifyFitness(int i) {

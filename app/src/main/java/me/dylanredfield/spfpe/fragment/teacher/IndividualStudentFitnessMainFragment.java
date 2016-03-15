@@ -1,4 +1,4 @@
-package me.dylanredfield.spfpe.fragment;
+package me.dylanredfield.spfpe.fragment.teacher;
 
 import android.view.View;
 
@@ -6,10 +6,11 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 
+import me.dylanredfield.spfpe.fragment.student.FitnessMainFragment;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 
-public class TeacherStudentFitnessMain extends FitnessMainFragment {
+public class IndividualStudentFitnessMainFragment extends FitnessMainFragment {
     @Override
     public void studentQuery() {
         ParseObject student = ParseObject.createWithoutData(Keys.STUDENT_KEY
@@ -30,5 +31,10 @@ public class TeacherStudentFitnessMain extends FitnessMainFragment {
     public void setDefaultValues() {
         super.setDefaultValues();
         getActionButton().setVisibility(View.GONE);
+    }
+
+    @Override
+    public void listViewItemAction(int position) {
+
     }
 }

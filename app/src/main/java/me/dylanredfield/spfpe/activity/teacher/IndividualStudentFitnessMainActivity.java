@@ -1,14 +1,15 @@
-package me.dylanredfield.spfpe.activity;
+package me.dylanredfield.spfpe.activity.teacher;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import me.dylanredfield.spfpe.R;
 
-public class NewClassActivity extends AppCompatActivity {
+public class IndividualStudentFitnessMainActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_class);
+        setContentView(R.layout.activity_teacher_student_fitness_main);
     }
 }
