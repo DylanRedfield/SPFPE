@@ -148,7 +148,7 @@ public class FitnessMainFragment extends Fragment {
                     eventQuery();
                 } else {
                     Helpers.showDialog(getActivity(), "Whoops", Helpers.getReadableError(e));
-                    mProgressDialog.dismiss();
+                    mView.findViewById(R.id.progress).setVisibility(View.GONE);
                 }
 
             }
@@ -161,7 +161,7 @@ public class FitnessMainFragment extends Fragment {
     }
 
     // Sets the FitnessTests relevant to the current student
-    private void eventQuery() {
+    public void eventQuery() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(Keys.FITNESS_TEST_KEY);
         query.whereEqualTo(Keys.STUDENT_POINT, mCurrentStudent);
         query.whereEqualTo(Keys.CLASS_POINT,
@@ -174,7 +174,7 @@ public class FitnessMainFragment extends Fragment {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 Log.d("FUCK THIS SHIT", "done");
-                mRefreshLayout.setEnabled(false);
+                mView.findViewById(R.id.progress).setVisibility(View.GONE);
                 mProgressDialog.dismiss();
                 if (e == null) {
                     mEventList = list;

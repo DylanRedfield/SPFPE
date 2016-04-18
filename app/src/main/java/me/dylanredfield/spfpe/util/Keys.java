@@ -104,5 +104,6 @@ public class Keys {
     public static String FRAGMENT_STRING_EXTRA = "me.dylanredfield.FRAGMENT";
     public static String LIST_EXTRA = "me.dylanredfield.LIST";
     public static String CLASS_OBJECT_ID_EXTRA = "me.dylanredfield.StudentListFragment.CLASS_OBJECT_ID";
+    public static String EVENT_OBJECT_ID_EXTRA = "me.dylanredfield.StudentListFragment.EVENT_OBJECT_ID";
 
 }

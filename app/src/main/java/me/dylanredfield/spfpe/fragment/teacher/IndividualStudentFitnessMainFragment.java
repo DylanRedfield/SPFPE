@@ -11,6 +11,7 @@ import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 
 public class IndividualStudentFitnessMainFragment extends FitnessMainFragment {
+
     @Override
     public void studentQuery() {
         ParseObject student = ParseObject.createWithoutData(Keys.STUDENT_KEY
@@ -20,6 +21,7 @@ public class IndividualStudentFitnessMainFragment extends FitnessMainFragment {
             public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
                     setStudent(parseObject);
+                    eventQuery();
                 } else {
                     Helpers.showDialog(getActivity(), "Whoops", e.getMessage());
                 }
