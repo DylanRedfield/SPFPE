@@ -140,7 +140,7 @@ public class ClassFragment extends Fragment {
             @Override
             public View getView(int i, View view, ViewGroup viewGroup) {
                 if (view == null) {
-                    view = mFragment.getActivity().getLayoutInflater().inflate(R.layout.row_select_class, null);
+                    view = LayoutInflater.from(mFragment.getActivity()).inflate(R.layout.row_analysis, viewGroup, false);
                 }
 
                 TextView name = (TextView) view.findViewById(R.id.name);

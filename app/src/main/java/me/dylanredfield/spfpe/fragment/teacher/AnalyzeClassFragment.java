@@ -1,12 +1,15 @@
 package me.dylanredfield.spfpe.fragment.teacher;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -27,6 +30,7 @@ public class AnalyzeClassFragment extends Fragment {
     private ParseObject mEvent;
     private List<FitnessAnalysis> mAnalysisList = new ArrayList<>();
     private ParseObject mClass;
+    private AnalysisListAdapter mListAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
@@ -41,6 +45,8 @@ public class AnalyzeClassFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        mListAdapter = new AnalysisListAdapter(getActivity());
+        mListView.setAdapter(mListAdapter);
         mEvent = ParseObject.createWithoutData(Keys.EVENT_KEY, "wE9lVquTtI");
         mClass = ParseObject.createWithoutData(Keys.CLASS_KEY,
                 getActivity().getIntent().getStringExtra(Keys.CLASS_OBJECT_ID_EXTRA));
@@ -63,6 +69,7 @@ public class AnalyzeClassFragment extends Fragment {
     public void queryForStudents() {
         ParseQuery<ParseObject> studentQuery = ParseQuery.getQuery(Keys.STUDENT_KEY);
         studentQuery.whereEqualTo(Keys.CLASSES_REL, mClass);
+        studentQuery.include(Keys.USER_POINT);
         studentQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
@@ -110,60 +117,116 @@ public class AnalyzeClassFragment extends Fragment {
 
     public void makeAnalysisList() {
         for (FitnessAnalysis anal : mAnalysisList) {
+            if (anal.getTestOne() != null && anal.getTestTwo() != null) {
+                if (anal.getTestOne().getList(Keys.RESULTS_ARR) != null
+                        && anal.getTestTwo().getList(Keys.RESULTS_ARR) != null) {
 
-            // FitnessTest
-                String testOneMinutes = (String) anal.getTestOne().getList(Keys.RESULTS_ARR).get(0);
-                testOneMinutes = testOneMinutes.trim();
 
-                for (int i = 0; i < testOneMinutes.length(); i++) {
-                    if (!Character.isDigit(testOneMinutes.charAt(i))) {
-                        testOneMinutes = testOneMinutes.substring(0, i);
+                    // FitnessTest
+                    String testOneMinutes = (String) anal.getTestOne().getList(Keys.RESULTS_ARR).get(0);
+                    testOneMinutes = testOneMinutes.trim();
+
+                    for (int i = 0; i < testOneMinutes.length(); i++) {
+                        if (!Character.isDigit(testOneMinutes.charAt(i))) {
+                            testOneMinutes = testOneMinutes.substring(0, i);
+                        }
                     }
-                }
-                String testOneSeconds = (String) anal.getTestOne().getList(Keys.RESULTS_ARR).get(1);
-                testOneSeconds = testOneSeconds.trim();
-
-                for (int i = 0; i < testOneSeconds.length(); i++) {
-                    if (!Character.isDigit(testOneSeconds.charAt(i))) {
-                        testOneSeconds = testOneSeconds.substring(0, i);
+                    String testOneSeconds = "0";
+                    if (anal.getTestOne().getList(Keys.RESULTS_ARR).size() > 1) {
+                        testOneSeconds = (String) anal.getTestOne().getList(Keys.RESULTS_ARR).get(1);
+                        testOneSeconds = testOneSeconds.trim();
                     }
-                }
 
-                int testOneTime = Integer.parseInt(testOneMinutes) * 60 + Integer.parseInt(testOneSeconds);
-
-
-                String testTwoMinutes = (String) anal.getTestTwo().getList(Keys.RESULTS_ARR).get(0);
-                testTwoMinutes = testTwoMinutes.trim();
-
-                for (int i = 0; i < testTwoMinutes.length(); i++) {
-                    if (!Character.isDigit(testTwoMinutes.charAt(i))) {
-                        testTwoMinutes = testTwoMinutes.substring(0, i);
+                    for (int i = 0; i < testOneSeconds.length(); i++) {
+                        if (!Character.isDigit(testOneSeconds.charAt(i))) {
+                            testOneSeconds = testOneSeconds.substring(0, i);
+                        }
                     }
-                }
-                String testTwoSeconds = (String) anal.getTestTwo().getList(Keys.RESULTS_ARR).get(1);
-                testTwoSeconds = testTwoSeconds.trim();
 
-                for (int i = 0; i < testTwoSeconds.length(); i++) {
-                    if (!Character.isDigit(testTwoSeconds.charAt(i))) {
-                        testTwoSeconds = testTwoSeconds.substring(0, i);
+                    int testOneTime = Integer.parseInt(testOneMinutes) * 60 + Integer.parseInt(testOneSeconds);
+
+
+                    String testTwoMinutes = (String) anal.getTestTwo().getList(Keys.RESULTS_ARR).get(0);
+                    testTwoMinutes = testTwoMinutes.trim();
+
+                    for (int i = 0; i < testTwoMinutes.length(); i++) {
+                        if (!Character.isDigit(testTwoMinutes.charAt(i))) {
+                            testTwoMinutes = testTwoMinutes.substring(0, i);
+                        }
                     }
+                    String testTwoSeconds = (String) anal.getTestTwo().getList(Keys.RESULTS_ARR).get(1);
+                    testTwoSeconds = testTwoSeconds.trim();
+
+                    for (int i = 0; i < testTwoSeconds.length(); i++) {
+                        if (!Character.isDigit(testTwoSeconds.charAt(i))) {
+                            testTwoSeconds = testTwoSeconds.substring(0, i);
+                        }
+                    }
+
+                    int testTwoTime = Integer.parseInt(testTwoMinutes) * 60 + Integer.parseInt(testTwoSeconds);
+
+                    int difference = testOneTime - testTwoTime;
+
+                    int differenceMinutes = difference / 60;
+                    int differenceSeconds = difference % 60;
+
+                    String diffString = "" + differenceMinutes + ":" + differenceSeconds;
+                    anal.setDifference(diffString);
+
+                    Log.v("Difference", diffString);
                 }
-
-                int testTwoTime = Integer.parseInt(testTwoMinutes) * 60 + Integer.parseInt(testTwoSeconds);
-
-                int difference = testOneTime - testTwoTime;
-
-                int differenceMinutes = difference / 60;
-                int differenceSeconds = difference % 60;
-
-                String diffString = "" + differenceMinutes + ":" + differenceSeconds;
-                anal.setDifference(diffString);
-
-                Log.v("Difference", diffString);
             }
+        }
+        mListAdapter.setList(mAnalysisList);
     }
 
     public void defaultViews() {
         mListView = (ListView) mView.findViewById(R.id.list);
+    }
+
+    static class AnalysisListAdapter extends BaseAdapter {
+        private Context mContext;
+        private List<FitnessAnalysis> mList = new ArrayList<>();
+
+        @Override
+        public int getCount() {
+            return mList.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return mList.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return getItem(i).hashCode();
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            if (view == null) {
+                view = LayoutInflater.from(mContext).inflate(R.layout.row_analysis, viewGroup, false);
+            }
+
+            TextView name = (TextView) view.findViewById(R.id.name);
+            TextView difference = (TextView) view.findViewById(R.id.difference);
+
+            FitnessAnalysis analysis = (FitnessAnalysis) getItem(i);
+
+            name.setText(analysis.getStudent().getParseUser(Keys.USER_POINT).getUsername());
+            difference.setText(analysis.getDifference());
+
+            return view;
+        }
+
+        public AnalysisListAdapter(Context context) {
+            mContext = context;
+        }
+
+        public void setList(List<FitnessAnalysis> list) {
+            mList = list;
+            notifyDataSetChanged();
+        }
     }
 }
