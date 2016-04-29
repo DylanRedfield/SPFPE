@@ -1,6 +1,7 @@
 package me.dylanredfield.spfpe.fragment.teacher;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.dylanredfield.spfpe.R;
+import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 import me.dylanredfield.spfpe.wrapper.FitnessAnalysis;
 
@@ -170,7 +172,20 @@ public class AnalyzeClassFragment extends Fragment {
                     int differenceMinutes = difference / 60;
                     int differenceSeconds = difference % 60;
 
-                    String diffString = "" + differenceMinutes + ":" + differenceSeconds;
+                    String diffString = "";
+
+                    if (differenceSeconds < 0 && differenceMinutes == 0) {
+                        differenceSeconds *= -1;
+                        diffString = "-" + differenceMinutes + ":" + differenceSeconds;
+                    } else if (differenceSeconds < 0 && differenceMinutes > 0) {
+
+                        differenceSeconds *= -1;
+                        differenceMinutes *= -1;
+                        diffString = "" + differenceMinutes + ":" + differenceSeconds;
+                    } else {
+                        diffString = "" + differenceMinutes + ":" + differenceSeconds;
+                    }
+
                     anal.setDifference(diffString);
 
                     Log.v("Difference", diffString);
@@ -214,8 +229,19 @@ public class AnalyzeClassFragment extends Fragment {
 
             FitnessAnalysis analysis = (FitnessAnalysis) getItem(i);
 
-            name.setText(analysis.getStudent().getParseUser(Keys.USER_POINT).getUsername());
+            name.setText(Helpers.getTeacherName(analysis.getStudent().getParseUser(Keys.USER_POINT)));
             difference.setText(analysis.getDifference());
+
+            if (analysis.getDifference() != null && analysis.getDifference().length() > 0) {
+                difference.setVisibility(View.VISIBLE);
+                if (analysis.getDifference().charAt(0) == '-') {
+                    difference.setTextColor(Color.RED);
+                } else {
+                    difference.setTextColor(Color.BLUE);
+                }
+            } else {
+                difference.setVisibility(View.GONE);
+            }
 
             return view;
         }

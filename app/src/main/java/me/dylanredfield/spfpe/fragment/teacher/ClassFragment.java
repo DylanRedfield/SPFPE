@@ -27,6 +27,7 @@ import java.util.List;
 import me.dylanredfield.spfpe.R;
 import me.dylanredfield.spfpe.activity.teacher.AnalyzeClassActivity;
 import me.dylanredfield.spfpe.activity.teacher.IndividualStudentPanelActivity;
+import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
 
 public class ClassFragment extends Fragment {
@@ -140,11 +141,11 @@ public class ClassFragment extends Fragment {
             @Override
             public View getView(int i, View view, ViewGroup viewGroup) {
                 if (view == null) {
-                    view = LayoutInflater.from(mFragment.getActivity()).inflate(R.layout.row_analysis, viewGroup, false);
+                    view = LayoutInflater.from(mFragment.getActivity()).inflate(R.layout.row_select_class, viewGroup, false);
                 }
 
                 TextView name = (TextView) view.findViewById(R.id.name);
-                name.setText(mList.get(i).getParseUser(Keys.USER_POINT).getUsername());
+                name.setText(Helpers.getTeacherName(mList.get(i).getParseUser(Keys.USER_POINT)));
 
                 return view;
             }

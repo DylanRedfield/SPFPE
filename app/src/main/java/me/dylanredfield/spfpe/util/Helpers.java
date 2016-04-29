@@ -11,7 +11,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 
-
 public class Helpers {
     public static AlertDialog showDialog(Context context, String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -40,10 +39,10 @@ public class Helpers {
     public static String getTeacherName(ParseObject teacher) {
         String username = teacher.getString(Keys.USERNAME_STR);
         String name = "";
-        name = username.substring(0, username.indexOf("."));
+        name = username.substring(0, 1).toUpperCase() + username.substring(1, username.indexOf("."));
         username = username.substring(username.indexOf(".") + 1, username.length());
         Log.d("getTeacherName", username);
-        name += " " + username.substring(0, username.indexOf("."));
+        name += " " + username.substring(0, 1).toUpperCase() + username.substring(1, username.indexOf("."));
 
         return name;
     }
