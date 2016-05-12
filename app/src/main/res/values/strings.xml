@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">SPFPE</string>
     <string name="assignments_empty_text">No Assignments</string>
+    <string name="google_app_id">spfpe-1300</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="splash_text">SPF PE</string>

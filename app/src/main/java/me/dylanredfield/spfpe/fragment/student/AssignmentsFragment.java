@@ -1,5 +1,6 @@
 package me.dylanredfield.spfpe.fragment.student;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,48 +13,68 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import me.dylanredfield.spfpe.R;
-import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
+import me.dylanredfield.spfpe.wrapper.Assignment;
 
 public class AssignmentsFragment extends Fragment {
     private View mView;
     private ListView mListView;
-    private ParseObject mSelectClass;
-    private ParseObject mCurrentStudent;
-    private List<ParseObject> mAssignmentList;
     private AssignmentAdapter mAdapter;
+    private Firebase mRef = new Firebase(Keys.REFERENCE);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstance) {
         mView = inflater.inflate(R.layout.fragment_assignments, null, false);
         setDefaultValues();
         setListeners();
-        queryParse();
+        assignmentQuery();
+        //queryParse();
 
         return mView;
     }
 
     public void setDefaultValues() {
-        mAssignmentList = new ArrayList<>();
-        mAdapter = new AssignmentAdapter(this);
+        mAdapter = new AssignmentAdapter(getContext());
         mListView = (ListView) mView.findViewById(R.id.list);
         mListView.setEmptyView(mView.findViewById(R.id.empty_list));
         mListView.setAdapter(mAdapter);
     }
 
+
+    public void assignmentQuery() {
+        String classKey = getActivity().getIntent().getStringExtra(Keys.CLASS_KEY);
+        Query assignmentQuery = mRef.child(Keys.CLASS_KEY).child(classKey).child(Keys.ASSIGNMENT_KEY);
+
+        assignmentQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    Assignment assignment = childSnapshot.getValue(Assignment.class);
+                    assignment.setKey(childSnapshot.getKey());
+
+                    mAdapter.addAssignment(assignment);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    /*
     public void queryParse() {
         ParseQuery<ParseObject> studentQuery = Helpers.getStudentQuery(ParseUser.getCurrentUser());
         studentQuery.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -68,14 +89,15 @@ public class AssignmentsFragment extends Fragment {
                 }
             }
         });
-    }
+    } */
 
     public void setListeners() {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.v("Click", "Click!");
-                String url = mAssignmentList.get(i).getString(Keys.LINK_STR);
+                String url = ((Assignment) mAdapter.getItem(i)).getUrl();
+
                 if (!(url.startsWith("https://") || url.startsWith("http://"))) {
                     url = "http://" + url;
                 }
@@ -88,6 +110,7 @@ public class AssignmentsFragment extends Fragment {
 
     }
 
+    /*
     private void queryForAssignments() {
         ParseQuery<ParseObject> assignmentQuery = ParseQuery.getQuery(Keys.ASSIGNMENT_KEY);
         assignmentQuery.whereEqualTo(Keys.CLASS_POINT, mSelectClass);
@@ -102,15 +125,12 @@ public class AssignmentsFragment extends Fragment {
                 }
             }
         });
-    }
+    } */
 
-    public List<ParseObject> getAssignmentList() {
-        return mAssignmentList;
-    }
 
     static class AssignmentAdapter extends BaseAdapter {
-        private AssignmentsFragment mFragment;
-        private List<ParseObject> mList;
+        private Context mContext;
+        private List<Assignment> mList;
 
         @Override
         public int getCount() {
@@ -124,33 +144,31 @@ public class AssignmentsFragment extends Fragment {
 
         @Override
         public long getItemId(int i) {
-            return 0;
+            return getItem(i).hashCode();
         }
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             if (view == null) {
-                view = mFragment.getActivity().getLayoutInflater().inflate(R.layout.row_two_line,
-                        null, false);
+                view = LayoutInflater.from(mContext).inflate(R.layout.row_two_line, viewGroup, false);
             }
 
             TextView line1 = (TextView) view.findViewById(R.id.top_line);
             TextView line2 = (TextView) view.findViewById(R.id.bottom_line);
             line2.setVisibility(View.VISIBLE);
 
-            line1.setText(mList.get(i).getString(Keys.ASSIGNMENT_NAME_STR));
-            line2.setText(mList.get(i).getString(Keys.LINK_STR));
+            line1.setText(mList.get(i).getName());
+            line2.setText(mList.get(i).getUrl());
 
             return view;
         }
 
-        public AssignmentAdapter(AssignmentsFragment fragment) {
-            mFragment = fragment;
-            mList = mFragment.getAssignmentList();
+        public AssignmentAdapter(Context context) {
+            mContext = context;
         }
 
-        public void refreshList() {
-            mList = mFragment.getAssignmentList();
+        public void addAssignment(Assignment assignment) {
+            mList.add(assignment);
             notifyDataSetChanged();
         }
     }

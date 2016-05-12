@@ -7,6 +7,7 @@ public class Keys {
     public static String CLIENT_KEY = "YbsUAhmuEUFteioZ7ggyvAdBG0IAsLaU5ynWcbKV";
     public static String OBJECT_ID_STR = "objectId";
     public static String AUTH_DATA = "authData";
+    public static String REFERENCE = "https://spfpe.firebaseio.com/";
 
     // User
     public static String USER_KEY = "_User";
@@ -54,12 +55,13 @@ public class Keys {
     public static String RESULTS_ARR = "results";
     public static String TEST_NUMBER_NUM = "testNumber";
 
-    // GymMakeup
-    public static String GYM_MAKEUP_KEY = "GymMakeup";
+    // Makeup
+    public static String MAKEUP_KEY = "Makeup";
     /* public static String CLASS_POINT = "Class"; */
     /* public static String STUDENT_POINT = "Student"; */
     public static String DATE_DATE = "date";
     public static String MINUTES_LOGGED_NUM = "minutesLogged";
+    public static String TIME_NUM = "time";
 
     // Notification
     public static String NOTIFICATION_KEY = "Notification";
@@ -79,6 +81,7 @@ public class Keys {
 
     // Student
     public static String STUDENT_KEY = "Student";
+    public static String STUDENTS_KEY = "Students";
     /* public static String CLASSES_REL = "Classes"; */
     /* public static String USER_POINT = "User"; */
     public static String GRADE_NUM = "grade";

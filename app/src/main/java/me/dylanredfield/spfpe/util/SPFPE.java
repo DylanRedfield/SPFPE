@@ -2,6 +2,7 @@ package me.dylanredfield.spfpe.util;
 
 import android.app.Application;
 
+import com.firebase.client.Firebase;
 import com.parse.Parse;
 
 public class SPFPE extends Application {
@@ -12,5 +13,7 @@ public class SPFPE extends Application {
 
         Parse.enableLocalDatastore(this);
         Parse.initialize(getApplicationContext(), Keys.APP_ID, Keys.CLIENT_KEY);
+
+        Firebase.setAndroidContext(this);
     }
 }

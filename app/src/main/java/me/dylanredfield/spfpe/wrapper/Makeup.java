@@ -1,8 +1,8 @@
 package me.dylanredfield.spfpe.wrapper;
 
 public class Makeup {
-    private int time;
-    private String description;
+    private long mTime;
+    private long mDate;
 
     // TODO @IgnoreJson
     private String key;
@@ -11,12 +11,17 @@ public class Makeup {
 
     }
 
-    public int getTime() {
-        return time;
+    public Makeup(long time, long dateInMilis) {
+        mTime = time;
+        mDate = dateInMilis;
     }
 
-    public String getDescription() {
-        return description;
+    public long getTime() {
+        return mTime;
+    }
+
+    public long getDateInMili() {
+        return mDate;
     }
 
     public String getKey() {
@@ -25,5 +30,13 @@ public class Makeup {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public void setTime(long time) {
+        mTime = time;
+    }
+
+    public void setDate(long date) {
+        mDate = date;
     }
 }

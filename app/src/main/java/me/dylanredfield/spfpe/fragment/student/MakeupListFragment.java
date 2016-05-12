@@ -1,8 +1,8 @@
 package me.dylanredfield.spfpe.fragment.student;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +10,12 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 import com.software.shell.fab.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
@@ -29,19 +27,18 @@ import java.util.Locale;
 import me.dylanredfield.spfpe.R;
 import me.dylanredfield.spfpe.dialog.AddMakeupDialog;
 import me.dylanredfield.spfpe.dialog.ModifyMakeupDialog;
-import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
+import me.dylanredfield.spfpe.wrapper.Makeup;
 
 public class MakeupListFragment extends Fragment {
     private View mView;
     private ListView mListView;
-    private List<ParseObject> mList;
-    private ParseUser mCurrentUser;
-    private ParseObject mCurrentStudent;
-    private ParseObject mSelectedClass;
     private MakeupListAdapter mAdapter;
     private FloatingActionButton mButton;
     private Fragment mFragment;
+    private Firebase ref = new Firebase(Keys.REFERENCE);
+    private String mClassKey;
+    private String mStudentKey;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedState) {
@@ -49,7 +46,7 @@ public class MakeupListFragment extends Fragment {
 
         defaultValues();
         setListeners();
-        studentQuery();
+        makeupQuery();
 
         return mView;
     }
@@ -58,19 +55,26 @@ public class MakeupListFragment extends Fragment {
         if (mFragment == null) {
             mFragment = this;
         }
-        mCurrentUser = ParseUser.getCurrentUser();
         mListView = (ListView) mView.findViewById(R.id.list);
-        mAdapter = new MakeupListAdapter(this);
+        mAdapter = new MakeupListAdapter(getContext());
         mListView.setAdapter(mAdapter);
 
         mButton = (FloatingActionButton) mView.findViewById(R.id.button);
+
+        // TODO make actual values
+        mClassKey = getActivity().getIntent().getStringExtra(Keys.CLASS_KEY);
+        mStudentKey = "";
     }
 
     private void setListeners() {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle arguments = new Bundle();
+                arguments.putString(Keys.CLASS_KEY, mClassKey);
+                arguments.putString(Keys.STUDENT_KEY, mStudentKey);
                 AddMakeupDialog dialog = AddMakeupDialog.newInstance();
+                dialog.setArguments(arguments);
                 dialog.setTargetFragment(mFragment, 0);
                 dialog.show(getFragmentManager(), null);
             }
@@ -93,13 +97,46 @@ public class MakeupListFragment extends Fragment {
     }
 
     public void modifyMakeup(int i) {
+        Bundle args = new Bundle();
+        args.putString(Keys.CLASS_KEY, mClassKey);
+        args.putString(Keys.STUDENT_KEY, mStudentKey);
+        args.putString(Keys.MAKEUP_KEY, ((Makeup) mAdapter.getItem(i)).getKey());
         ModifyMakeupDialog dialog = ModifyMakeupDialog.newInstance();
-        dialog.setMakeup((ParseObject) mAdapter.getItem(i));
+        dialog.setArguments(args);
         dialog.setTargetFragment(mFragment, 0);
         dialog.show(getFragmentManager(), null);
     }
 
-    private void studentQuery() {
+    public String getClassKey() {
+        return mClassKey;
+    }
+
+    public String getStudentKey() {
+        return mStudentKey;
+    }
+
+    public void makeupQuery() {
+
+        Query makeupQuery = ref.child(Keys.CLASS_KEY).child(mClassKey).child(Keys.STUDENTS_KEY)
+                .child(mStudentKey).child(Keys.MAKEUP_KEY);
+        makeupQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    Makeup makeup = childSnapshot.getValue(Makeup.class);
+                    makeup.setKey(childSnapshot.getKey());
+                    mAdapter.addMakeup(makeup);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    /*private void studentQuery() {
         ParseQuery<ParseObject> studentQuery = ParseQuery.getQuery(Keys.STUDENT_KEY);
         studentQuery.include(Keys.USER_POINT);
         studentQuery.whereEqualTo(Keys.USER_POINT, mCurrentUser);
@@ -134,23 +171,16 @@ public class MakeupListFragment extends Fragment {
                 }
             }
         });
-    }
+    } */
 
-    public ParseObject getStudent() {
-        return mCurrentStudent;
-    }
-
-    public ParseObject getSelectedClass() {
-        return mSelectedClass;
-    }
-    public void addMakeup(ParseObject makeup) {
-        mList.add(makeup);
-        mAdapter.setList(mList);
+    public void addMakeup(Makeup makeup) {
+        mAdapter.addMakeup(makeup);
     }
 
     static class MakeupListAdapter extends BaseAdapter {
-        private MakeupListFragment mFragment;
-        private List<ParseObject> mList = new ArrayList<>();
+        private Context mContext;
+        private List<Makeup> mList = new ArrayList<>();
+        SimpleDateFormat mDateFormat = new SimpleDateFormat("MM/dd/yy", Locale.US);
 
         @Override
         public int getCount() {
@@ -164,34 +194,37 @@ public class MakeupListFragment extends Fragment {
 
         @Override
         public long getItemId(int i) {
-            return 0;
+            return getItem(i).hashCode();
         }
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             if (view == null) {
-                view = LayoutInflater.from(mFragment.getActivity())
-                        .inflate(R.layout.row_two_line, null, false);
+                view = LayoutInflater.from(mContext)
+                        .inflate(R.layout.row_two_line, viewGroup, false);
             }
 
             TextView minutesTextView = (TextView) view.findViewById(R.id.top_line);
             TextView dateTextView = (TextView) view.findViewById(R.id.bottom_line);
 
-            minutesTextView.setText("" + mList.get(i).getInt(Keys.MINUTES_LOGGED_NUM) + " minutes logged");
-            Date date = mList.get(i).getDate(Keys.DATE_DATE);
-            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy", Locale.US);
-            String dateString = sdf.format(date);
-            dateTextView.setText(dateString);
+            minutesTextView.setText(mList.get(i).getTime() / 60 + " minutes logged");
+
+            dateTextView.setText(mDateFormat.format(new Date(mList.get(i).getDateInMili())));
 
             return view;
         }
 
-        public MakeupListAdapter(Fragment fragment) {
-            mFragment = (MakeupListFragment) fragment;
+        public MakeupListAdapter(Context context) {
+            mContext = context;
         }
 
-        public void setList(List<ParseObject> list) {
+        public void setList(List<Makeup> list) {
             mList = list;
+            notifyDataSetChanged();
+        }
+
+        public void addMakeup(Makeup makeup) {
+            mList.add(makeup);
             notifyDataSetChanged();
         }
     }

@@ -1,17 +1,20 @@
 package me.dylanredfield.spfpe.dialog;
 
+import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.SaveCallback;
+import com.firebase.client.Firebase;
 
+
+import java.util.HashMap;
 
 import me.dylanredfield.spfpe.util.Keys;
+import me.dylanredfield.spfpe.wrapper.Makeup;
 
 public class ModifyMakeupDialog extends AddMakeupDialog {
-    private ParseObject mMakeup;
+    private Makeup mMakeup;
+    private Firebase mRef = new Firebase(Keys.REFERENCE);
+    private Firebase mMakeupRef;
 
     public static ModifyMakeupDialog newInstance() {
         ModifyMakeupDialog dialog = new ModifyMakeupDialog();
@@ -24,6 +27,11 @@ public class ModifyMakeupDialog extends AddMakeupDialog {
         getDateText().setVisibility(View.GONE);
         getBuilder().setTitle("Modify Makeup");
 
+        String classKey = getArguments().getString(Keys.CLASS_KEY);
+        String studentKey = getArguments().getString(Keys.STUDENT_KEY);
+        String makeupKey = getArguments().getString(Keys.MAKEUP_KEY);
+        mMakeupRef = mRef.child(Keys.CLASS_KEY).child(classKey).child(studentKey).child(Keys.MAKEUP_KEY)
+                .child(makeupKey);
     }
 
     @Override
@@ -31,30 +39,17 @@ public class ModifyMakeupDialog extends AddMakeupDialog {
         getEnter().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                HashMap<String, Object> updates = new HashMap<>();
+                updates.put(Keys.TIME_NUM, Integer.parseInt(getTime().getText().toString().trim()));
 
-
-                mMakeup.put(Keys.MINUTES_LOGGED_NUM,
-                        Integer.parseInt(getTime().getText().toString().trim()));
                 getDateText().setVisibility(View.GONE);
 
-                mMakeup.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            // TODO update list
-                            dismiss();
-                        } else {
-                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT)
-                                    .show();
-
-                        }
-                    }
-                });
+                mRef.updateChildren(updates);
             }
         });
     }
 
-    public void setMakeup(ParseObject makeup) {
+    public void setMakeup(Makeup makeup) {
         mMakeup = makeup;
     }
 }

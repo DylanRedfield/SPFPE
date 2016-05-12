@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
@@ -27,18 +28,19 @@ import me.dylanredfield.spfpe.R;
 import me.dylanredfield.spfpe.fragment.student.MakeupListFragment;
 import me.dylanredfield.spfpe.util.Helpers;
 import me.dylanredfield.spfpe.util.Keys;
+import me.dylanredfield.spfpe.wrapper.Makeup;
 
 public class AddMakeupDialog extends DialogFragment {
     private View mView;
     private EditText mTime;
     private EditText mDateText;
     private Button mEnter;
-    private ParseObject mCurrentStudent;
-    private ParseObject mMakeup;
-    private ParseObject mSelectedClass;
+    private Makeup mMakeup;
     private MakeupListFragment mFragment;
     private Calendar mDate;
     private AlertDialog.Builder mBuilder;
+    private Firebase mRef = new Firebase(Keys.REFERENCE);
+    private Firebase mMakeupRef;
 
     public MakeupListFragment getFragment() {
         return mFragment;
@@ -58,14 +60,6 @@ public class AddMakeupDialog extends DialogFragment {
 
     public Button getEnter() {
         return mEnter;
-    }
-
-    public ParseObject getCurrentStudent() {
-        return mCurrentStudent;
-    }
-
-    public ParseObject getSelectedClass() {
-        return mSelectedClass;
     }
 
     public Calendar getDate() {
@@ -99,10 +93,11 @@ public class AddMakeupDialog extends DialogFragment {
         mEnter = (Button) mView.findViewById(R.id.enter);
 
         mFragment = (MakeupListFragment) getTargetFragment();
-        mSelectedClass = mFragment.getSelectedClass();
-        mCurrentStudent = mFragment.getStudent();
 
-        mMakeup = ParseObject.create(Keys.GYM_MAKEUP_KEY);
+        String classKey = getArguments().getString(Keys.CLASS_KEY);
+        String studentKey = getArguments().getString(Keys.STUDENT_KEY);
+
+        mMakeupRef = mRef.child(Keys.CLASS_KEY).child(classKey).child(studentKey).child(Keys.MAKEUP_KEY).push();
     }
 
     private void setListeners() {
@@ -144,25 +139,8 @@ public class AddMakeupDialog extends DialogFragment {
             @Override
             public void onClick(View view) {
                 if (isValid()) {
-                    mMakeup.put(Keys.CLASS_POINT, mSelectedClass);
-                    mMakeup.put(Keys.STUDENT_POINT, mCurrentStudent);
-                    mMakeup.put(Keys.MINUTES_LOGGED_NUM,
-                            Integer.parseInt(mTime.getText().toString().trim()));
-                    mMakeup.put(Keys.DATE_DATE, mDate.getTime());
-                    mMakeup.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            // TODO error handle
-                            if (e == null) {
-                                mFragment.addMakeup(mMakeup);
-                                dismiss();
-                            } else {
-                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT)
-                                        .show();
-
-                            }
-                        }
-                    });
+                    mMakeup = new Makeup(Long.parseLong(mTime.getText().toString().trim()), mDate.getTimeInMillis());
+                    mMakeupRef.setValue(mMakeup);
                 }
             }
         });
